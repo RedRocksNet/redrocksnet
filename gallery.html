@@ -3,29 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>摄影作品 - 敦煌经生</title>
+  <title>摄影作品 - REDROCKSNET</title>
   <style>
     body {
       margin: 0;
       font-family: "Helvetica Neue", sans-serif;
-      background-color: #222;
+      background-color: #111;
       color: #fff;
     }
 
     nav {
-      background-color: #444;
-      padding: 0.5rem;
+      background-color: #222;
+      padding: 1rem;
       text-align: center;
       position: fixed;
       width: 100%;
       top: 0;
-      left: 0;
-      transition: opacity 0.3s ease;
-      z-index: 1000;
-    }
-
-    nav.hidden {
-      opacity: 0;
+      z-index: 10;
     }
 
     nav a {
@@ -35,52 +29,64 @@
       font-weight: bold;
     }
 
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    header {
-      text-align: center;
-      padding: 4rem 2rem 2rem;
-      margin-top: 3.5rem;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-    }
-
     .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1rem;
-      padding: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 6rem 1rem 2rem;
     }
 
     .gallery img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      width: 200px;
+      height: 150px;
+      object-fit: cover;
+      margin: 0.5rem;
+      cursor: pointer;
+      border: 2px solid #333;
       transition: transform 0.3s ease;
     }
 
     .gallery img:hover {
       transform: scale(1.05);
+      border-color: #666;
     }
 
-    footer {
-      background-color: #111;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      color: #777;
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.95);
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      flex-direction: column;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 80vh;
+      margin-bottom: 1rem;
+    }
+
+    .lightbox-controls {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .control {
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      user-select: none;
     }
   </style>
 </head>
 <body>
 
-  <nav id="mainNav">
+  <nav>
     <a href="index.html">首页</a>
     <a href="gallery.html">摄影作品</a>
     <a href="#">佛经手书</a>
@@ -88,45 +94,68 @@
     <a href="#">关于我</a>
   </nav>
 
-  <header>
-    <h1>摄影作品</h1>
-  </header>
+  <div class="gallery" id="gallery"></div>
 
-  <section class="gallery">
-    <img src="images/DSCF2838.jpg" alt="Photo 1">
-    <img src="images/DSCF2850.jpg" alt="Photo 2">
-    <img src="images/DSCF2976.jpg" alt="Photo 3">
-    <img src="images/DSCF3088.jpg" alt="Photo 4">
-    <img src="images/DSCF3091.jpg" alt="Photo 5">
-    <img src="images/DSCF9049.jpeg" alt="Photo 6">
-    <img src="images/DSCF9143 Pano 1.jpg" alt="Photo 7">
-    <img src="images/DSCF9411.jpg" alt="Photo 8">
-    <img src="images/DSCF9612.jpg" alt="Photo 9">
-    <img src="images/DSCF9755.jpg" alt="Photo 10">
-  </section>
-
-  <footer>
-    © 2025 RedRocks/Qun Chen 敦煌经生. All rights reserved.
-  </footer>
+  <div class="lightbox" id="lightbox">
+    <img id="lightboxImg" src="" alt="大图">
+    <div class="lightbox-controls">
+      <div class="control" id="prev">←</div>
+      <div class="control" id="next">→</div>
+      <div class="control" id="close">✕</div>
+    </div>
+  </div>
 
   <script>
-    let nav = document.getElementById("mainNav");
-    let timeout;
+    const images = [
+      "DSCF2838.jpg", "DSCF2850.jpg", "DSCF2976.jpg", "DSCF3088.jpg",
+      "DSCF3091.jpg", "DSCF9049.jpeg", "DSCF9143 Pano 1.jpg",
+      "DSCF9411.jpg", "DSCF9612.jpg", "DSCF9755.jpg"
+    ];
 
-    function hideNav() {
-      nav.classList.add("hidden");
+    const gallery = document.getElementById("gallery");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    let currentIndex = 0;
+
+    images.forEach((img, i) => {
+      const el = document.createElement("img");
+      el.src = `images/${img}`;
+      el.alt = `Image ${i}`;
+      el.addEventListener("click", () => showImage(i));
+      gallery.appendChild(el);
+    });
+
+    function showImage(index) {
+      currentIndex = index;
+      lightboxImg.src = `images/${images[index]}`;
+      lightbox.style.display = "flex";
     }
 
-    function showNav() {
-      nav.classList.remove("hidden");
-      clearTimeout(timeout);
-      timeout = setTimeout(hideNav, 3000);
+    function hideLightbox() {
+      lightbox.style.display = "none";
     }
 
-    document.addEventListener("mousemove", showNav);
-    document.addEventListener("keydown", showNav);
-    timeout = setTimeout(hideNav, 3000);
+    function showNext() {
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage(currentIndex);
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showImage(currentIndex);
+    }
+
+    document.getElementById("close").addEventListener("click", hideLightbox);
+    document.getElementById("next").addEventListener("click", showNext);
+    document.getElementById("prev").addEventListener("click", showPrev);
+
+    document.addEventListener("keydown", (e) => {
+      if (lightbox.style.display === "flex") {
+        if (e.key === "ArrowRight") showNext();
+        else if (e.key === "ArrowLeft") showPrev();
+        else if (e.key === " " || e.key === "Escape") hideLightbox();
+      }
+    });
   </script>
-
 </body>
 </html>
