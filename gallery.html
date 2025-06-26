@@ -1,54 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>摄影作品集 - REDROCKSNET</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery-bundle.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>摄影作品 - 敦煌经生</title>
   <style>
     body {
-      font-family: sans-serif;
-      background-color: #f4f4f4;
-      padding: 2rem;
+      margin: 0;
+      font-family: "Helvetica Neue", sans-serif;
+      background-color: #222;
+      color: #fff;
     }
-    h1 {
+
+    nav {
+      background-color: #444;
+      padding: 0.5rem;
       text-align: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
     }
+
+    nav.hidden {
+      opacity: 0;
+    }
+
+    nav a {
+      color: #fff;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+      margin-top: 3.5rem;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 1rem;
-      max-width: 1200px;
-      margin: auto;
+      padding: 2rem;
     }
-    .gallery a img {
+
+    .gallery img {
       width: 100%;
       height: auto;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      transition: transform 0.2s ease;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
     }
-    .gallery a:hover img {
-      transform: scale(1.02);
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      background-color: #111;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #777;
     }
   </style>
 </head>
 <body>
-  <h1>摄影作品集</h1>
-  <div class="gallery" id="lightgallery">
-    <a href="images/DSCF9755.jpg"><img src="images/DSCF9755.jpg" alt="DSCF9755.jpg" /></a>
-    <a href="images/DSCF9411.jpg"><img src="images/DSCF9411.jpg" alt="DSCF9411.jpg" /></a>
-    <a href="images/DSCF9612.jpg"><img src="images/DSCF9612.jpg" alt="DSCF9612.jpg" /></a>
-    <a href="images/DSCF9143%20Pano%201.jpg"><img src="images/DSCF9143%20Pano%201.jpg" alt="DSCF9143 Pano 1.jpg" /></a>
-    <a href="images/DSCF9049.jpeg"><img src="images/DSCF9049.jpeg" alt="DSCF9049.jpeg" /></a>
-    <a href="images/DSCF3091.jpg"><img src="images/DSCF3091.jpg" alt="DSCF3091.jpg" /></a>
-    <a href="images/DSCF3088.jpg"><img src="images/DSCF3088.jpg" alt="DSCF3088.jpg" /></a>
-    <a href="images/DSCF2976.jpg"><img src="images/DSCF2976.jpg" alt="DSCF2976.jpg" /></a>
-    <a href="images/DSCF2850.jpg"><img src="images/DSCF2850.jpg" alt="DSCF2850.jpg" /></a>
-    <a href="images/DSCF2838.jpg"><img src="images/DSCF2838.jpg" alt="DSCF2838.jpg" /></a>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/lightgallery.min.js"></script>
+
+  <nav id="mainNav">
+    <a href="index.html">首页</a>
+    <a href="gallery.html">摄影作品</a>
+    <a href="#">佛经手书</a>
+    <a href="#">旅行随笔</a>
+    <a href="#">关于我</a>
+  </nav>
+
+  <header>
+    <h1>摄影作品</h1>
+  </header>
+
+  <section class="gallery">
+    <img src="images/DSCF2838.jpg" alt="Photo 1">
+    <img src="images/DSCF2850.jpg" alt="Photo 2">
+    <img src="images/DSCF2976.jpg" alt="Photo 3">
+    <img src="images/DSCF3088.jpg" alt="Photo 4">
+    <img src="images/DSCF3091.jpg" alt="Photo 5">
+    <img src="images/DSCF9049.jpeg" alt="Photo 6">
+    <img src="images/DSCF9143 Pano 1.jpg" alt="Photo 7">
+    <img src="images/DSCF9411.jpg" alt="Photo 8">
+    <img src="images/DSCF9612.jpg" alt="Photo 9">
+    <img src="images/DSCF9755.jpg" alt="Photo 10">
+  </section>
+
+  <footer>
+    © 2025 RedRocks/Qun Chen 敦煌经生. All rights reserved.
+  </footer>
+
   <script>
-    lightGallery(document.getElementById('lightgallery'));
+    let nav = document.getElementById("mainNav");
+    let timeout;
+
+    function hideNav() {
+      nav.classList.add("hidden");
+    }
+
+    function showNav() {
+      nav.classList.remove("hidden");
+      clearTimeout(timeout);
+      timeout = setTimeout(hideNav, 3000);
+    }
+
+    document.addEventListener("mousemove", showNav);
+    document.addEventListener("keydown", showNav);
+    timeout = setTimeout(hideNav, 3000);
   </script>
+
 </body>
 </html>
