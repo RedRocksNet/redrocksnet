@@ -1,71 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>REDROCKSNET</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>敦煌经生</title>
   <style>
     body {
-      font-family: sans-serif;
       margin: 0;
-      padding: 0;
-      background-color: #f0f0f0;
+      font-family: "Helvetica Neue", sans-serif;
+      background-color: #333;
+      color: #fff;
     }
-    header {
-      background-color: #222;
-      color: white;
-      padding: 2rem 1rem;
-      text-align: center;
-    }
+
     nav {
       background-color: #444;
-      padding: 1rem;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
+      padding: 0.5rem;
+      text-align: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
     }
+
+    nav.hidden {
+      opacity: 0;
+    }
+
     nav a {
-      color: white;
+      color: #fff;
+      margin: 0 1rem;
       text-decoration: none;
       font-weight: bold;
     }
+
     nav a:hover {
       text-decoration: underline;
     }
-    main {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background: white;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    footer {
+
+    header {
+      background-color: #222;
+      padding: 4rem 2rem 2rem;
       text-align: center;
-      padding: 2rem;
+      margin-top: 3.5rem;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+    }
+
+    .banner {
+      width: 100%;
+      height: 60vh;
+      object-fit: cover;
+    }
+
+    .footer-intro {
+      background-color: #333;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    footer {
+      background-color: #222;
+      text-align: center;
+      padding: 1rem;
       font-size: 0.9rem;
-      color: #888;
+      color: #666;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>REDROCKSNET</h1>
-    <p>摄影 | 佛经抄写 | 旅行散文</p>
-  </header>
-  <nav>
+
+  <nav id="mainNav">
     <a href="index.html">首页</a>
     <a href="gallery.html">摄影作品</a>
-    <a href="buddha.html">佛经手书</a>
-    <a href="travel.html">旅行随笔</a>
-    <a href="about.html">关于我</a>
+    <a href="#">佛经手书</a>
+    <a href="#">旅行随笔</a>
+    <a href="#">关于我</a>
   </nav>
-  <main>
-    <h2>欢迎来到 REDROCKSNET</h2>
-    <p>这是一个展示摄影、佛经抄写艺术与旅行记录的平台。灵感来自自然、古典与当代的交融。</p>
-    <p>在这里，你可以浏览精心整理的图像集，了解手抄佛经的心路旅程，也可以一窥摄影者的旅途笔记与灵感记录。</p>
-  </main>
+
+  <header>
+    <h1>敦煌经生</h1>
+  </header>
+
+  <div id="bannerContainer"></div>
+
+  <div class="footer-intro">
+    用摄影，文字，和佛经书写来感受和探索世界与自己内心的交融和平和。
+  </div>
+
   <footer>
-    &copy; 2025 REDROCKSNET. All rights reserved.
+    © 2025 敦煌经生. All rights reserved.
   </footer>
+
+  <script>
+    const images = [
+      "DSCF2838.jpg",
+      "DSCF2850.jpg",
+      "DSCF2976.jpg",
+      "DSCF3088.jpg",
+      "DSCF3091.jpg",
+      "DSCF9049.jpeg",
+      "DSCF9143 Pano 1.jpg",
+      "DSCF9411.jpg",
+      "DSCF9612.jpg",
+      "DSCF9755.jpg"
+    ];
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    const bannerContainer = document.getElementById("bannerContainer");
+    bannerContainer.innerHTML = `<img class="banner" src="images/${randomImage}" alt="banner image">`;
+
+    let nav = document.getElementById("mainNav");
+    let timeout;
+
+    function hideNav() {
+      nav.classList.add("hidden");
+    }
+
+    function showNav() {
+      nav.classList.remove("hidden");
+      clearTimeout(timeout);
+      timeout = setTimeout(hideNav, 3000);
+    }
+
+    document.addEventListener("mousemove", showNav);
+    document.addEventListener("keydown", showNav);
+    timeout = setTimeout(hideNav, 3000);
+  </script>
+
 </body>
 </html>
