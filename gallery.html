@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>摄影作品 - REDROCKSNET</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>摄影作品 - 敦煌经生</title>
   <style>
     body {
       margin: 0;
@@ -13,13 +13,19 @@
     }
 
     nav {
-      background-color: #222;
-      padding: 1rem;
+      background-color: #444;
+      padding: 0.5rem;
       text-align: center;
       position: fixed;
       width: 100%;
       top: 0;
-      z-index: 10;
+      left: 0;
+      z-index: 1000;
+      transition: opacity 0.3s ease;
+    }
+
+    nav.hidden {
+      opacity: 0;
     }
 
     nav a {
@@ -29,64 +35,76 @@
       font-weight: bold;
     }
 
+    nav a:hover {
+      text-decoration: underline;
+    }
+
     .gallery {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      padding: 6rem 1rem 2rem;
+      padding: 5rem 1rem 2rem;
     }
 
     .gallery img {
-      width: 200px;
-      height: 150px;
-      object-fit: cover;
-      margin: 0.5rem;
+      width: 250px;
+      height: auto;
+      margin: 10px;
       cursor: pointer;
-      border: 2px solid #333;
-      transition: transform 0.3s ease;
+      transition: transform 0.2s ease;
     }
 
     .gallery img:hover {
       transform: scale(1.05);
-      border-color: #666;
     }
 
-    .lightbox {
+    .modal {
       display: none;
       position: fixed;
+      z-index: 2000;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(0,0,0,0.95);
+      background-color: rgba(0, 0, 0, 0.9);
       justify-content: center;
       align-items: center;
-      z-index: 100;
-      flex-direction: column;
     }
 
-    .lightbox img {
-      max-width: 90vw;
-      max-height: 80vh;
-      margin-bottom: 1rem;
+    .modal img {
+      max-width: 95vw;
+      max-height: 95vh;
     }
 
-    .lightbox-controls {
+    .modal-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
       display: flex;
-      gap: 2rem;
+      justify-content: space-between;
+      transform: translateY(-50%);
     }
 
-    .control {
-      color: #fff;
+    .modal-controls span {
+      color: white;
+      font-size: 3rem;
+      cursor: pointer;
+      padding: 1rem;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
       font-size: 2rem;
       cursor: pointer;
-      user-select: none;
     }
   </style>
 </head>
 <body>
 
-  <nav>
+  <nav id="mainNav">
     <a href="index.html">首页</a>
     <a href="gallery.html">摄影作品</a>
     <a href="#">佛经手书</a>
@@ -96,66 +114,90 @@
 
   <div class="gallery" id="gallery"></div>
 
-  <div class="lightbox" id="lightbox">
-    <img id="lightboxImg" src="" alt="大图">
-    <div class="lightbox-controls">
-      <div class="control" id="prev">←</div>
-      <div class="control" id="next">→</div>
-      <div class="control" id="close">✕</div>
+  <div class="modal" id="modal">
+    <span class="modal-close" id="closeBtn">×</span>
+    <div class="modal-controls">
+      <span id="prevBtn">❮</span>
+      <span id="nextBtn">❯</span>
     </div>
+    <img id="modalImage" src="" alt="大图" />
   </div>
 
   <script>
-    const images = [
-      "DSCF2838.jpg", "DSCF2850.jpg", "DSCF2976.jpg", "DSCF3088.jpg",
-      "DSCF3091.jpg", "DSCF9049.jpeg", "DSCF9143 Pano 1.jpg",
-      "DSCF9411.jpg", "DSCF9612.jpg", "DSCF9755.jpg"
+    const imageList = [
+      "DSCF2838.jpg",
+      "DSCF2850.jpg",
+      "DSCF2976.jpg",
+      "DSCF3088.jpg",
+      "DSCF3091.jpg",
+      "DSCF9049.jpeg",
+      "DSCF9143 Pano 1.jpg",
+      "DSCF9411.jpg",
+      "DSCF9612.jpg",
+      "DSCF9755.jpg"
     ];
 
     const gallery = document.getElementById("gallery");
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightboxImg");
+    const modal = document.getElementById("modal");
+    const modalImage = document.getElementById("modalImage");
+    const closeBtn = document.getElementById("closeBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
     let currentIndex = 0;
 
-    images.forEach((img, i) => {
-      const el = document.createElement("img");
-      el.src = `images/${img}`;
-      el.alt = `Image ${i}`;
-      el.addEventListener("click", () => showImage(i));
-      gallery.appendChild(el);
-    });
-
-    function showImage(index) {
+    function openModal(index) {
       currentIndex = index;
-      lightboxImg.src = `images/${images[index]}`;
-      lightbox.style.display = "flex";
+      modalImage.src = `images/${imageList[currentIndex]}`;
+      modal.style.display = "flex";
     }
 
-    function hideLightbox() {
-      lightbox.style.display = "none";
-    }
-
-    function showNext() {
-      currentIndex = (currentIndex + 1) % images.length;
-      showImage(currentIndex);
+    function closeModal() {
+      modal.style.display = "none";
     }
 
     function showPrev() {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      showImage(currentIndex);
+      currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+      modalImage.src = `images/${imageList[currentIndex]}`;
     }
 
-    document.getElementById("close").addEventListener("click", hideLightbox);
-    document.getElementById("next").addEventListener("click", showNext);
-    document.getElementById("prev").addEventListener("click", showPrev);
+    function showNext() {
+      currentIndex = (currentIndex + 1) % imageList.length;
+      modalImage.src = `images/${imageList[currentIndex]}`;
+    }
+
+    imageList.forEach((img, index) => {
+      const imageEl = document.createElement("img");
+      imageEl.src = `images/${img}`;
+      imageEl.alt = img;
+      imageEl.onclick = () => openModal(index);
+      gallery.appendChild(imageEl);
+    });
+
+    closeBtn.onclick = closeModal;
+    prevBtn.onclick = showPrev;
+    nextBtn.onclick = showNext;
 
     document.addEventListener("keydown", (e) => {
-      if (lightbox.style.display === "flex") {
+      if (modal.style.display === "flex") {
+        if (e.key === "ArrowLeft") showPrev();
         if (e.key === "ArrowRight") showNext();
-        else if (e.key === "ArrowLeft") showPrev();
-        else if (e.key === " " || e.key === "Escape") hideLightbox();
+        if (e.key === " " || e.key === "Escape") closeModal();
       }
     });
+
+    let nav = document.getElementById("mainNav");
+    let timeout;
+    function hideNav() {
+      nav.classList.add("hidden");
+    }
+    function showNav() {
+      nav.classList.remove("hidden");
+      clearTimeout(timeout);
+      timeout = setTimeout(hideNav, 3000);
+    }
+    document.addEventListener("mousemove", showNav);
+    document.addEventListener("keydown", showNav);
+    timeout = setTimeout(hideNav, 3000);
   </script>
 </body>
 </html>
