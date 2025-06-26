@@ -1,170 +1,178 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>摄影作品 — 敦煌经生</title>
+  <meta charset="UTF-8">
+  <title>摄影作品集</title>
   <style>
     body {
-      margin: 0;
-      font-family: "Helvetica Neue", sans-serif;
       background-color: #111;
-      color: #fff;
+      color: white;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
     }
-
     nav {
-      background-color: #444;
-      padding: 0.5rem;
+      background-color: #222;
+      padding: 1rem;
       text-align: center;
       position: fixed;
-      width: 100%;
       top: 0;
-      left: 0;
-      transition: opacity 0.3s ease;
+      width: 100%;
       z-index: 1000;
     }
-
     nav a {
-      color: #fff;
+      color: white;
       margin: 0 1rem;
       text-decoration: none;
       font-weight: bold;
     }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
     .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1rem;
-      padding: 5rem 2rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 6rem 1rem 2rem;
     }
-
     .gallery img {
-      width: 100%;
-      height: auto;
+      max-width: 200px;
+      margin: 10px;
       cursor: pointer;
-      border-radius: 8px;
-      transition: transform 0.3s ease;
+      border: 2px solid #444;
+      transition: transform 0.3s;
     }
-
     .gallery img:hover {
       transform: scale(1.05);
     }
-
-    .lightbox {
+    .modal {
+      display: none;
       position: fixed;
-      top: 0;
+      z-index: 2000;
       left: 0;
+      top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.95);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      z-index: 2000;
-      display: none;
+      background-color: rgba(0,0,0,0.9);
     }
-
-    .lightbox img {
-      max-width: 90vw;
-      max-height: 80vh;
-      margin-bottom: 1rem;
+    .modal img {
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      margin: auto;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
     }
-
-    .lightbox button {
-      background: #333;
-      color: #fff;
-      border: none;
-      padding: 0.5rem 1rem;
-      margin: 0.5rem;
-      font-size: 1rem;
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 30px;
+      color: white;
       cursor: pointer;
     }
-
-    .lightbox button:hover {
-      background: #555;
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 40px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
     }
+    .prev { left: 20px; }
+    .next { right: 20px; }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="index.html">首页</a>
-    <a href="gallery.html">摄影作品</a>
-    <a href="#">佛经手书</a>
-    <a href="#">旅行随笔</a>
-    <a href="#">关于我</a>
-  </nav>
 
-  <div class="gallery" id="gallery"></div>
+<nav>
+  <a href="index.html">首页</a>
+  <a href="gallery.html">摄影作品</a>
+  <a href="#">佛经手书</a>
+  <a href="#">旅行随笔</a>
+  <a href="#">关于我</a>
+</nav>
 
-  <div class="lightbox" id="lightbox">
-    <img id="lightboxImage" src="" alt="大图预览"/>
-    <div>
-      <button onclick="prevImage()">上一张</button>
-      <button onclick="closeLightbox()">返回 GALLERY</button>
-      <button onclick="nextImage()">下一张</button>
-    </div>
-  </div>
+<div class="gallery">
+  <img src="images/DSCF2589.jpg" alt="DSCF2589.jpg" onclick="openModal(0)">
+  <img src="images/DSCF2610.jpg" alt="DSCF2610.jpg" onclick="openModal(1)">
+  <img src="images/DSCF2681.jpg" alt="DSCF2681.jpg" onclick="openModal(2)">
+  <img src="images/DSCF2694.jpg" alt="DSCF2694.jpg" onclick="openModal(3)">
+  <img src="images/DSCF2764.jpg" alt="DSCF2764.jpg" onclick="openModal(4)">
+  <img src="images/DSCF2820.jpg" alt="DSCF2820.jpg" onclick="openModal(5)">
+  <img src="images/DSCF2838.jpg" alt="DSCF2838.jpg" onclick="openModal(6)">
+  <img src="images/DSCF2840.jpg" alt="DSCF2840.jpg" onclick="openModal(7)">
+  <img src="images/DSCF2847.jpg" alt="DSCF2847.jpg" onclick="openModal(8)">
+  <img src="images/DSCF2850.jpg" alt="DSCF2850.jpg" onclick="openModal(9)">
+  <img src="images/DSCF2894.jpg" alt="DSCF2894.jpg" onclick="openModal(10)">
+  <img src="images/DSCF2976 1.jpg" alt="DSCF2976 1.jpg" onclick="openModal(11)">
+  <img src="images/DSCF2976.jpg" alt="DSCF2976.jpg" onclick="openModal(12)">
+  <img src="images/DSCF3066 1.jpg" alt="DSCF3066 1.jpg" onclick="openModal(13)">
+  <img src="images/DSCF3066.jpg" alt="DSCF3066.jpg" onclick="openModal(14)">
+  <img src="images/DSCF3088.jpg" alt="DSCF3088.jpg" onclick="openModal(15)">
+  <img src="images/DSCF3089.jpg" alt="DSCF3089.jpg" onclick="openModal(16)">
+  <img src="images/DSCF3091.jpg" alt="DSCF3091.jpg" onclick="openModal(17)">
+  <img src="images/DSCF3092.jpg" alt="DSCF3092.jpg" onclick="openModal(18)">
+  <img src="images/DSCF3110.jpg" alt="DSCF3110.jpg" onclick="openModal(19)">
+  <img src="images/DSCF9049.jpeg" alt="DSCF9049.jpeg" onclick="openModal(20)">
+  <img src="images/DSCF9049.jpg" alt="DSCF9049.jpg" onclick="openModal(21)">
+  <img src="images/DSCF9143 Pano 1.jpg" alt="DSCF9143 Pano 1.jpg" onclick="openModal(22)">
+  <img src="images/DSCF9207.jpg" alt="DSCF9207.jpg" onclick="openModal(23)">
+  <img src="images/DSCF9411.jpg" alt="DSCF9411.jpg" onclick="openModal(24)">
+  <img src="images/DSCF9572.jpg" alt="DSCF9572.jpg" onclick="openModal(25)">
+  <img src="images/DSCF9612.jpg" alt="DSCF9612.jpg" onclick="openModal(26)">
+  <img src="images/DSCF9699.jpg" alt="DSCF9699.jpg" onclick="openModal(27)">
+  <img src="images/DSCF9750.jpg" alt="DSCF9750.jpg" onclick="openModal(28)">
+  <img src="images/DSCF9755.jpg" alt="DSCF9755.jpg" onclick="openModal(29)">
+  <img src="images/DSC_0363.jpg" alt="DSC_0363.jpg" onclick="openModal(30)">
+  <img src="images/DSC_5021.jpg" alt="DSC_5021.jpg" onclick="openModal(31)">
+  <img src="images/DSC_6025.jpg" alt="DSC_6025.jpg" onclick="openModal(32)">
+  <img src="images/DSC_7344.jpg" alt="DSC_7344.jpg" onclick="openModal(33)">
+  <img src="images/DSC_7347.jpg" alt="DSC_7347.jpg" onclick="openModal(34)">
+  <img src="images/DSC_7354.jpg" alt="DSC_7354.jpg" onclick="openModal(35)">
+  <img src="images/Screenshot 2025-03-21 at 10.19.30 AM.png" alt="Screenshot 2025-03-21 at 10.19.30 AM.png" onclick="openModal(36)">
+  <img src="images/WechatIMG36.jpg" alt="WechatIMG36.jpg" onclick="openModal(37)">
+</div>
 
-  <script>
-    const images = [
-      "DSCF2838.jpg",
-      "DSCF2850.jpg",
-      "DSCF2976.jpg",
-      "DSCF3088.jpg",
-      "DSCF3091.jpg",
-      "DSCF9049.jpeg",
-      "DSCF9143 Pano 1.jpg",
-      "DSCF9411.jpg",
-      "DSCF9612.jpg",
-      "DSCF9755.jpg"
-    ];
+<div class="modal" id="modal">
+  <span class="close" onclick="closeModal()">&times;</span>
+  <button class="nav-btn prev" onclick="prevImage()">&#10094;</button>
+  <img id="modalImage" src="">
+  <button class="nav-btn next" onclick="nextImage()">&#10095;</button>
+</div>
 
-    const gallery = document.getElementById("gallery");
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImage = document.getElementById("lightboxImage");
-    let currentIndex = 0;
+<script>
+  const images = ["images/DSCF2589.jpg", "images/DSCF2610.jpg", "images/DSCF2681.jpg", "images/DSCF2694.jpg", "images/DSCF2764.jpg", "images/DSCF2820.jpg", "images/DSCF2838.jpg", "images/DSCF2840.jpg", "images/DSCF2847.jpg", "images/DSCF2850.jpg", "images/DSCF2894.jpg", "images/DSCF2976 1.jpg", "images/DSCF2976.jpg", "images/DSCF3066 1.jpg", "images/DSCF3066.jpg", "images/DSCF3088.jpg", "images/DSCF3089.jpg", "images/DSCF3091.jpg", "images/DSCF3092.jpg", "images/DSCF3110.jpg", "images/DSCF9049.jpeg", "images/DSCF9049.jpg", "images/DSCF9143 Pano 1.jpg", "images/DSCF9207.jpg", "images/DSCF9411.jpg", "images/DSCF9572.jpg", "images/DSCF9612.jpg", "images/DSCF9699.jpg", "images/DSCF9750.jpg", "images/DSCF9755.jpg", "images/DSC_0363.jpg", "images/DSC_5021.jpg", "images/DSC_6025.jpg", "images/DSC_7344.jpg", "images/DSC_7347.jpg", "images/DSC_7354.jpg", "images/Screenshot 2025-03-21 at 10.19.30 AM.png", "images/WechatIMG36.jpg"];
+  let currentIndex = 0;
+  const modal = document.getElementById('modal');
+  const modalImage = document.getElementById('modalImage');
 
-    images.forEach((img, index) => {
-      const image = document.createElement("img");
-      image.src = `images/${img}`;
-      image.alt = img;
-      image.onclick = () => openLightbox(index);
-      gallery.appendChild(image);
-    });
+  function openModal(index) {
+    currentIndex = index;
+    modalImage.src = images[currentIndex];
+    modal.style.display = 'block';
+  }
 
-    function openLightbox(index) {
-      currentIndex = index;
-      lightboxImage.src = `images/${images[currentIndex]}`;
-      lightbox.style.display = "flex";
-    }
+  function closeModal() {
+    modal.style.display = 'none';
+  }
 
-    function closeLightbox() {
-      lightbox.style.display = "none";
-    }
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    modalImage.src = images[currentIndex];
+  }
 
-    function prevImage() {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      lightboxImage.src = `images/${images[currentIndex]}`;
-    }
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    modalImage.src = images[currentIndex];
+  }
 
-    function nextImage() {
-      currentIndex = (currentIndex + 1) % images.length;
-      lightboxImage.src = `images/${images[currentIndex]}`;
-    }
+  document.body.addEventListener("keydown", function(e) {
+    if (modal.style.display !== 'block') return;
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+    if (e.key === ' ') closeModal();
+  });
+</script>
 
-    document.body.addEventListener("keydown", (e) => {
-      if (lightbox.style.display !== "none") {
-        if (e.key === "ArrowLeft") prevImage();
-        else if (e.key === "ArrowRight") nextImage();
-        else if (e.key === " " || e.key === "Escape") closeLightbox();
-      }
-    });
-  </script>
 </body>
 </html>
