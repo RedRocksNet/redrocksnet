@@ -95,12 +95,11 @@ html = '''<!DOCTYPE html>
 <body>
 
 <nav>
-  <a href="index.html">首页</a>
-  <a href="gallery.html">摄影作品</a>
-  <a href="#">佛经手书</a>
-  <a href="#">旅行随笔</a>
-  <a href="#">关于我</a>
-</nav>
+    <a href="index.html">首页</a>
+    <a href="gallery.html">摄影作品</a>
+    <a href="sutras.html">佛经手书</a>
+    <a href="about.html">关于我</a> <!-- 添加这一行 -->
+  </nav>
 
 <div class="gallery">
 '''
