@@ -1,89 +1,162 @@
 import os
 
-IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif", ".webp"]
 IMAGE_FOLDER = "images"
 OUTPUT_FILE = "gallery.html"
 
-def get_image_files():
-    return sorted([
-        f for f in os.listdir(IMAGE_FOLDER)
-        if os.path.splitext(f)[1].lower() in IMAGE_EXTENSIONS
-    ])
+# 获取所有图片文件
+images = [f for f in os.listdir(IMAGE_FOLDER) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif'))]
+images.sort()
 
-def generate_html(images):
-    html = """<!DOCTYPE html>
+# 生成 HTML 内容
+html = '''<!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>摄影作品</title>
+  <title>摄影作品集</title>
   <style>
-    body { margin: 0; font-family: sans-serif; background-color: #111; color: #fff; }
-    nav { background: #222; padding: 1rem; text-align: center; position: fixed; width: 100%; top: 0; z-index: 1000; }
-    nav a { color: #fff; margin: 0 1rem; text-decoration: none; font-weight: bold; }
-    .gallery { display: flex; flex-wrap: wrap; padding-top: 80px; justify-content: center; }
-    .gallery img { margin: 10px; width: 200px; height: auto; cursor: pointer; border-radius: 4px; }
-    .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; }
-    .modal img { max-width: 90%; max-height: 90%; }
-    .close, .prev, .next { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2rem; color: white; background: rgba(0,0,0,0.5); padding: 0.5rem; cursor: pointer; }
-    .close { top: 10px; right: 20px; transform: none; font-size: 2rem; }
+    body {
+      background-color: #111;
+      color: white;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background-color: #222;
+      padding: 1rem;
+      text-align: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 6rem 1rem 2rem;
+    }
+    .gallery img {
+      max-width: 200px;
+      margin: 10px;
+      cursor: pointer;
+      border: 2px solid #444;
+      transition: transform 0.3s;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+    }
+    .modal img {
+      display: block;
+      max-width: 90%;
+      max-height: 90%;
+      margin: auto;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+    }
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+    }
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 40px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
     .prev { left: 20px; }
     .next { right: 20px; }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="index.html">首页</a>
-    <a href="gallery.html">摄影作品</a>
-    <a href="#">佛经手书</a>
-    <a href="#">旅行随笔</a>
-    <a href="#">关于我</a>
-  </nav>
-  <div class="gallery">
-"""
-    for img in images:
-        html += f'    <img src="{IMAGE_FOLDER}/{img}" alt="{img}" onclick="openModal({images.index(img)})">
-'
 
-    html += """  </div>
-  <div id="myModal" class="modal">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <span class="prev" onclick="changeImage(-1)">❮</span>
-    <img id="modalImage" src="">
-    <span class="next" onclick="changeImage(1)">❯</span>
-  </div>
-  <script>
-    const images = %s;
-    let currentIndex = 0;
+<nav>
+  <a href="index.html">首页</a>
+  <a href="gallery.html">摄影作品</a>
+  <a href="#">佛经手书</a>
+  <a href="#">旅行随笔</a>
+  <a href="#">关于我</a>
+</nav>
 
-    function openModal(index) {
-      currentIndex = index;
-      document.getElementById("modalImage").src = "%s/" + images[index];
-      document.getElementById("myModal").style.display = "flex";
-    }
+<div class="gallery">
+'''
 
-    function closeModal() {
-      document.getElementById("myModal").style.display = "none";
-    }
+for img in images:
+    html += f'  <img src="{IMAGE_FOLDER}/{img}" alt="{img}" onclick="openModal({images.index(img)})">\n'
 
-    function changeImage(direction) {
-      currentIndex = (currentIndex + direction + images.length) %% images.length;
-      document.getElementById("modalImage").src = "%s/" + images[currentIndex];
-    }
+html += '''</div>
 
-    document.body.onkeydown = function(e) {
-      if (e.key === "Escape") closeModal();
-      if (e.key === "ArrowRight") changeImage(1);
-      if (e.key === "ArrowLeft") changeImage(-1);
-      if (e.key === " ") closeModal();
-    };
-  </script>
+<div class="modal" id="modal">
+  <span class="close" onclick="closeModal()">&times;</span>
+  <button class="nav-btn prev" onclick="prevImage()">&#10094;</button>
+  <img id="modalImage" src="">
+  <button class="nav-btn next" onclick="nextImage()">&#10095;</button>
+</div>
+
+<script>
+  const images = [''' + ', '.join([f'"{IMAGE_FOLDER}/{img}"' for img in images]) + '''];
+  let currentIndex = 0;
+  const modal = document.getElementById('modal');
+  const modalImage = document.getElementById('modalImage');
+
+  function openModal(index) {
+    currentIndex = index;
+    modalImage.src = images[currentIndex];
+    modal.style.display = 'block';
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    modalImage.src = images[currentIndex];
+  }
+
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    modalImage.src = images[currentIndex];
+  }
+
+  document.body.addEventListener("keydown", function(e) {
+    if (modal.style.display !== 'block') return;
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+    if (e.key === ' ') closeModal();
+  });
+</script>
+
 </body>
-</html>""" % (images, IMAGE_FOLDER, IMAGE_FOLDER)
-    return html
+</html>
+'''
 
-if __name__ == "__main__":
-    image_files = get_image_files()
-    html_output = generate_html(image_files)
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        f.write(html_output)
-    print(f"Updated {OUTPUT_FILE} with {len(image_files)} images.")
+# 写入 HTML 文件
+with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+    f.write(html)
+
+print("✅ gallery.html 已更新！")
