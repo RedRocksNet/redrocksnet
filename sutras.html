@@ -1,95 +1,102 @@
 
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>佛经手书 | REDROCKSNET</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background-color: #f9f9f9;
-      margin: 0;
-      padding: 2em;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2em;
-      margin-bottom: 1em;
-    }
-    p.description {
-      font-size: 1.2em;
-      margin-bottom: 2em;
-      color: #666;
-    }
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1em;
-    }
-    .gallery img {
-      max-width: 300px;
-      height: auto;
-      cursor: pointer;
-      border-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .lightbox {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.85);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-    .lightbox img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 4px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>佛经手书图集</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            padding: 20px;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+        }
+        .gallery img {
+            height: 200px;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        .preview {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none;
+            z-index: 999;
+        }
+        .preview img {
+            max-width: 95vw;
+            max-height: 95vh;
+        }
+    </style>
 </head>
 <body>
-  <h1>佛经手书</h1>
-  <p class="description">居家的日子还是旅途中，每日黎明即起，沐手静书，在一笔一划间感受内心，忘却自我</p>
-  <div class="gallery" id="gallery">
-    <img src="sutra_images/Diamond.jpg" data-index="0" onclick="openLightbox(0)"><img src="sutra_images/Diamond2.jpg" data-index="1" onclick="openLightbox(1)"><img src="sutra_images/Heart.jpg" data-index="2" onclick="openLightbox(2)"><img src="sutra_images/WechatIMG66.jpg" data-index="3" onclick="openLightbox(3)"><img src="sutra_images/WechatIMG67.jpg" data-index="4" onclick="openLightbox(4)"><img src="sutra_images/WechatIMG68.jpg" data-index="5" onclick="openLightbox(5)"><img src="sutra_images/WechatIMG69.jpg" data-index="6" onclick="openLightbox(6)"><img src="sutra_images/WechatIMG70.jpg" data-index="7" onclick="openLightbox(7)"><img src="sutra_images/WechatIMG72.jpg" data-index="8" onclick="openLightbox(8)"><img src="sutra_images/WechatIMG74.jpg" data-index="9" onclick="openLightbox(9)"><img src="sutra_images/WechatIMG75.jpg" data-index="10" onclick="openLightbox(10)"><img src="sutra_images/WechatIMG76.jpg" data-index="11" onclick="openLightbox(11)"><img src="sutra_images/WechatIMG78.jpg" data-index="12" onclick="openLightbox(12)"><img src="sutra_images/WechatIMG79.jpg" data-index="13" onclick="openLightbox(13)">
-  </div>
-  <div class="lightbox" id="lightbox" style="display: none;" onclick="closeLightbox()">
-    <img id="lightbox-image" src="">
-  </div>
-  <script>
-    const images = ['Diamond.jpg', 'Diamond2.jpg', 'Heart.jpg', 'WechatIMG66.jpg', 'WechatIMG67.jpg', 'WechatIMG68.jpg', 'WechatIMG69.jpg', 'WechatIMG70.jpg', 'WechatIMG72.jpg', 'WechatIMG74.jpg', 'WechatIMG75.jpg', 'WechatIMG76.jpg', 'WechatIMG78.jpg', 'WechatIMG79.jpg'];
-    let currentIndex = -1;
+    <h1>每日佛经手书</h1>
+    <div class="gallery">
+        <img src="sutra_images/Diamond.jpg" alt="Diamond.jpg">
+<img src="sutra_images/Diamond2.jpg" alt="Diamond2.jpg">
+<img src="sutra_images/Heart.jpg" alt="Heart.jpg">
+<img src="sutra_images/WechatIMG66.jpg" alt="WechatIMG66.jpg">
+<img src="sutra_images/WechatIMG67.jpg" alt="WechatIMG67.jpg">
+<img src="sutra_images/WechatIMG68.jpg" alt="WechatIMG68.jpg">
+<img src="sutra_images/WechatIMG69.jpg" alt="WechatIMG69.jpg">
+<img src="sutra_images/WechatIMG70.jpg" alt="WechatIMG70.jpg">
+<img src="sutra_images/WechatIMG72.jpg" alt="WechatIMG72.jpg">
+<img src="sutra_images/WechatIMG74.jpg" alt="WechatIMG74.jpg">
+<img src="sutra_images/WechatIMG75.jpg" alt="WechatIMG75.jpg">
+<img src="sutra_images/WechatIMG76.jpg" alt="WechatIMG76.jpg">
+<img src="sutra_images/WechatIMG78.jpg" alt="WechatIMG78.jpg">
+<img src="sutra_images/WechatIMG79.jpg" alt="WechatIMG79.jpg">
+    </div>
+    <div class="preview" id="preview">
+        <img id="preview-img" src="">
+    </div>
+    <script>
+        const images = Array.from(document.querySelectorAll('.gallery img'));
+        const preview = document.getElementById('preview');
+        const previewImg = document.getElementById('preview-img');
+        let currentIndex = -1;
 
-    function openLightbox(index) {
-      currentIndex = index;
-      const lightbox = document.getElementById("lightbox");
-      const lightboxImage = document.getElementById("lightbox-image");
-      lightboxImage.src = "sutra_images/" + images[index];
-      lightbox.style.display = "flex";
-    }
+        images.forEach((img, index) => {
+            img.addEventListener('click', () => {
+                preview.style.display = 'flex';
+                previewImg.src = img.src;
+                currentIndex = index;
+            });
+        });
 
-    function closeLightbox() {
-      document.getElementById("lightbox").style.display = "none";
-    }
-
-    document.addEventListener("keydown", function(event) {
-      const lightbox = document.getElementById("lightbox");
-      if (lightbox.style.display !== "flex") return;
-
-      if (event.key === "ArrowRight" && currentIndex < images.length - 1) {
-        openLightbox(currentIndex + 1);
-      } else if (event.key === "ArrowLeft" && currentIndex > 0) {
-        openLightbox(currentIndex - 1);
-      } else if (event.key === " " || event.key === "Escape") {
-        closeLightbox();
-      }
-    });
-  </script>
+        document.addEventListener('keydown', (e) => {
+            if (preview.style.display === 'flex') {
+                if (e.key === ' ' || e.key === 'Escape') {
+                    preview.style.display = 'none';
+                } else if (e.key === 'ArrowLeft') {
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    previewImg.src = images[currentIndex].src;
+                } else if (e.key === 'ArrowRight') {
+                    currentIndex = (currentIndex + 1) % images.length;
+                    previewImg.src = images[currentIndex].src;
+                }
+            }
+        });
+    </script>
 </body>
 </html>
