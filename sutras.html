@@ -2,77 +2,94 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>佛经手书 - REDROCKSNET</title>
+  <meta charset="UTF-8">
+  <title>佛经手书 | REDROCKSNET</title>
   <style>
     body {
       font-family: sans-serif;
+      background-color: #f9f9f9;
       margin: 0;
-      padding: 0;
-      background: #f5f5f5;
-    }
-    header {
-      background-color: #333;
-      color: white;
-      padding: 1em;
+      padding: 2em;
       text-align: center;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 1em;
     }
     p.description {
-      text-align: center;
       font-size: 1.2em;
-      margin: 1em;
-      color: #444;
+      margin-bottom: 2em;
+      color: #666;
     }
-    .grid {
+    .gallery {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      padding: 1em;
       gap: 1em;
     }
-    .grid img {
+    .gallery img {
       max-width: 300px;
       height: auto;
-      object-fit: contain;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: white;
+      cursor: pointer;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    footer {
-      text-align: center;
-      font-size: 0.9em;
-      color: #888;
-      padding: 1em;
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 4px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>佛经手书</h1>
-  </header>
-  <p class="description">居家的日子还是旅途中，每日黎明即起，沐手静书，在一笔一划间感受内心，忘却自我。</p>
-  <div class="grid">
-    <img src="sutra_images/Diamond.jpg" alt="Diamond.jpg">
-    <img src="sutra_images/Diamond2.jpg" alt="Diamond2.jpg">
-    <img src="sutra_images/Heart.jpg" alt="Heart.jpg">
-    <img src="sutra_images/HUAYAN1.jpg" alt="HUAYAN1.jpg">
-    <img src="sutra_images/WechatIMG66.jpg" alt="WechatIMG66.jpg">
-    <img src="sutra_images/WechatIMG67.jpg" alt="WechatIMG67.jpg">
-    <img src="sutra_images/WechatIMG68.jpg" alt="WechatIMG68.jpg">
-    <img src="sutra_images/WechatIMG69.jpg" alt="WechatIMG69.jpg">
-    <img src="sutra_images/WechatIMG70.jpg" alt="WechatIMG70.jpg">
-    <img src="sutra_images/WechatIMG72.jpg" alt="WechatIMG72.jpg">
-    <img src="sutra_images/WechatIMG73.jpg" alt="WechatIMG73.jpg">
-    <img src="sutra_images/WechatIMG74.jpg" alt="WechatIMG74.jpg">
-    <img src="sutra_images/WechatIMG75.jpg" alt="WechatIMG75.jpg">
-    <img src="sutra_images/WechatIMG76.jpg" alt="WechatIMG76.jpg">
-    <img src="sutra_images/WechatIMG78.jpg" alt="WechatIMG78.jpg">
-    <img src="sutra_images/WechatIMG79.jpg" alt="WechatIMG79.jpg">
-
+  <h1>佛经手书</h1>
+  <p class="description">居家的日子还是旅途中，每日黎明即起，沐手静书，在一笔一划间感受内心，忘却自我</p>
+  <div class="gallery" id="gallery">
+    <img src="sutra_images/Diamond.jpg" data-index="0" onclick="openLightbox(0)"><img src="sutra_images/Diamond2.jpg" data-index="1" onclick="openLightbox(1)"><img src="sutra_images/Heart.jpg" data-index="2" onclick="openLightbox(2)"><img src="sutra_images/WechatIMG66.jpg" data-index="3" onclick="openLightbox(3)"><img src="sutra_images/WechatIMG67.jpg" data-index="4" onclick="openLightbox(4)"><img src="sutra_images/WechatIMG68.jpg" data-index="5" onclick="openLightbox(5)"><img src="sutra_images/WechatIMG69.jpg" data-index="6" onclick="openLightbox(6)"><img src="sutra_images/WechatIMG70.jpg" data-index="7" onclick="openLightbox(7)"><img src="sutra_images/WechatIMG72.jpg" data-index="8" onclick="openLightbox(8)"><img src="sutra_images/WechatIMG74.jpg" data-index="9" onclick="openLightbox(9)"><img src="sutra_images/WechatIMG75.jpg" data-index="10" onclick="openLightbox(10)"><img src="sutra_images/WechatIMG76.jpg" data-index="11" onclick="openLightbox(11)"><img src="sutra_images/WechatIMG78.jpg" data-index="12" onclick="openLightbox(12)"><img src="sutra_images/WechatIMG79.jpg" data-index="13" onclick="openLightbox(13)">
   </div>
-  <footer>
-    &copy; 2025 REDROCKSNET
-  </footer>
+  <div class="lightbox" id="lightbox" style="display: none;" onclick="closeLightbox()">
+    <img id="lightbox-image" src="">
+  </div>
+  <script>
+    const images = ['Diamond.jpg', 'Diamond2.jpg', 'Heart.jpg', 'WechatIMG66.jpg', 'WechatIMG67.jpg', 'WechatIMG68.jpg', 'WechatIMG69.jpg', 'WechatIMG70.jpg', 'WechatIMG72.jpg', 'WechatIMG74.jpg', 'WechatIMG75.jpg', 'WechatIMG76.jpg', 'WechatIMG78.jpg', 'WechatIMG79.jpg'];
+    let currentIndex = -1;
+
+    function openLightbox(index) {
+      currentIndex = index;
+      const lightbox = document.getElementById("lightbox");
+      const lightboxImage = document.getElementById("lightbox-image");
+      lightboxImage.src = "sutra_images/" + images[index];
+      lightbox.style.display = "flex";
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+
+    document.addEventListener("keydown", function(event) {
+      const lightbox = document.getElementById("lightbox");
+      if (lightbox.style.display !== "flex") return;
+
+      if (event.key === "ArrowRight" && currentIndex < images.length - 1) {
+        openLightbox(currentIndex + 1);
+      } else if (event.key === "ArrowLeft" && currentIndex > 0) {
+        openLightbox(currentIndex - 1);
+      } else if (event.key === " " || event.key === "Escape") {
+        closeLightbox();
+      }
+    });
+  </script>
 </body>
 </html>
