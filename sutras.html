@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>佛经手书 - RedRocks</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", sans-serif;
+      background-color: #111;
+      color: #fff;
+    }
+    header {
+      background-color: #444;
+      padding: 0.5rem;
+      text-align: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    header a {
+      color: #fff;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    header a:hover {
+      text-decoration: underline;
+    }
+    .intro {
+      margin-top: 80px;
+      padding: 2rem;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #ddd;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .gallery img {
+      max-width: 200px;
+      margin: 0.5rem;
+      border: 2px solid #fff;
+      cursor: pointer;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+    .modal-content {
+      display: block;
+      margin: 5% auto;
+      max-width: 90%;
+      max-height: 80%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html">首页</a>
+    <a href="gallery.html">摄影作品</a>
+    <a href="sutras.html">佛经手书</a>
+    <a href="#">旅行随笔</a>
+    <a href="#">关于我</a>
+  </header>
+
+  <div class="intro">
+    居家的日子还是旅途中，每日黎明即起，沐手静书，在一笔一划间感受内心，忘却自我。
+  </div>
+
+  <div class="gallery">
+    <!-- 图片将通过脚本插入 -->
+    <script>
+      const images = [
+        "Diamond.jpg", "Diamond2.jpg", "Heart.jpg", "HUAYAN1.jpg",
+        "WechatIMG66.jpg", "WechatIMG67.jpg", "WechatIMG68.jpg", "WechatIMG69.jpg",
+        "WechatIMG70.jpg", "WechatIMG72.jpg", "WechatIMG73.jpg", "WechatIMG74.jpg",
+        "WechatIMG75.jpg", "WechatIMG76.jpg", "WechatIMG77.jpg", "WechatIMG78.jpg", "WechatIMG79.jpg"
+      ];
+      const gallery = document.querySelector(".gallery");
+      images.forEach(name => {
+        const img = document.createElement("img");
+        img.src = `sutra_images/${name}`;
+        img.alt = name;
+        img.onclick = () => openModal(img.src);
+        gallery.appendChild(img);
+      });
+    </script>
+  </div>
+
+  <div id="modal" class="modal" onclick="this.style.display='none'">
+    <img class="modal-content" id="modal-img">
+  </div>
+
+  <script>
+    function openModal(src) {
+      document.getElementById("modal").style.display = "block";
+      document.getElementById("modal-img").src = src;
+    }
+  </script>
+</body>
+</html>
