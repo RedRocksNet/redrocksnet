@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh">
 <head>
@@ -5,107 +6,85 @@
     <title>佛经手书</title>
     <style>
         body {
-            font-family: "Noto Serif SC", serif;
-            background-color: #fdfcf5;
+            background-color: #121212;
+            color: #eee;
+            font-family: 'Helvetica Neue', sans-serif;
             margin: 0;
             padding: 0;
-            color: #333;
         }
         header {
-            background-color: #fff;
-            padding: 20px;
             text-align: center;
-            border-bottom: 1px solid #ccc;
+            padding: 40px 20px 10px;
         }
         h1 {
-            margin: 0;
+            font-size: 2.5em;
+            margin-bottom: 0.2em;
         }
-        p.description {
-            font-size: 1rem;
-            color: #666;
-            margin-top: 8px;
+        p {
+            font-size: 1.1em;
+            color: #ccc;
         }
         nav {
-            text-align: center;
-            background-color: #f8f8f8;
+            display: flex;
+            justify-content: center;
+            background-color: #1f1f1f;
             padding: 10px 0;
-            border-bottom: 1px solid #ccc;
         }
         nav a {
+            color: #eee;
             margin: 0 15px;
             text-decoration: none;
-            color: #333;
             font-weight: bold;
         }
         .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            padding: 20px;
             max-width: 1200px;
+            margin: auto;
         }
-        .thumbnail {
-            margin: 8px;
-            max-width: 200px;
-            max-height: 200px;
-            overflow: hidden;
-        }
-        .thumbnail img {
+        .gallery img {
             width: 100%;
             height: auto;
-            object-fit: contain;
+            border-radius: 8px;
             cursor: pointer;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            transition: transform 0.3s;
         }
-        .modal {
-            display: none;
+        .gallery img:hover {
+            transform: scale(1.03);
+        }
+        .lightbox {
             position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             z-index: 1000;
-            padding-top: 60px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.9);
         }
-        .modal-content {
-            margin: auto;
-            display: block;
+        .lightbox img {
             max-width: 90%;
-            max-height: 80vh;
-        }
-        .close {
-            position: absolute;
-            top: 20px;
-            right: 35px;
-            color: #fff;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
+            max-height: 90%;
         }
         .arrow {
             position: fixed;
             top: 50%;
-            transform: translateY(-50%);
-            font-size: 3rem;
+            font-size: 3em;
             color: white;
             cursor: pointer;
+            z-index: 1001;
             user-select: none;
         }
-        .arrow-left {
-            left: 20px;
-        }
-        .arrow-right {
-            right: 20px;
-        }
+        .arrow.left { left: 20px; }
+        .arrow.right { right: 20px; }
     </style>
 </head>
 <body>
     <header>
         <h1>佛经手书</h1>
-        <p class="description">居家的日子还是旅途中，每日黎明即起，沐手静书，在一笔一划间感受内心，忘却自我</p>
+        <p>居家的日子还是旅途中，每日黎明即起，沐手书佛，在一笔一划间感受内心，忘却自我</p>
     </header>
     <nav>
         <a href="index.html">首页</a>
@@ -115,55 +94,46 @@
         <a href="#">关于我</a>
     </nav>
     <div class="gallery">
-        <div class="thumbnail"><img src="sutra_images/Diamond.jpg" alt="Diamond.jpg" onclick="openModal(0)"></div>
-        <div class="thumbnail"><img src="sutra_images/Diamond2.jpg" alt="Diamond2.jpg" onclick="openModal(1)"></div>
-        <div class="thumbnail"><img src="sutra_images/Heart.jpg" alt="Heart.jpg" onclick="openModal(2)"></div>
-        <div class="thumbnail"><img src="sutra_images/WechatIMG66.jpg" alt="WechatIMG66.jpg" onclick="openModal(3)"></div>
-        <div class="thumbnail"><img src="sutra_images/WechatIMG67.jpg" alt="WechatIMG67.jpg" onclick="openModal(4)"></div>
-        <div class="thumbnail"><img src="sutra_images/WechatIMG68.jpg" alt="WechatIMG68.jpg" onclick="openModal(5)"></div>
-        <div class="thumbnail"><img src="sutra_images/WechatIMG69.jpg" alt="WechatIMG69.jpg" onclick="openModal(6)"></div>
-        <div class="thumbnail"><img src="sutra_images/WechatIMG70.jpg" alt="WechatIMG70.jpg" onclick="openModal(7)"></div>
-        <div class="thumbnail"><img src="sutra_images/WechatIMG72.jpg" alt="WechatIMG72.jpg" onclick="openModal(8)"></div>
-        <div class="thumbnail"><img src="sutra_images/WechatIMG74.jpg" alt="WechatIMG74.jpg" onclick="openModal(9)"></div>
-        <div class="thumbnail"><img src="sutra_images/WechatIMG75.jpg" alt="WechatIMG75.jpg" onclick="openModal(10)"></div>
-        <div class="thumbnail"><img src="sutra_images/WechatIMG76.jpg" alt="WechatIMG76.jpg" onclick="openModal(11)"></div>
-        <div class="thumbnail"><img src="sutra_images/WechatIMG78.jpg" alt="WechatIMG78.jpg" onclick="openModal(12)"></div>
-        <div class="thumbnail"><img src="sutra_images/WechatIMG79.jpg" alt="WechatIMG79.jpg" onclick="openModal(13)"></div>
-
+        <img src="sutra_images/Diamond.jpg" onclick="openLightbox(0)"><img src="sutra_images/Diamond2.jpg" onclick="openLightbox(1)"><img src="sutra_images/Heart.jpg" onclick="openLightbox(2)"><img src="sutra_images/WechatIMG66.jpg" onclick="openLightbox(3)"><img src="sutra_images/WechatIMG67.jpg" onclick="openLightbox(4)"><img src="sutra_images/WechatIMG68.jpg" onclick="openLightbox(5)"><img src="sutra_images/WechatIMG69.jpg" onclick="openLightbox(6)"><img src="sutra_images/WechatIMG70.jpg" onclick="openLightbox(7)"><img src="sutra_images/WechatIMG72.jpg" onclick="openLightbox(8)"><img src="sutra_images/WechatIMG74.jpg" onclick="openLightbox(9)"><img src="sutra_images/WechatIMG75.jpg" onclick="openLightbox(10)"><img src="sutra_images/WechatIMG76.jpg" onclick="openLightbox(11)"><img src="sutra_images/WechatIMG78.jpg" onclick="openLightbox(12)"><img src="sutra_images/WechatIMG79.jpg" onclick="openLightbox(13)">
     </div>
-    <div id="myModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImage">
-        <span class="arrow arrow-left" onclick="prevImage()">&#10094;</span>
-        <span class="arrow arrow-right" onclick="nextImage()">&#10095;</span>
+    <div id="lightbox" class="lightbox" style="display:none" onclick="closeLightbox(event)">
+        <span class="arrow left" onclick="prevImage(event)">&#8592;</span>
+        <img id="lightbox-img">
+        <span class="arrow right" onclick="nextImage(event)">&#8594;</span>
     </div>
     <script>
-        let modal = document.getElementById("myModal");
-        let modalImg = document.getElementById("modalImage");
+        const images = ["sutra_images/Diamond.jpg", "sutra_images/Diamond2.jpg", "sutra_images/Heart.jpg", "sutra_images/WechatIMG66.jpg", "sutra_images/WechatIMG67.jpg", "sutra_images/WechatIMG68.jpg", "sutra_images/WechatIMG69.jpg", "sutra_images/WechatIMG70.jpg", "sutra_images/WechatIMG72.jpg", "sutra_images/WechatIMG74.jpg", "sutra_images/WechatIMG75.jpg", "sutra_images/WechatIMG76.jpg", "sutra_images/WechatIMG78.jpg", "sutra_images/WechatIMG79.jpg"];
         let currentIndex = 0;
-        const images = ["sutra_images/Diamond.jpg","sutra_images/Diamond2.jpg","sutra_images/Heart.jpg","sutra_images/WechatIMG66.jpg","sutra_images/WechatIMG67.jpg","sutra_images/WechatIMG68.jpg","sutra_images/WechatIMG69.jpg","sutra_images/WechatIMG70.jpg","sutra_images/WechatIMG72.jpg","sutra_images/WechatIMG74.jpg","sutra_images/WechatIMG75.jpg","sutra_images/WechatIMG76.jpg","sutra_images/WechatIMG78.jpg","sutra_images/WechatIMG79.jpg"];
-        function openModal(index) {
-            modal.style.display = "block";
-            modalImg.src = images[index];
+
+        function openLightbox(index) {
+            event.stopPropagation();
             currentIndex = index;
+            document.getElementById('lightbox-img').src = images[index];
+            document.getElementById('lightbox').style.display = 'flex';
         }
-        function closeModal() {
-            modal.style.display = "none";
-        }
-        function nextImage() {
-            currentIndex = (currentIndex + 1) % images.length;
-            modalImg.src = images[currentIndex];
-        }
-        function prevImage() {
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            modalImg.src = images[currentIndex];
-        }
-        document.addEventListener("keydown", function(event) {
-            if (modal.style.display === "block") {
-                if (event.key === "ArrowRight") nextImage();
-                else if (event.key === "ArrowLeft") prevImage();
-                else if (event.key === " ") closeModal();
+
+        function closeLightbox(event) {
+            if (event.target.id === 'lightbox' || event.code === 'Space') {
+                document.getElementById('lightbox').style.display = 'none';
             }
+        }
+
+        function nextImage(event) {
+            event.stopPropagation();
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById('lightbox-img').src = images[currentIndex];
+        }
+
+        function prevImage(event) {
+            event.stopPropagation();
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById('lightbox-img').src = images[currentIndex];
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'ArrowRight') nextImage(e);
+            else if (e.code === 'ArrowLeft') prevImage(e);
+            else if (e.code === 'Space') closeLightbox(e);
         });
     </script>
 </body>
