@@ -1,2 +1,65 @@
-<!-- Content of name.html -->
-<html><body><h1>name.html</h1></body></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>基本信息填写</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #2e2e2e;
+            padding: 40px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+        }
+        label {
+            display: block;
+            margin-top: 20px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>基本信息</h2>
+        <form action="qa1_values_beliefs.html" method="get">
+            <label for="name">您愿意使用的数字人名字：</label>
+            <input type="text" id="name" name="name">
+
+            <label for="intro">描述一下你自己（个人经历和你对自己的评价和理解等等，在您觉得自在的前提下，越详细越好）：</label>
+            <textarea id="intro" name="intro" rows="6"></textarea>
+
+            <button type="submit">提交及下一步</button>
+        </form>
+    </div>
+</body>
+</html>
