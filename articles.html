@@ -25,4 +25,94 @@
       background-color:var(--nav);
       padding:1rem;
       text-align:center;
-      position:fixe
+      position:fixed; top:0; width:100%;
+      z-index:1000;
+    }
+    nav a{
+      color:var(--fg);
+      margin:0 1rem;
+      text-decoration:none;
+      font-weight:bold;
+      opacity:.9;
+    }
+    nav a:hover{opacity:1}
+    nav a.active{
+      border-bottom:2px solid var(--fg);
+      padding-bottom:2px;
+      opacity:1;
+    }
+
+    /* 页面主体 */
+    .wrap{max-width:1000px; margin:0 auto; padding:6rem 1rem 3rem;}
+    header{ text-align:center; margin-bottom:1.2rem;}
+    h1{ margin:0 0 .4rem; font-size:2rem; color:var(--fg);}
+    .subtitle{ color:var(--muted); font-size:.95rem; margin:0;}
+    hr{ border:0; border-top:1px solid var(--line); margin:1.2rem 0 1.8rem; }
+
+    /* 列表样式：极简分隔线风格，契合你的禅意黑白调 */
+    .list{ display:flex; flex-direction:column; gap:0; }
+    .item{
+      display:block;
+      padding:18px 6px;
+      border-bottom:1px solid var(--line);
+      text-decoration:none; color:var(--fg);
+    }
+    .item:hover{ background:#191919; }
+    .title{ font-size:1.08rem; margin:0 0 .25rem; color:var(--accent); }
+    .meta{ font-size:.85rem; color:var(--muted); margin:0 0 .35rem; }
+    .desc{ font-size:.95rem; color:#e0e0e0; margin:0; }
+
+    footer{ color:var(--muted); text-align:center; margin-top:2rem; font-size:.9rem; }
+    @media (max-width:640px){
+      .wrap{ padding:6rem .9rem 2.6rem; }
+      .title{ font-size:1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 顶部导航：在原有四个入口基础上新增“随笔” -->
+  <nav>
+    <a href="index.html">首页</a>
+    <a href="gallery.html">摄影作品</a>
+    <a href="sutras.html">佛经手书</a>
+    <a href="articles.html" class="active">随笔</a>
+    <a href="about.html">关于我</a>
+  </nav>
+
+  <main class="wrap">
+    <header>
+      <h1>随笔</h1>
+      <p class="subtitle">文明的温度 · 内观的文字</p>
+    </header>
+    <hr />
+
+    <section class="list">
+      <!-- 示例条目 1 -->
+      <a class="item" href="articles/若无佛来_发布版.html">
+        <h2 class="title">若无佛来：中国文明的另一种命运</h2>
+        <p class="meta">2025-10 · 文明与觉知</p>
+        <p class="desc">如果佛教从未东传，中国会不会更强硬却更脆弱？在秩序与心性之间，寻找“放下”的力量。</p>
+      </a>
+
+      <!-- 示例条目 2（朋友那篇，等你放好文件后可直接启用） -->
+      <a class="item" href="article/若无轮回_发布版.html">
+        <h2 class="title">若无轮回：中国文明的另一种灵魂</h2>
+        <p class="meta">2025-10 · 哲思与回应</p>
+        <p class="desc">把“轮回”视作文明的时间引擎：它延长了责任，也可能拖慢了勇气。如何在长线与当下之间取平衡？</p>
+      </a>
+
+      <!-- 按需继续添加条目 ……
+      <a class="item" href="article/你的第三篇.html">
+        <h2 class="title">文章标题</h2>
+        <p class="meta">YYYY-MM · 标签</p>
+        <p class="desc">一句话简介。</p>
+      </a>
+      -->
+    </section>
+
+    <footer>© 2025 RedRocks</footer>
+  </main>
+
+</body>
+</html>
