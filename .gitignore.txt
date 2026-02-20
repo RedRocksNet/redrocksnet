@@ -1,5 +1,0 @@
-.DS_Store
-*.on1
-*.onphoto
-INBOX_ARTICLES/
-INBOX_IMAGES/
