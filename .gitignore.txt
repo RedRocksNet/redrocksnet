@@ -1,0 +1,3 @@
+.DS_Store
+*.on1
+*.onphoto
