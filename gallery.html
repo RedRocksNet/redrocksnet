@@ -1,176 +1,54 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>摄影作品集</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery</title>
   <style>
-    body {
-      background-color: #111;
-      color: white;
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    nav {
-      background-color: #222;
-      padding: 1rem;
-      text-align: center;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-    }
-    nav a {
-      color: white;
-      margin: 0 1rem;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 6rem 1rem 2rem;
-    }
-    .gallery img {
-      max-width: 200px;
-      margin: 10px;
-      cursor: pointer;
-      border: 2px solid #444;
-      transition: transform 0.3s;
-    }
-    .gallery img:hover {
-      transform: scale(1.05);
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.9);
-    }
-    .modal img {
-      display: block;
-      max-width: 90%;
-      max-height: 90%;
-      margin: auto;
-      position: absolute;
-      top: 0; left: 0; bottom: 0; right: 0;
-    }
-    .close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 30px;
-      color: white;
-      cursor: pointer;
-    }
-    .nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 40px;
-      color: white;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-    .prev { left: 20px; }
-    .next { right: 20px; }
-  </style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; text-align: center; background: #f5f5f5; }
+    header { background: #222; color: #fff; padding: 15px; }
+    h1 { margin: 0; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+    .card { width: 280px; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,.08); text-align: left; }
+    .card a { color: inherit; text-decoration: none; display: block; }
+    .thumb { width: 100%; height: 190px; background: #ddd; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; display:block; }
+    .meta { padding: 12px 14px; }
+    .title { font-weight: 700; font-size: 16px; margin: 0 0 6px 0; }
+    .count { font-size: 13px; opacity: .7; margin: 0; }
+    footer { margin: 40px 0; font-size: 14px; color: #555; }
+    .back { display:inline-block; margin: 12px 0 0 0; color: #fff; text-decoration: none; opacity: .85; }
+    .back:hover { opacity: 1; }
+    .photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; padding: 20px; }
+    .photos img { width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .crumb { text-align:left; max-width:1200px; margin:0 auto; padding: 14px 20px 0 20px; }
+    .crumb a { color:#0b62d6; text-decoration:none; }
+    .crumb a:hover { text-decoration:underline; }
+</style>
 </head>
 <body>
+<header>
+  <h1>Gallery</h1>
+  <a class="back" href="index.html">← Back to Home</a>
+</header>
 
-<nav>
-    <a href="index.html">首页</a>
-    <a href="gallery.html">摄影作品</a>
-    <a href="sutras.html">佛经手书</a>
-    <a href="about.html">关于我</a> <!-- 添加这一行 -->
-  </nav>
-
-<div class="gallery">
-  <img src="images/DSCF2589.jpg" alt="DSCF2589.jpg" onclick="openModal(0)">
-  <img src="images/DSCF2610.jpg" alt="DSCF2610.jpg" onclick="openModal(1)">
-  <img src="images/DSCF2694.jpg" alt="DSCF2694.jpg" onclick="openModal(2)">
-  <img src="images/DSCF2764.jpg" alt="DSCF2764.jpg" onclick="openModal(3)">
-  <img src="images/DSCF2820.jpg" alt="DSCF2820.jpg" onclick="openModal(4)">
-  <img src="images/DSCF2838.jpg" alt="DSCF2838.jpg" onclick="openModal(5)">
-  <img src="images/DSCF2840.jpg" alt="DSCF2840.jpg" onclick="openModal(6)">
-  <img src="images/DSCF2847.jpg" alt="DSCF2847.jpg" onclick="openModal(7)">
-  <img src="images/DSCF2850.jpg" alt="DSCF2850.jpg" onclick="openModal(8)">
-  <img src="images/DSCF2894.jpg" alt="DSCF2894.jpg" onclick="openModal(9)">
-  <img src="images/DSCF2976.jpg" alt="DSCF2976.jpg" onclick="openModal(10)">
-  <img src="images/DSCF3066 1.jpg" alt="DSCF3066 1.jpg" onclick="openModal(11)">
-  <img src="images/DSCF3066.jpg" alt="DSCF3066.jpg" onclick="openModal(12)">
-  <img src="images/DSCF3088.jpg" alt="DSCF3088.jpg" onclick="openModal(13)">
-  <img src="images/DSCF3091.jpg" alt="DSCF3091.jpg" onclick="openModal(14)">
-  <img src="images/DSCF3092.jpg" alt="DSCF3092.jpg" onclick="openModal(15)">
-  <img src="images/DSCF3110.jpg" alt="DSCF3110.jpg" onclick="openModal(16)">
-  <img src="images/DSCF9049.jpg" alt="DSCF9049.jpg" onclick="openModal(17)">
-  <img src="images/DSCF9143 Pano 1.jpg" alt="DSCF9143 Pano 1.jpg" onclick="openModal(18)">
-  <img src="images/DSCF9207.jpg" alt="DSCF9207.jpg" onclick="openModal(19)">
-  <img src="images/DSCF9411.jpg" alt="DSCF9411.jpg" onclick="openModal(20)">
-  <img src="images/DSCF9572.jpg" alt="DSCF9572.jpg" onclick="openModal(21)">
-  <img src="images/DSCF9612.jpg" alt="DSCF9612.jpg" onclick="openModal(22)">
-  <img src="images/DSCF9699.jpg" alt="DSCF9699.jpg" onclick="openModal(23)">
-  <img src="images/DSCF9750.jpg" alt="DSCF9750.jpg" onclick="openModal(24)">
-  <img src="images/DSCF9755.jpg" alt="DSCF9755.jpg" onclick="openModal(25)">
-  <img src="images/DSC_0363.jpg" alt="DSC_0363.jpg" onclick="openModal(26)">
-  <img src="images/DSC_5021.jpg" alt="DSC_5021.jpg" onclick="openModal(27)">
-  <img src="images/DSC_6025.jpg" alt="DSC_6025.jpg" onclick="openModal(28)">
-  <img src="images/DSC_7344.jpg" alt="DSC_7344.jpg" onclick="openModal(29)">
-  <img src="images/DSC_7347.jpg" alt="DSC_7347.jpg" onclick="openModal(30)">
-  <img src="images/DSC_7354.jpg" alt="DSC_7354.jpg" onclick="openModal(31)">
-  <img src="images/DSC_7370.jpg" alt="DSC_7370.jpg" onclick="openModal(32)">
-  <img src="images/DSC_7374.jpg" alt="DSC_7374.jpg" onclick="openModal(33)">
-  <img src="images/DSC_7382.jpg" alt="DSC_7382.jpg" onclick="openModal(34)">
-  <img src="images/DSC_7384.jpg" alt="DSC_7384.jpg" onclick="openModal(35)">
-  <img src="images/DSC_7398.jpg" alt="DSC_7398.jpg" onclick="openModal(36)">
+<div class="wrap">
+  <div class="grid">
+    
+        <div class="card">
+          <a href="gallery/_unsorted.html">
+            <div class="thumb"><img src="images/DSCF2589.jpg" alt="Unsorted"></div>
+            <div class="meta">
+              <p class="title">Unsorted</p>
+              <p class="count">37 photos</p>
+            </div>
+          </a>
+        </div>
+        
+  </div>
 </div>
 
-<div class="modal" id="modal">
-  <span class="close" onclick="closeModal()">&times;</span>
-  <button class="nav-btn prev" onclick="prevImage()">&#10094;</button>
-  <img id="modalImage" src="">
-  <button class="nav-btn next" onclick="nextImage()">&#10095;</button>
-</div>
-
-<script>
-  const images = ["images/DSCF2589.jpg", "images/DSCF2610.jpg", "images/DSCF2694.jpg", "images/DSCF2764.jpg", "images/DSCF2820.jpg", "images/DSCF2838.jpg", "images/DSCF2840.jpg", "images/DSCF2847.jpg", "images/DSCF2850.jpg", "images/DSCF2894.jpg", "images/DSCF2976.jpg", "images/DSCF3066 1.jpg", "images/DSCF3066.jpg", "images/DSCF3088.jpg", "images/DSCF3091.jpg", "images/DSCF3092.jpg", "images/DSCF3110.jpg", "images/DSCF9049.jpg", "images/DSCF9143 Pano 1.jpg", "images/DSCF9207.jpg", "images/DSCF9411.jpg", "images/DSCF9572.jpg", "images/DSCF9612.jpg", "images/DSCF9699.jpg", "images/DSCF9750.jpg", "images/DSCF9755.jpg", "images/DSC_0363.jpg", "images/DSC_5021.jpg", "images/DSC_6025.jpg", "images/DSC_7344.jpg", "images/DSC_7347.jpg", "images/DSC_7354.jpg", "images/DSC_7370.jpg", "images/DSC_7374.jpg", "images/DSC_7382.jpg", "images/DSC_7384.jpg", "images/DSC_7398.jpg"];
-  let currentIndex = 0;
-  const modal = document.getElementById('modal');
-  const modalImage = document.getElementById('modalImage');
-
-  function openModal(index) {
-    currentIndex = index;
-    modalImage.src = images[currentIndex];
-    modal.style.display = 'block';
-  }
-
-  function closeModal() {
-    modal.style.display = 'none';
-  }
-
-  function prevImage() {
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    modalImage.src = images[currentIndex];
-  }
-
-  function nextImage() {
-    currentIndex = (currentIndex + 1) % images.length;
-    modalImage.src = images[currentIndex];
-  }
-
-  document.body.addEventListener("keydown", function(e) {
-    if (modal.style.display !== 'block') return;
-    if (e.key === 'ArrowRight') nextImage();
-    if (e.key === 'ArrowLeft') prevImage();
-    if (e.key === ' ') closeModal();
-  });
-</script>
-
+<footer>Last updated: 2026-02-20 19:17</footer>
 </body>
 </html>
