@@ -11,7 +11,6 @@ OUTPUT_INDEX = ROOT / "gallery.html"
 
 SITE_TITLE = "RedRocks"
 
-# Series definition (folder -> display name + motto)
 SERIES = [
     ("stillness", "静观", "世界不要求回应，只要求被看见。"),
     ("walking",   "行走", "身体在路上，心在当下。"),
@@ -21,14 +20,30 @@ SERIES = [
 ]
 
 IMG_EXTS = (".jpg", ".jpeg", ".png", ".gif", ".webp")
+COVER_CANDIDATES = ("cover.jpg", "cover.jpeg", "cover.png", "cover.webp", "cover.gif")
 
 
 def list_images(folder: Path):
     if not folder.exists() or not folder.is_dir():
         return []
     imgs = [p for p in folder.iterdir() if p.is_file() and p.suffix.lower() in IMG_EXTS]
-    imgs.sort(key=lambda p: p.name.lower())  # keep stable ordering
+    imgs.sort(key=lambda p: p.name.lower())
     return imgs
+
+
+def pick_cover(folder: str):
+    series_dir = IMAGES_ROOT / folder
+    # 1) prefer cover.*
+    for name in COVER_CANDIDATES:
+        p = series_dir / name
+        if p.exists() and p.is_file():
+            return f"images/{folder}/{p.name}"
+
+    # 2) fallback to first image
+    imgs = list_images(series_dir)
+    if imgs:
+        return f"images/{folder}/{imgs[0].name}"
+    return ""
 
 
 def base_head(title: str) -> str:
@@ -87,12 +102,22 @@ def base_head(title: str) -> str:
       border-color: rgba(255,255,255,0.18);
     }}
 
+    /* Cover frame keeps a consistent grid height,
+       but image keeps original aspect ratio (no cropping). */
     .series-cover {{
       width: 100%;
       height: 180px;
-      object-fit: cover;
-      display: block;
       background: #0b0b0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }}
+
+    .series-cover img {{
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* key: keep aspect ratio, no crop */
+      display: block;
     }}
 
     .series-meta {{
@@ -209,9 +234,9 @@ def build_index() -> str:
         imgs = list_images(IMAGES_ROOT / folder)
         href = f"gallery-{folder}.html"
 
-        if imgs:
-            cover_src = f"images/{folder}/{imgs[0].name}"
-            cover_html = f'<img class="series-cover" src="{html.escape(cover_src)}" alt="cover">'
+        cover_src = pick_cover(folder)
+        if cover_src:
+            cover_html = f'<div class="series-cover"><img src="{html.escape(cover_src)}" alt="cover"></div>'
         else:
             cover_html = '<div class="series-cover"></div>'
 
@@ -246,7 +271,6 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
         src = f"images/{folder}/{p.name}"
         grid_imgs.append(f'<img src="{html.escape(src)}" onclick="openLightbox(\'{html.escape(src)}\')">')
 
-    # Use JSON to generate a safe JS array
     image_paths = [f"images/{folder}/{p.name}" for p in imgs]
     js_array = json.dumps(image_paths, ensure_ascii=False)
 
@@ -306,10 +330,8 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
 
 
 def main():
-    # Build index
     OUTPUT_INDEX.write_text(build_index(), encoding="utf-8")
 
-    # Build series pages
     for folder, name, motto in SERIES:
         out = ROOT / f"gallery-{folder}.html"
         out.write_text(build_series_page(folder, name, motto), encoding="utf-8")
