@@ -55,12 +55,22 @@
       border-color: rgba(255,255,255,0.18);
     }
 
+    /* Cover frame keeps a consistent grid height,
+       but image keeps original aspect ratio (no cropping). */
     .series-cover {
       width: 100%;
       height: 180px;
-      object-fit: cover;
-      display: block;
       background: #0b0b0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .series-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* key: keep aspect ratio, no crop */
+      display: block;
     }
 
     .series-meta {
@@ -162,35 +172,35 @@
 
 <div class="series-grid">
   <a class="series-card" href="gallery-stillness.html">
-  <img class="series-cover" src="images/stillness/DSCF2694.jpg" alt="cover">
+  <div class="series-cover"><img src="images/stillness/cover.jpg" alt="cover"></div>
   <div class="series-meta">
     <div class="series-title">静观</div>
     <div class="subtle">世界不要求回应，只要求被看见。</div>
     <div class="subtle" style="margin-top:8px;">6 张</div>
   </div>
 </a><a class="series-card" href="gallery-walking.html">
-  <img class="series-cover" src="images/walking/DSC_0363.jpg" alt="cover">
+  <div class="series-cover"><img src="images/walking/cover.jpg" alt="cover"></div>
   <div class="series-meta">
     <div class="series-title">行走</div>
     <div class="subtle">身体在路上，心在当下。</div>
     <div class="subtle" style="margin-top:8px;">12 张</div>
   </div>
 </a><a class="series-card" href="gallery-human.html">
-  <img class="series-cover" src="images/human/DSCF2610.jpg" alt="cover">
+  <div class="series-cover"><img src="images/human/cover.jpg" alt="cover"></div>
   <div class="series-meta">
     <div class="series-title">人间</div>
     <div class="subtle">世界不是风景，是众生。</div>
     <div class="subtle" style="margin-top:8px;">7 张</div>
   </div>
 </a><a class="series-card" href="gallery-light.html">
-  <img class="series-cover" src="images/light/DSCF2589.jpg" alt="cover">
+  <div class="series-cover"><img src="images/light/cover.jpg" alt="cover"></div>
   <div class="series-meta">
     <div class="series-title">微光</div>
     <div class="subtle">光不是照亮世界，而是照见自己。</div>
     <div class="subtle" style="margin-top:8px;">4 张</div>
   </div>
 </a><a class="series-card" href="gallery-bw.html">
-  <img class="series-cover" src="images/bw/DSCF2840.jpg" alt="cover">
+  <div class="series-cover"><img src="images/bw/cover.jpg" alt="cover"></div>
   <div class="series-meta">
     <div class="series-title">黑白</div>
     <div class="subtle">从三维世界到二维画面，从色彩缤纷到黑白灰，观察即抽象。</div>
