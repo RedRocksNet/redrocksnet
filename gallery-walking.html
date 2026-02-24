@@ -55,12 +55,22 @@
       border-color: rgba(255,255,255,0.18);
     }
 
+    /* Cover frame keeps a consistent grid height,
+       but image keeps original aspect ratio (no cropping). */
     .series-cover {
       width: 100%;
       height: 180px;
-      object-fit: cover;
-      display: block;
       background: #0b0b0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .series-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* key: keep aspect ratio, no crop */
+      display: block;
     }
 
     .series-meta {
@@ -163,7 +173,7 @@
 <div class="backlink"><a href="gallery.html">← 返回系列目录</a></div>
 
 <div class="gallery">
-  <img src="images/walking/DSC_0363.jpg" onclick="openLightbox('images/walking/DSC_0363.jpg')"><img src="images/walking/DSC_5021.jpg" onclick="openLightbox('images/walking/DSC_5021.jpg')"><img src="images/walking/DSC_6025.jpg" onclick="openLightbox('images/walking/DSC_6025.jpg')"><img src="images/walking/DSC_7344.jpg" onclick="openLightbox('images/walking/DSC_7344.jpg')"><img src="images/walking/DSC_7347.jpg" onclick="openLightbox('images/walking/DSC_7347.jpg')"><img src="images/walking/DSC_7354.jpg" onclick="openLightbox('images/walking/DSC_7354.jpg')"><img src="images/walking/DSC_7370.jpg" onclick="openLightbox('images/walking/DSC_7370.jpg')"><img src="images/walking/DSC_7374.jpg" onclick="openLightbox('images/walking/DSC_7374.jpg')"><img src="images/walking/DSC_7382.jpg" onclick="openLightbox('images/walking/DSC_7382.jpg')"><img src="images/walking/DSC_7384.jpg" onclick="openLightbox('images/walking/DSC_7384.jpg')"><img src="images/walking/DSC_7398.jpg" onclick="openLightbox('images/walking/DSC_7398.jpg')"><img src="images/walking/DSCF9612.jpg" onclick="openLightbox('images/walking/DSCF9612.jpg')">
+  <img src="images/walking/cover.jpg" onclick="openLightbox('images/walking/cover.jpg')"><img src="images/walking/DSC_5021.jpg" onclick="openLightbox('images/walking/DSC_5021.jpg')"><img src="images/walking/DSC_6025.jpg" onclick="openLightbox('images/walking/DSC_6025.jpg')"><img src="images/walking/DSC_7344.jpg" onclick="openLightbox('images/walking/DSC_7344.jpg')"><img src="images/walking/DSC_7347.jpg" onclick="openLightbox('images/walking/DSC_7347.jpg')"><img src="images/walking/DSC_7354.jpg" onclick="openLightbox('images/walking/DSC_7354.jpg')"><img src="images/walking/DSC_7370.jpg" onclick="openLightbox('images/walking/DSC_7370.jpg')"><img src="images/walking/DSC_7374.jpg" onclick="openLightbox('images/walking/DSC_7374.jpg')"><img src="images/walking/DSC_7382.jpg" onclick="openLightbox('images/walking/DSC_7382.jpg')"><img src="images/walking/DSC_7384.jpg" onclick="openLightbox('images/walking/DSC_7384.jpg')"><img src="images/walking/DSC_7398.jpg" onclick="openLightbox('images/walking/DSC_7398.jpg')"><img src="images/walking/DSCF9612.jpg" onclick="openLightbox('images/walking/DSCF9612.jpg')">
 </div>
 
 <div id="lightbox">
@@ -174,7 +184,7 @@
 </div>
 
 <script>
-  let images = ["images/walking/DSC_0363.jpg", "images/walking/DSC_5021.jpg", "images/walking/DSC_6025.jpg", "images/walking/DSC_7344.jpg", "images/walking/DSC_7347.jpg", "images/walking/DSC_7354.jpg", "images/walking/DSC_7370.jpg", "images/walking/DSC_7374.jpg", "images/walking/DSC_7382.jpg", "images/walking/DSC_7384.jpg", "images/walking/DSC_7398.jpg", "images/walking/DSCF9612.jpg"];
+  let images = ["images/walking/cover.jpg", "images/walking/DSC_5021.jpg", "images/walking/DSC_6025.jpg", "images/walking/DSC_7344.jpg", "images/walking/DSC_7347.jpg", "images/walking/DSC_7354.jpg", "images/walking/DSC_7370.jpg", "images/walking/DSC_7374.jpg", "images/walking/DSC_7382.jpg", "images/walking/DSC_7384.jpg", "images/walking/DSC_7398.jpg", "images/walking/DSCF9612.jpg"];
   let currentIndex = 0;
 
   function openLightbox(src) {

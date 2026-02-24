@@ -55,12 +55,22 @@
       border-color: rgba(255,255,255,0.18);
     }
 
+    /* Cover frame keeps a consistent grid height,
+       but image keeps original aspect ratio (no cropping). */
     .series-cover {
       width: 100%;
       height: 180px;
-      object-fit: cover;
-      display: block;
       background: #0b0b0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .series-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* key: keep aspect ratio, no crop */
+      display: block;
     }
 
     .series-meta {
@@ -163,7 +173,7 @@
 <div class="backlink"><a href="gallery.html">← 返回系列目录</a></div>
 
 <div class="gallery">
-  <img src="images/light/DSCF2589.jpg" onclick="openLightbox('images/light/DSCF2589.jpg')"><img src="images/light/DSCF2764.jpg" onclick="openLightbox('images/light/DSCF2764.jpg')"><img src="images/light/DSCF9207.jpg" onclick="openLightbox('images/light/DSCF9207.jpg')"><img src="images/light/DSCF9699.jpg" onclick="openLightbox('images/light/DSCF9699.jpg')">
+  <img src="images/light/cover.jpg" onclick="openLightbox('images/light/cover.jpg')"><img src="images/light/DSCF2589.jpg" onclick="openLightbox('images/light/DSCF2589.jpg')"><img src="images/light/DSCF2764.jpg" onclick="openLightbox('images/light/DSCF2764.jpg')"><img src="images/light/DSCF9207.jpg" onclick="openLightbox('images/light/DSCF9207.jpg')">
 </div>
 
 <div id="lightbox">
@@ -174,7 +184,7 @@
 </div>
 
 <script>
-  let images = ["images/light/DSCF2589.jpg", "images/light/DSCF2764.jpg", "images/light/DSCF9207.jpg", "images/light/DSCF9699.jpg"];
+  let images = ["images/light/cover.jpg", "images/light/DSCF2589.jpg", "images/light/DSCF2764.jpg", "images/light/DSCF9207.jpg"];
   let currentIndex = 0;
 
   function openLightbox(src) {
