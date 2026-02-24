@@ -13,6 +13,7 @@ html = '''<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <title>摄影作品集</title>
+  <link rel="stylesheet" href="/nav.css">
   <style>
     body {
       background-color: #111;
@@ -21,141 +22,118 @@ html = '''<!DOCTYPE html>
       margin: 0;
       padding: 0;
     }
-    nav {
-      background-color: #222;
-      padding: 1rem;
-      text-align: center;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-    }
-    nav a {
-      color: white;
-      margin: 0 1rem;
-      text-decoration: none;
-      font-weight: bold;
-    }
     .gallery {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       padding: 6rem 1rem 2rem;
+      gap: 1rem;
     }
     .gallery img {
-      max-width: 200px;
-      margin: 10px;
+      width: 300px;
+      height: auto;
+      border-radius: 8px;
       cursor: pointer;
-      border: 2px solid #444;
       transition: transform 0.3s;
     }
     .gallery img:hover {
       transform: scale(1.05);
     }
-    .modal {
+    #lightbox {
       display: none;
       position: fixed;
-      z-index: 2000;
+      z-index: 9999;
+      padding-top: 60px;
       left: 0;
       top: 0;
-      width: 100%;
-      height: 100%;
+      width: 100%%;
+      height: 100%%;
+      overflow: auto;
       background-color: rgba(0,0,0,0.9);
     }
-    .modal img {
-      display: block;
-      max-width: 90%;
-      max-height: 90%;
+    #lightbox img {
       margin: auto;
-      position: absolute;
-      top: 0; left: 0; bottom: 0; right: 0;
+      display: block;
+      width: 80%%;
+      max-width: 900px;
     }
-    .close {
+    #lightbox .close {
       position: absolute;
       top: 20px;
-      right: 30px;
-      font-size: 30px;
+      right: 35px;
       color: white;
-      cursor: pointer;
-    }
-    .nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
       font-size: 40px;
-      color: white;
-      background: none;
-      border: none;
+      font-weight: bold;
       cursor: pointer;
     }
-    .prev { left: 20px; }
-    .next { right: 20px; }
+    #lightbox .nav-btn {
+      position: absolute;
+      top: 50%%;
+      font-size: 60px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      padding: 10px;
+    }
+    #lightbox .prev {
+      left: 20px;
+    }
+    #lightbox .next {
+      right: 20px;
+    }
   </style>
 </head>
 <body>
 
-<nav>
-    <a href="index.html">首页</a>
-    <a href="gallery.html">摄影作品</a>
-    <a href="sutras.html">佛经手书</a>
-    <a href="about.html">关于我</a> <!-- 添加这一行 -->
-  </nav>
+  <div id="rr-nav-mount" data-current="gallery"></div>
 
-<div class="gallery">
+  <div class="gallery">
 '''
 
 for img in images:
-    html += f'  <img src="{IMAGE_FOLDER}/{img}" alt="{img}" onclick="openModal({images.index(img)})">\n'
+    html += f'<img src="{IMAGE_FOLDER}/{img}" onclick="openLightbox(\'{IMAGE_FOLDER}/{img}\')" />\n'
 
-html += '''</div>
+html += '''
+  </div>
 
-<div class="modal" id="modal">
-  <span class="close" onclick="closeModal()">&times;</span>
-  <button class="nav-btn prev" onclick="prevImage()">&#10094;</button>
-  <img id="modalImage" src="">
-  <button class="nav-btn next" onclick="nextImage()">&#10095;</button>
-</div>
+  <div id="lightbox">
+    <span class="close" onclick="closeLightbox()">&times;</span>
+    <span class="nav-btn prev" onclick="changeImage(-1)">&#10094;</span>
+    <img id="lightbox-img" src="">
+    <span class="nav-btn next" onclick="changeImage(1)">&#10095;</span>
+  </div>
 
-<script>
-  const images = [''' + ', '.join([f'"{IMAGE_FOLDER}/{img}"' for img in images]) + '''];
-  let currentIndex = 0;
-  const modal = document.getElementById('modal');
-  const modalImage = document.getElementById('modalImage');
+  <script>
+    let images = [];
+    let currentIndex = 0;
 
-  function openModal(index) {
-    currentIndex = index;
-    modalImage.src = images[currentIndex];
-    modal.style.display = 'block';
-  }
+    window.onload = function() {
+      images = Array.from(document.querySelectorAll('.gallery img')).map(img => img.src);
+    };
 
-  function closeModal() {
-    modal.style.display = 'none';
-  }
+    function openLightbox(src) {
+      currentIndex = images.indexOf(window.location.origin + '/' + src);
+      document.getElementById('lightbox').style.display = "block";
+      document.getElementById('lightbox-img').src = src;
+    }
 
-  function prevImage() {
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    modalImage.src = images[currentIndex];
-  }
+    function closeLightbox() {
+      document.getElementById('lightbox').style.display = "none";
+    }
 
-  function nextImage() {
-    currentIndex = (currentIndex + 1) % images.length;
-    modalImage.src = images[currentIndex];
-  }
+    function changeImage(direction) {
+      currentIndex = (currentIndex + direction + images.length) %% images.length;
+      document.getElementById('lightbox-img').src = images[currentIndex];
+    }
+  </script>
 
-  document.body.addEventListener("keydown", function(e) {
-    if (modal.style.display !== 'block') return;
-    if (e.key === 'ArrowRight') nextImage();
-    if (e.key === 'ArrowLeft') prevImage();
-    if (e.key === ' ') closeModal();
-  });
-</script>
-
+  <script src="/nav.js" defer></script>
 </body>
 </html>
 '''
 
-# 写入 HTML 文件
-with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+# 写入文件
+with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
     f.write(html)
 
-print("✅ gallery.html 已更新！")
+print(f"✅ 已生成 {OUTPUT_FILE}，共 {len(images)} 张图片")
