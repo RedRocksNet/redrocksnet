@@ -1,135 +1,110 @@
-<!DOCTYPE html>
-<html lang="zh">
+<!doctype html>
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>随笔 · RedRocks</title>
-  <meta name="description" content="RedRocks 随笔清单" />
+  <link rel="stylesheet" href="/nav.css">
   <style>
-    :root{
-      --bg:#111;      /* 与 gallery 一致的深背景 */
-      --nav:#222;     /* 导航深灰条 */
-      --fg:#fff;      /* 主文字白色 */
-      --muted:#b5b5b5;
-      --line:#333;    /* 分隔线 */
-      --accent:#eaeaea;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; padding:0;
-      background:var(--bg); color:var(--fg);
-      font-family:sans-serif; line-height:1.8;
-    }
-    /* 顶部导航（沿用你的 gallery 样式） */
-    nav{
-      background-color:var(--nav);
-      padding:1rem;
-      text-align:center;
-      position:fixed; top:0; width:100%;
-      z-index:1000;
-    }
-    nav a{
-      color:var(--fg);
-      margin:0 1rem;
-      text-decoration:none;
-      font-weight:bold;
-      opacity:.9;
-    }
-    nav a:hover{opacity:1}
-    nav a.active{
-      border-bottom:2px solid var(--fg);
-      padding-bottom:2px;
-      opacity:1;
-    }
+:root{
+  --bg:#0b0b0b; --fg:#f2f2f2; --muted:#b8b8b8; --card:#121212; --line:#1f1f1f;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--fg); line-height:1.7;
+}
+a{color:var(--fg); text-decoration:none}
+a:hover{text-decoration:underline}
 
-    /* 页面主体 */
-    .wrap{max-width:1000px; margin:0 auto; padding:6rem 1rem 3rem;}
-    header{ text-align:center; margin-bottom:1.2rem;}
-    h1{ margin:0 0 .4rem; font-size:2rem; color:var(--fg);}
-    .subtitle{ color:var(--muted); font-size:.95rem; margin:0;}
-    hr{ border:0; border-top:1px solid var(--line); margin:1.2rem 0 1.8rem; }
+main{max-width:980px; margin:0 auto; padding:92px 18px 56px} /* leave space for fixed nav */
+h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
+.subtle{color:var(--muted); font-size:14px}
 
-    /* 列表样式：极简分隔线风格，契合你的禅意黑白调 */
-    .list{ display:flex; flex-direction:column; gap:0; }
-    .item{
-      display:block;
-      padding:18px 6px;
-      border-bottom:1px solid var(--line);
-      text-decoration:none; color:var(--fg);
-    }
-    .item:hover{ background:#191919; }
-    .title{ font-size:1.08rem; margin:0 0 .25rem; color:var(--accent); }
-    .meta{ font-size:.85rem; color:var(--muted); margin:0 0 .35rem; }
-    .desc{ font-size:.95rem; color:#e0e0e0; margin:0; }
+.footer{
+  margin-top:40px; padding-top:18px; border-top:1px solid rgba(255,255,255,.08);
+  color:var(--muted); font-size:13px;
+}
 
-    footer{ color:var(--muted); text-align:center; margin-top:2rem; font-size:.9rem; }
-    @media (max-width:640px){
-      .wrap{ padding:6rem .9rem 2.6rem; }
-      .title{ font-size:1rem; }
-    }
-  </style>
+/* index list */
+.list-wrap{
+  margin-top:18px;
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;
+  overflow:hidden;
+}
+.list-head{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.06);
+}
+.list{
+  max-height: 66vh;
+  overflow-y:auto;
+}
+.item{
+  display:flex; gap:12px; align-items:baseline; justify-content:space-between;
+  padding:14px 16px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.item:last-child{border-bottom:none}
+.item .title{font-size:16px}
+.item .date{color:var(--muted); font-size:13px; white-space:nowrap}
+
+/* article content */
+.article pre{
+  background:#111; border:1px solid rgba(255,255,255,.08);
+  padding:14px; border-radius:12px; overflow:auto;
+}
+.article code{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono","Segoe UI Mono",Consolas,monospace}
+.article blockquote{
+  margin:14px 0; padding:10px 14px; border-left:3px solid rgba(255,255,255,.18);
+  color:var(--muted); background:rgba(255,255,255,.03); border-radius:10px;
+}
+.article img{max-width:100%; height:auto; border-radius:12px; border:1px solid rgba(255,255,255,.06)}
+</style>
 </head>
 <body>
+  <div id="rr-nav-mount" data-current="articles"></div>
 
-  <!-- 顶部导航：在原有四个入口基础上新增“随笔” -->
-  <nav>
-    <a href="index.html">首页</a>
-    <a href="gallery.html">摄影作品</a>
-    <a href="sutras.html">佛经手书</a>
-    <a href="articles.html" class="active">随笔</a>
-    <a href="about.html">关于我</a>
-  </nav>
+  <main>
+    
+<h1>随笔</h1>
+<div class="subtle">按最近发布顺序排列</div>
 
-  <main class="wrap">
-    <header>
-      <h1>随笔</h1>
-      <p class="subtitle">文明的温度 · 内观的文字</p>
-    </header>
-    <hr />
+<div class="list-wrap">
+  <div class="list-head">
+    <div>文章目录</div>
+    <div class="subtle">5 篇</div>
+  </div>
+  <div class="list">
+    <div class="item">
+  <div class="title"><a href="/articles/若無輪迴：中國文明的另一種靈魂.html">若無輪迴：中國文明的另一種靈魂</a></div>
+  <div class="date">2026-02-24</div>
+</div>
+<div class="item">
+  <div class="title"><a href="/articles/若无佛来：中国文明的另一种命运.html">若无佛来：中国文明的另一种命运</a></div>
+  <div class="date">2026-02-24</div>
+</div>
+<div class="item">
+  <div class="title"><a href="/articles/金童玉女伴观音：善财与龙女的千年流转记.html">金童玉女伴观音：善财与龙女的千年流转记</a></div>
+  <div class="date">2026-02-24</div>
+</div>
+<div class="item">
+  <div class="title"><a href="/articles/贪婪：文明的暗影与火种.html">贪婪：文明的暗影与火种</a></div>
+  <div class="date">2026-02-24</div>
+</div>
+<div class="item">
+  <div class="title"><a href="/articles/三金缕曲：风雪之义、知己之契、生死之情.html">三金缕曲：风雪之义、知己之契、生死之情</a></div>
+  <div class="date">2026-02-24</div>
+</div>
+  </div>
+</div>
 
-    <section class="list">
-      <!-- 示例条目 1 -->
-     <a class="item" href="articles/顾贞观.html">
-        <h2 class="title">金缕曲</h2>
-        <p class="meta">2025-10 · 文明与觉知</p>
-        <p class="desc">回肠荡气的金缕曲， 顾梁汾和纳兰容若的友谊。</p>
-      </a>
-     <a class="item" href="articles/贪婪.html">
-        <h2 class="title">贪婪</h2>
-        <p class="meta">2025-10 · 文明与觉知</p>
-        <p class="desc">源于生存本能的自然选择，却在文明的进程中演化成最让人猝不及防的人性。</p>
-      </a>
-
-      <a class="item" href="articles/善财龙女.html">
-        <h2 class="title">善财龙女</h2>
-        <p class="meta">2025-10 · 文明与觉知</p>
-        <p class="desc">金童玉女伴观音：善财与龙女的千年流转记。</p>
-      </a>
-
-      <a class="item" href="articles/若无佛来.html">
-        <h2 class="title">若无佛来：中国文明的另一种命运</h2>
-        <p class="meta">2025-10 · 文明与觉知</p>
-        <p class="desc">如果佛教从未东传，中国会不会更强硬却更脆弱？在秩序与心性之间，寻找“放下”的力量。</p>
-      </a>
-
-      <!-- 示例条目 2（朋友那篇，等你放好文件后可直接启用） -->
-      <a class="item" href="articles/若无轮回_发布版.html">
-        <h2 class="title">若无轮回：中国文明的另一种灵魂</h2>
-        <p class="meta">2025-10 · 哲思与回应</p>
-        <p class="desc">把“轮回”视作文明的时间引擎：它延长了责任，也可能拖慢了勇气。如何在长线与当下之间取平衡？</p>
-      </a>
-
-      <!-- 按需继续添加条目 ……
-      <a class="item" href="article/你的第三篇.html">
-        <h2 class="title">文章标题</h2>
-        <p class="meta">YYYY-MM · 标签</p>
-        <p class="desc">一句话简介。</p>
-      </a>
-      -->
-    </section>
-
-    <footer>© 2025 RedRocks</footer>
+    <div class="footer">© 2026 RedRocks</div>
   </main>
 
+  <script src="/nav.js" defer></script>
 </body>
 </html>
