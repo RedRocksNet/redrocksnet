@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>敦煌经生</title>
+
+  <!-- ✅ 导航模块：样式（下一步我会给你 nav.css） -->
+  <link rel="stylesheet" href="/nav.css">
+
   <style>
     body {
       margin: 0;
@@ -12,38 +16,11 @@
       color: #fff;
     }
 
-    nav {
-      background-color: #444;
-      padding: 0.5rem;
-      text-align: center;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      left: 0;
-      transition: opacity 0.3s ease;
-      z-index: 1000;
-    }
-
-    nav.hidden {
-      opacity: 0;
-    }
-
-    nav a {
-      color: #fff;
-      margin: 0 1rem;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
     header {
       background-color: #222;
       padding: 4rem 2rem 2rem;
       text-align: center;
-      margin-top: 3.5rem;
+      margin-top: 3.5rem; /* 给 fixed 导航留空间 */
     }
 
     header h1 {
@@ -77,13 +54,8 @@
 </head>
 <body>
 
-  <nav id="mainNav">
-    <a href="index.html">首页</a>
-    <a href="gallery.html">摄影作品</a>
-    <a href="sutras.html">佛经手书</a>
-    <a href="articles.html">随笔</a>
-    <a href="about.html">关于我</a>
-  </nav>
+  <!-- ✅ 导航模块挂载点：data-current 用于高亮当前页 -->
+  <div id="rr-nav-mount" data-current="home"></div>
 
   <header>
     <h1>敦煌经生</h1>
@@ -115,24 +87,10 @@
     const randomImage = images[Math.floor(Math.random() * images.length)];
     const bannerContainer = document.getElementById("bannerContainer");
     bannerContainer.innerHTML = `<img class="banner" src="images/${randomImage}" alt="banner image">`;
-
-    let nav = document.getElementById("mainNav");
-    let timeout;
-
-    function hideNav() {
-      nav.classList.add("hidden");
-    }
-
-    function showNav() {
-      nav.classList.remove("hidden");
-      clearTimeout(timeout);
-      timeout = setTimeout(hideNav, 3000);
-    }
-
-    document.addEventListener("mousemove", showNav);
-    document.addEventListener("keydown", showNav);
-    timeout = setTimeout(hideNav, 3000);
   </script>
+
+  <!-- ✅ 导航模块：注入与自动隐藏逻辑（下一步我会给你 nav.js） -->
+  <script src="/nav.js" defer></script>
 
 </body>
 </html>

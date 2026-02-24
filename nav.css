@@ -1,0 +1,66 @@
+/* =====================================================
+   RedRocks Net - Navigation Style (System A)
+   ===================================================== */
+
+.rr-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+
+  padding: 0.9rem 1.2rem;
+
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  z-index: 999;
+
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+/* Auto-hide state (controlled by nav.js) */
+.rr-nav.hidden {
+  transform: translateY(-120%);
+  opacity: 0;
+}
+
+/* Links */
+.rr-nav-link {
+  color: #ddd;
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.1rem;
+
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.rr-nav-link:hover {
+  color: #fff;
+  opacity: 1;
+}
+
+/* Current page */
+.rr-nav-link[aria-current="page"] {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+}
+
+/* Mobile adjustment */
+@media (max-width: 600px) {
+  .rr-nav {
+    gap: 1rem;
+    font-size: 0.9rem;
+    padding: 0.7rem 0.8rem;
+  }
+}
