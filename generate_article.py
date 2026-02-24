@@ -29,7 +29,10 @@ def write_text(p: Path, s: str) -> None:
 
 
 def extract_title(md_text: str, fallback: str) -> str:
-    # First H1: "# Title"
+    """
+    Prefer the first Markdown H1: "# Title"
+    Otherwise fallback to filename stem.
+    """
     for line in md_text.splitlines():
         m = re.match(r"^\s*#\s+(.+?)\s*$", line)
         if m:
@@ -37,6 +40,22 @@ def extract_title(md_text: str, fallback: str) -> str:
         if line.strip():
             break
     return fallback.strip()
+
+
+def strip_first_h1(md_text: str) -> str:
+    """
+    Remove the first Markdown H1 (# Title) only, to avoid duplicate title rendering.
+    Keeps the rest of the markdown untouched.
+    """
+    lines = md_text.splitlines()
+    out = []
+    removed = False
+    for line in lines:
+        if not removed and line.lstrip().startswith("# "):
+            removed = True
+            continue
+        out.append(line)
+    return "\n".join(out)
 
 
 def fmt_date(ts: float) -> str:
@@ -103,6 +122,19 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
   color:var(--muted); background:rgba(255,255,255,.03); border-radius:10px;
 }
 .article img{max-width:100%; height:auto; border-radius:12px; border:1px solid rgba(255,255,255,.06)}
+
+/* back link (Enhancement B) */
+.backlink{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.backlink a{
+  color:var(--muted);
+}
+.backlink a:hover{
+  color:var(--fg);
+}
 """
 
 
@@ -162,9 +194,12 @@ def main():
         mtime = md_path.stat().st_mtime
         date_str = fmt_date(mtime)
 
+        # Remove duplicate title from body, keep it as page title
+        md_body = strip_first_h1(md_text)
+        content_html = render_markdown(md_body)
+
         # detail page output: /articles/<stem>.html
         out_path = ARTICLES_DIR / f"{stem}.html"
-        content_html = render_markdown(md_text)
 
         detail_body = f"""
 <article class="article">
@@ -172,6 +207,10 @@ def main():
   <div class="subtle">{html.escape(date_str)}</div>
   <div style="height:14px"></div>
   {content_html}
+
+  <div class="backlink">
+    <a href="/articles.html">← 返回随笔目录</a>
+  </div>
 </article>
 """
         write_text(out_path, wrap_page(title, "articles", detail_body))
