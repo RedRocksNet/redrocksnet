@@ -1,45 +1,50 @@
-#!/bin/zsh
+#!/bin/bash
 set -e
 
-# Always run from this script's folder
-cd "$(dirname "$0")"
-
 echo "== RedRocksNet Publisher =="
-echo "Working folder: $(pwd)"
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+echo "Working folder: $SCRIPT_DIR"
+cd "$SCRIPT_DIR"
+
+# --- Generate gallery ---
 echo ""
-
-# 1) Generate gallery (if script exists)
+echo "-> Updating gallery..."
 if [ -f "./run_gallery.command" ]; then
-  echo "-> Updating gallery..."
-  chmod +x ./run_gallery.command
-  ./run_gallery.command
-elif [ -f "./generate_gallery.py" ]; then
-  echo "-> Updating gallery (python)..."
+  bash ./run_gallery.command
+else
   python3 ./generate_gallery.py
-else
-  echo "-> No gallery generator found, skip."
 fi
 
-# 2) Generate sutras (if script exists)
+# --- Generate sutras ---
+echo ""
+echo "-> Updating sutras..."
 if [ -f "./run_sutras.command" ]; then
-  echo "-> Updating sutras..."
-  chmod +x ./run_sutras.command
-  ./run_sutras.command
-elif [ -f "./generate_sutras.py" ]; then
-  echo "-> Updating sutras (python)..."
-  python3 ./generate_sutras.py
+  bash ./run_sutras.command
 else
-  echo "-> No sutras generator found, skip."
+  python3 ./generate_sutras.py
 fi
 
+# --- Generate articles ---
+echo ""
+echo "-> Updating articles..."
+if [ -f "./run_article.command" ]; then
+  bash ./run_article.command
+else
+  if [ -f "./generate_article.py" ]; then
+    python3 ./generate_article.py
+  else
+    echo "⚠️ generate_article.py not found, skip."
+  fi
+fi
+
+# --- Git commit & push (only once) ---
 echo ""
 echo "-> Git commit & push..."
 git add -A
-git status
 
-# If nothing to commit, exit quietly
 if git diff --cached --quiet; then
-  echo "No changes to publish. Done."
+  echo "✅ No changes to commit."
   exit 0
 fi
 
