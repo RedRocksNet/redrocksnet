@@ -33,13 +33,11 @@ def list_images(folder: Path):
 
 def pick_cover(folder: str):
     series_dir = IMAGES_ROOT / folder
-    # 1) prefer cover.*
     for name in COVER_CANDIDATES:
         p = series_dir / name
         if p.exists() and p.is_file():
             return f"images/{folder}/{p.name}"
 
-    # 2) fallback to first image
     imgs = list_images(series_dir)
     if imgs:
         return f"images/{folder}/{imgs[0].name}"
@@ -64,7 +62,7 @@ def base_head(title: str) -> str:
     main {{
       max-width: 1100px;
       margin: 0 auto;
-      padding: 92px 18px 56px; /* space for fixed nav */
+      padding: 92px 18px 56px;
     }}
 
     h1 {{
@@ -102,8 +100,7 @@ def base_head(title: str) -> str:
       border-color: rgba(255,255,255,0.18);
     }}
 
-    /* Cover frame keeps a consistent grid height,
-       but image keeps original aspect ratio (no cropping). */
+    /* Cover frame: keep grid consistent, image keeps aspect ratio */
     .series-cover {{
       width: 100%;
       height: 180px;
@@ -116,7 +113,7 @@ def base_head(title: str) -> str:
     .series-cover img {{
       width: 100%;
       height: 100%;
-      object-fit: contain; /* key: keep aspect ratio, no crop */
+      object-fit: contain;
       display: block;
     }}
 
@@ -129,25 +126,54 @@ def base_head(title: str) -> str:
       margin: 0 0 6px;
     }}
 
-    /* Gallery grid (series page) */
-    .gallery {{
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
+    /* Series thumbnails: fixed frame + contain (no distortion, no crop) */
+    .thumb-grid {{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
       margin-top: 18px;
     }}
 
-    .gallery img {{
-      width: 300px;
-      height: auto;
-      border-radius: 8px;
+    .thumb {{
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      overflow: hidden;
       cursor: pointer;
-      transition: transform 0.3s;
+      transition: transform 0.2s ease, border-color 0.2s ease;
     }}
 
-    .gallery img:hover {{
-      transform: scale(1.05);
+    .thumb:hover {{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.18);
+    }}
+
+    .thumb-frame {{
+      width: 100%;
+      height: 220px; /* 缩略图框高：可以之后再微调 */
+      background: #0b0b0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }}
+
+    .thumb-frame img {{
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* 关键：保持原比例 */
+      display: block;
+    }}
+
+    .backlink {{
+      margin-top: 18px;
+    }}
+    .backlink a {{
+      color: #b8b8b8;
+      text-decoration: none;
+    }}
+    .backlink a:hover {{
+      color: #fff;
+      text-decoration: underline;
     }}
 
     /* Lightbox */
@@ -189,18 +215,6 @@ def base_head(title: str) -> str:
     }}
     #lightbox .prev {{ left: 20px; }}
     #lightbox .next {{ right: 20px; }}
-
-    .backlink {{
-      margin-top: 18px;
-    }}
-    .backlink a {{
-      color: #b8b8b8;
-      text-decoration: none;
-    }}
-    .backlink a:hover {{
-      color: #fff;
-      text-decoration: underline;
-    }}
 
     .footer {{
       margin-top: 40px;
@@ -266,10 +280,16 @@ def build_index() -> str:
 def build_series_page(folder: str, name: str, motto: str) -> str:
     imgs = list_images(IMAGES_ROOT / folder)
 
-    grid_imgs = []
+    thumbs = []
     for p in imgs:
         src = f"images/{folder}/{p.name}"
-        grid_imgs.append(f'<img src="{html.escape(src)}" onclick="openLightbox(\'{html.escape(src)}\')">')
+        thumbs.append(f"""
+<div class="thumb" onclick="openLightbox('{html.escape(src)}')">
+  <div class="thumb-frame">
+    <img src="{html.escape(src)}" alt="">
+  </div>
+</div>
+""".strip())
 
     image_paths = [f"images/{folder}/{p.name}" for p in imgs]
     js_array = json.dumps(image_paths, ensure_ascii=False)
@@ -280,8 +300,8 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
 
 <div class="backlink"><a href="gallery.html">← 返回系列目录</a></div>
 
-<div class="gallery">
-  {''.join(grid_imgs)}
+<div class="thumb-grid">
+  {''.join(thumbs)}
 </div>
 
 <div id="lightbox">
