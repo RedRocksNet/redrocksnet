@@ -3,72 +3,161 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>buddhism 随笔 · RedRocks</title>
+  <title>buddhism · 随笔 · RedRocks</title>
   <link rel="stylesheet" href="/nav.css">
   <style>
 :root{
-  --bg:#0b0b0b; --fg:#f2f2f2; --muted:#b8b8b8; --card:#121212; --line:#1f1f1f;
+  --bg:#0b0b0b;
+  --fg:#f2f2f2;
+  --muted:#b8b8b8;
+  --card:rgba(255,255,255,0.04);
+  --line:rgba(255,255,255,0.06);
+  --line2:rgba(255,255,255,0.10);
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:var(--bg); color:var(--fg); line-height:1.7;
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Roboto,
+    "PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.75;
 }
-a{color:var(--fg); text-decoration:none}
+a{color:inherit;text-decoration:none}
 a:hover{text-decoration:underline}
 
-main{max-width:980px; margin:0 auto; padding:92px 18px 56px}
-h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
-.subtle{color:var(--muted); font-size:14px}
-
-.footer{
-  margin-top:40px; padding-top:18px; border-top:1px solid rgba(255,255,255,.08);
-  color:var(--muted); font-size:13px;
+main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:92px 18px 56px; /* space for fixed nav */
 }
-.list-wrap{
+
+h1{
+  margin:12px 0 10px;
+  font-size:34px;
+  letter-spacing:1px;
+  line-height:1.25;
+}
+
+.subtle{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:14px;
   margin-top:18px;
+}
+
+.card{
   background:var(--card);
-  border:1px solid rgba(255,255,255,.06);
+  border:1px solid var(--line);
   border-radius:14px;
   overflow:hidden;
+  transition: transform .18s ease, border-color .18s ease;
 }
-.list-head{
-  display:flex; justify-content:space-between; align-items:center;
-  padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.06);
+.card:hover{
+  transform: translateY(-2px);
+  border-color: var(--line2);
 }
-.list{
-  max-height: 66vh;
-  overflow-y:auto;
+
+.cover{
+  width:100%;
+  height:180px;
+  background:#0b0b0b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid var(--line);
 }
-.item{
-  display:flex; gap:12px; align-items:baseline; justify-content:space-between;
-  padding:14px 16px;
-  border-bottom:1px solid rgba(255,255,255,.05);
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
 }
-.item:last-child{border-bottom:none}
-.item .title{font-size:16px}
-.item .date{color:var(--muted); font-size:13px; white-space:nowrap}
+
+.card-body{
+  padding:12px 14px 14px;
+}
+
+.card-title{
+  font-size:18px;
+  margin:0 0 6px;
+  line-height:1.35;
+}
+
+.meta{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.badge{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:12px;
+}
+
+.footer{
+  margin-top:40px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* Article detail */
+.article h1{margin-top:8px}
+.article img{
+  max-width:100%;
+  height:auto;
+  border-radius:12px;
+  border:1px solid var(--line);
+}
 .article pre{
-  background:#111; border:1px solid rgba(255,255,255,.08);
-  padding:14px; border-radius:12px; overflow:auto;
+  background:#111;
+  border:1px solid rgba(255,255,255,.08);
+  padding:14px;
+  border-radius:12px;
+  overflow:auto;
 }
-.article code{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono","Segoe UI Mono",Consolas,monospace}
+.article code{
+  font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono",
+    "Segoe UI Mono",Consolas,monospace;
+}
 .article blockquote{
-  margin:14px 0; padding:10px 14px; border-left:3px solid rgba(255,255,255,.18);
-  color:var(--muted); background:rgba(255,255,255,.03); border-radius:10px;
+  margin:14px 0;
+  padding:10px 14px;
+  border-left:3px solid rgba(255,255,255,.18);
+  color:var(--muted);
+  background:rgba(255,255,255,.03);
+  border-radius:10px;
 }
-.article img{max-width:100%; height:auto; border-radius:12px; border:1px solid rgba(255,255,255,.06)}
-.backlink{
+
+.backbar{
   margin-top:22px;
   padding-top:16px;
   border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
 }
-.backlink a{
+.backbar a{
   color:var(--muted);
 }
-.backlink a:hover{
+.backbar a:hover{
   color:var(--fg);
+  text-decoration:underline;
 }
 </style>
 </head>
@@ -76,34 +165,48 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
   <div id="rr-nav-mount" data-current="articles"></div>
 
   <main>
-    
-<h1>buddhism 随笔</h1>
-<div class="subtle">按最近发布顺序排列</div>
-<div class="list-wrap">
-  <div class="list-head">
-    <div>文章目录</div>
-    <div class="subtle">4 篇</div>
+    <h1>buddhism · 随笔</h1>
+<div class="subtle">按最近更新排序 · 4 篇</div>
+
+<div class="grid">
+  <a class="card" href="/articles/buddhism/阿难尊者.html">
+  <div class="card-body">
+    <div class="card-title">阿难尊者</div>
+    <div class="subtle">阿难尊者 在佛教雕像、壁画、唐卡、经变画等艺术形式中，阿难常被安排站在佛陀的**右侧**，身穿袈裟，眉目清秀，表情恭敬，尊为胁侍二尊之右，在佛法在人间得以延续的**双柱角****色中**象征“慈悲与传承”。 阿难尊者不仅在佛教史上地位崇高，还颇具“八卦气质”：聪慧、多情、记忆超…</div>
+    <div class="meta">
+      <span class="badge">2026-02-24</span>
+    </div>
   </div>
-  <div class="list">
-    <div class="item">
-  <div class="title"><a href="/articles/buddhism/阿难尊者.html">阿难尊者</a></div>
-  <div class="date">2026-02-24</div>
-</div>
-<div class="item">
-  <div class="title"><a href="/articles/buddhism/若無輪迴：中國文明的另一種靈魂.html">若無輪迴：中國文明的另一種靈魂</a></div>
-  <div class="date">2026-02-24</div>
-</div>
-<div class="item">
-  <div class="title"><a href="/articles/buddhism/若无佛来：中国文明的另一种命运.html">若无佛来：中国文明的另一种命运</a></div>
-  <div class="date">2026-02-24</div>
-</div>
-<div class="item">
-  <div class="title"><a href="/articles/buddhism/金童玉女伴观音：善财与龙女的千年流转记.html">金童玉女伴观音：善财与龙女的千年流转记</a></div>
-  <div class="date">2026-02-24</div>
-</div>
+</a><a class="card" href="/articles/buddhism/若無輪迴：中國文明的另一種靈魂.html">
+  <div class="card-body">
+    <div class="card-title">若無輪迴：中國文明的另一種靈魂</div>
+    <div class="subtle">若無輪迴：中國文明的另一種靈魂 與〈若無佛來〉對望的一場靜思 文／桑大衛 本篇為桑大衛回應〈若無佛來〉之隨筆。作者以溫潤而深邃的筆觸，從儒、道、佛三家思想的交會處，重新探討「眾生」與「輪迴」的真正意涵：中國文明未曾缺乏心，而是透過佛法，看見了心的無邊；輪迴並非責任的延長，而是慈…</div>
+    <div class="meta">
+      <span class="badge">2026-02-24</span>
+    </div>
   </div>
+</a><a class="card" href="/articles/buddhism/若无佛来：中国文明的另一种命运.html">
+  <div class="card-body">
+    <div class="card-title">若无佛来：中国文明的另一种命运</div>
+    <div class="subtle">若无佛来：中国文明的另一种命运 关于文明的内观随笔 ------ 有时候我会想，如果两千年前，那个从天竺来的队伍没有穿过玉门关，没有在洛阳白马寺立起第一座塔，今天的中国，会是怎样的一片土地。 也许仍有礼乐、诗书、山水、宫阙；仍有人吟《诗经》、诵《论语》、修《黄老》之道。 但我猜…</div>
+    <div class="meta">
+      <span class="badge">2026-02-24</span>
+    </div>
+  </div>
+</a><a class="card" href="/articles/buddhism/金童玉女伴观音：善财与龙女的千年流转记.html">
+  <div class="card-body">
+    <div class="card-title">金童玉女伴观音：善财与龙女的千年流转记</div>
+    <div class="subtle">金童玉女伴观音：善财与龙女的千年流转记 在中式寺庙的观音殿里，总有两幅身影让人过目难忘 —— 左边是梳着抓髻、双手合掌的稚童，红衣亮眼如焰；右边是手持宝珠、眉目温婉的少女，华服翩跹似云。他们就是善财童子与龙女，这对 “金童玉女” 不仅是佛前庄严的胁侍，更藏着中国佛教从印度经典到…</div>
+    <div class="meta">
+      <span class="badge">2026-02-24</span>
+    </div>
+  </div>
+</a>
 </div>
 
+<div class="backbar">
+  <a href="/articles.html">← 返回随笔首页</a>
+</div>
     <div class="footer">© 2026 RedRocks</div>
   </main>
 
