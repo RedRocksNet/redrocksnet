@@ -7,74 +7,157 @@
   <link rel="stylesheet" href="/nav.css">
   <style>
 :root{
-  --bg:#0b0b0b; --fg:#f2f2f2; --muted:#b8b8b8; --card:#121212; --line:#1f1f1f;
+  --bg:#0b0b0b;
+  --fg:#f2f2f2;
+  --muted:#b8b8b8;
+  --card:rgba(255,255,255,0.04);
+  --line:rgba(255,255,255,0.06);
+  --line2:rgba(255,255,255,0.10);
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:var(--bg); color:var(--fg); line-height:1.7;
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Roboto,
+    "PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.75;
 }
-a{color:var(--fg); text-decoration:none}
+a{color:inherit;text-decoration:none}
 a:hover{text-decoration:underline}
 
-main{max-width:980px; margin:0 auto; padding:92px 18px 56px} /* leave space for fixed nav */
-h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
-.subtle{color:var(--muted); font-size:14px}
-
-.footer{
-  margin-top:40px; padding-top:18px; border-top:1px solid rgba(255,255,255,.08);
-  color:var(--muted); font-size:13px;
+main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:92px 18px 56px; /* space for fixed nav */
 }
 
-/* index list */
-.list-wrap{
+h1{
+  margin:12px 0 10px;
+  font-size:34px;
+  letter-spacing:1px;
+  line-height:1.25;
+}
+
+.subtle{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:14px;
   margin-top:18px;
+}
+
+.card{
   background:var(--card);
-  border:1px solid rgba(255,255,255,.06);
+  border:1px solid var(--line);
   border-radius:14px;
   overflow:hidden;
+  transition: transform .18s ease, border-color .18s ease;
 }
-.list-head{
-  display:flex; justify-content:space-between; align-items:center;
-  padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.06);
+.card:hover{
+  transform: translateY(-2px);
+  border-color: var(--line2);
 }
-.list{
-  max-height: 66vh;
-  overflow-y:auto;
-}
-.item{
-  display:flex; gap:12px; align-items:baseline; justify-content:space-between;
-  padding:14px 16px;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-.item:last-child{border-bottom:none}
-.item .title{font-size:16px}
-.item .date{color:var(--muted); font-size:13px; white-space:nowrap}
 
-/* article content */
+.cover{
+  width:100%;
+  height:180px;
+  background:#0b0b0b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid var(--line);
+}
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+.card-body{
+  padding:12px 14px 14px;
+}
+
+.card-title{
+  font-size:18px;
+  margin:0 0 6px;
+  line-height:1.35;
+}
+
+.meta{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.badge{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:12px;
+}
+
+.footer{
+  margin-top:40px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* Article detail */
+.article h1{margin-top:8px}
+.article img{
+  max-width:100%;
+  height:auto;
+  border-radius:12px;
+  border:1px solid var(--line);
+}
 .article pre{
-  background:#111; border:1px solid rgba(255,255,255,.08);
-  padding:14px; border-radius:12px; overflow:auto;
+  background:#111;
+  border:1px solid rgba(255,255,255,.08);
+  padding:14px;
+  border-radius:12px;
+  overflow:auto;
 }
-.article code{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono","Segoe UI Mono",Consolas,monospace}
+.article code{
+  font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono",
+    "Segoe UI Mono",Consolas,monospace;
+}
 .article blockquote{
-  margin:14px 0; padding:10px 14px; border-left:3px solid rgba(255,255,255,.18);
-  color:var(--muted); background:rgba(255,255,255,.03); border-radius:10px;
+  margin:14px 0;
+  padding:10px 14px;
+  border-left:3px solid rgba(255,255,255,.18);
+  color:var(--muted);
+  background:rgba(255,255,255,.03);
+  border-radius:10px;
 }
-.article img{max-width:100%; height:auto; border-radius:12px; border:1px solid rgba(255,255,255,.06)}
 
-/* back link (Enhancement B) */
-.backlink{
+.backbar{
   margin-top:22px;
   padding-top:16px;
   border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
 }
-.backlink a{
+.backbar a{
   color:var(--muted);
 }
-.backlink a:hover{
+.backbar a:hover{
   color:var(--fg);
+  text-decoration:underline;
 }
 </style>
 </head>
@@ -82,8 +165,7 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
   <div id="rr-nav-mount" data-current="articles"></div>
 
   <main>
-    
-<article class="article">
+    <article class="article">
   <h1>镜底心归：摄影里的自我心境修行</h1>
   <div class="subtle">2026-02-24</div>
   <div style="height:14px"></div>
@@ -101,12 +183,11 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
 <p>如今，摄影不再定义我，但它仍然在我身上留下了不可磨灭的结构。我已经走过了“我是摄影师”“我靠摄影行走世界”“我的照片被需要”的阶段，现在站在的地方，是摄影不再是身份，不再需要被证明的从容。我并没有离开摄影，只是终于走到了摄影本来要把我带去的地方——不再被镜头捆绑，不再被他人的期待裹挟，而是让摄影成为一种“与时间协作”的方式，不生产意义，也不阻碍意义发生。</p>
 <p>原来，摄影这一生，从来都不是“浪费”，它只是恰好成为了我，与时间反复对齐的一种方式。那些被定格的瞬间，那些不被理解的沉默，那些慢慢显影的时光，最终都变成了内心的力量。我终于懂得，摄影最终没有成为我是谁，但它让我学会了如何在世界完成它自己之前，不急着离开；让我学会了与自己的焦虑和解，与世界的无常温柔相处；让我在镜底看见光影，更看见内心的归处。</p>
 <p>相机可以在，也可以不在；照片可以留下，也可以不被看见。我不再需要通过摄影，证明我与世界的关系，因为我知道，最好的相处，从来都是从容自在——我在，世界在，光影在，心也在。这，就是摄影送给我最珍贵的心境礼物，是一场漫长而温柔的自我修行，无关成就，无关他人，只关于我与自己，与时间，与这个世界，最真诚的对齐。</p>
-
-  <div class="backlink">
-    <a href="/articles.html">← 返回随笔目录</a>
+  <div class="backbar">
+    <a href="/articles/photography.html">← 返回本栏目</a>
+    <a href="/articles.html">← 返回随笔首页</a>
   </div>
 </article>
-
     <div class="footer">© 2026 RedRocks</div>
   </main>
 
