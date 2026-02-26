@@ -3,72 +3,161 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>travel 随笔 · RedRocks</title>
+  <title>travel · 随笔 · RedRocks</title>
   <link rel="stylesheet" href="/nav.css">
   <style>
 :root{
-  --bg:#0b0b0b; --fg:#f2f2f2; --muted:#b8b8b8; --card:#121212; --line:#1f1f1f;
+  --bg:#0b0b0b;
+  --fg:#f2f2f2;
+  --muted:#b8b8b8;
+  --card:rgba(255,255,255,0.04);
+  --line:rgba(255,255,255,0.06);
+  --line2:rgba(255,255,255,0.10);
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:var(--bg); color:var(--fg); line-height:1.7;
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Roboto,
+    "PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.75;
 }
-a{color:var(--fg); text-decoration:none}
+a{color:inherit;text-decoration:none}
 a:hover{text-decoration:underline}
 
-main{max-width:980px; margin:0 auto; padding:92px 18px 56px}
-h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
-.subtle{color:var(--muted); font-size:14px}
-
-.footer{
-  margin-top:40px; padding-top:18px; border-top:1px solid rgba(255,255,255,.08);
-  color:var(--muted); font-size:13px;
+main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:92px 18px 56px; /* space for fixed nav */
 }
-.list-wrap{
+
+h1{
+  margin:12px 0 10px;
+  font-size:34px;
+  letter-spacing:1px;
+  line-height:1.25;
+}
+
+.subtle{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:14px;
   margin-top:18px;
+}
+
+.card{
   background:var(--card);
-  border:1px solid rgba(255,255,255,.06);
+  border:1px solid var(--line);
   border-radius:14px;
   overflow:hidden;
+  transition: transform .18s ease, border-color .18s ease;
 }
-.list-head{
-  display:flex; justify-content:space-between; align-items:center;
-  padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.06);
+.card:hover{
+  transform: translateY(-2px);
+  border-color: var(--line2);
 }
-.list{
-  max-height: 66vh;
-  overflow-y:auto;
+
+.cover{
+  width:100%;
+  height:180px;
+  background:#0b0b0b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid var(--line);
 }
-.item{
-  display:flex; gap:12px; align-items:baseline; justify-content:space-between;
-  padding:14px 16px;
-  border-bottom:1px solid rgba(255,255,255,.05);
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
 }
-.item:last-child{border-bottom:none}
-.item .title{font-size:16px}
-.item .date{color:var(--muted); font-size:13px; white-space:nowrap}
+
+.card-body{
+  padding:12px 14px 14px;
+}
+
+.card-title{
+  font-size:18px;
+  margin:0 0 6px;
+  line-height:1.35;
+}
+
+.meta{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.badge{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:12px;
+}
+
+.footer{
+  margin-top:40px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* Article detail */
+.article h1{margin-top:8px}
+.article img{
+  max-width:100%;
+  height:auto;
+  border-radius:12px;
+  border:1px solid var(--line);
+}
 .article pre{
-  background:#111; border:1px solid rgba(255,255,255,.08);
-  padding:14px; border-radius:12px; overflow:auto;
+  background:#111;
+  border:1px solid rgba(255,255,255,.08);
+  padding:14px;
+  border-radius:12px;
+  overflow:auto;
 }
-.article code{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono","Segoe UI Mono",Consolas,monospace}
+.article code{
+  font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono",
+    "Segoe UI Mono",Consolas,monospace;
+}
 .article blockquote{
-  margin:14px 0; padding:10px 14px; border-left:3px solid rgba(255,255,255,.18);
-  color:var(--muted); background:rgba(255,255,255,.03); border-radius:10px;
+  margin:14px 0;
+  padding:10px 14px;
+  border-left:3px solid rgba(255,255,255,.18);
+  color:var(--muted);
+  background:rgba(255,255,255,.03);
+  border-radius:10px;
 }
-.article img{max-width:100%; height:auto; border-radius:12px; border:1px solid rgba(255,255,255,.06)}
-.backlink{
+
+.backbar{
   margin-top:22px;
   padding-top:16px;
   border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
 }
-.backlink a{
+.backbar a{
   color:var(--muted);
 }
-.backlink a:hover{
+.backbar a:hover{
   color:var(--fg);
+  text-decoration:underline;
 }
 </style>
 </head>
@@ -76,10 +165,11 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
   <div id="rr-nav-mount" data-current="articles"></div>
 
   <main>
-    
-<h1>travel 随笔</h1>
+    <h1>travel · 随笔</h1>
 <div class="subtle">暂无文章。</div>
-
+<div class="backbar">
+  <a href="/articles.html">← 返回随笔首页</a>
+</div>
     <div class="footer">© 2026 RedRocks</div>
   </main>
 

@@ -7,68 +7,157 @@
   <link rel="stylesheet" href="/nav.css">
   <style>
 :root{
-  --bg:#0b0b0b; --fg:#f2f2f2; --muted:#b8b8b8; --card:#121212; --line:#1f1f1f;
+  --bg:#0b0b0b;
+  --fg:#f2f2f2;
+  --muted:#b8b8b8;
+  --card:rgba(255,255,255,0.04);
+  --line:rgba(255,255,255,0.06);
+  --line2:rgba(255,255,255,0.10);
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:var(--bg); color:var(--fg); line-height:1.7;
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Roboto,
+    "PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.75;
 }
-a{color:var(--fg); text-decoration:none}
+a{color:inherit;text-decoration:none}
 a:hover{text-decoration:underline}
 
-main{max-width:980px; margin:0 auto; padding:92px 18px 56px}
-h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
-.subtle{color:var(--muted); font-size:14px}
-
-.footer{
-  margin-top:40px; padding-top:18px; border-top:1px solid rgba(255,255,255,.08);
-  color:var(--muted); font-size:13px;
+main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:92px 18px 56px; /* space for fixed nav */
 }
-.list-wrap{
+
+h1{
+  margin:12px 0 10px;
+  font-size:34px;
+  letter-spacing:1px;
+  line-height:1.25;
+}
+
+.subtle{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:14px;
   margin-top:18px;
+}
+
+.card{
   background:var(--card);
-  border:1px solid rgba(255,255,255,.06);
+  border:1px solid var(--line);
   border-radius:14px;
   overflow:hidden;
+  transition: transform .18s ease, border-color .18s ease;
 }
-.list-head{
-  display:flex; justify-content:space-between; align-items:center;
-  padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.06);
+.card:hover{
+  transform: translateY(-2px);
+  border-color: var(--line2);
 }
-.list{
-  max-height: 66vh;
-  overflow-y:auto;
+
+.cover{
+  width:100%;
+  height:180px;
+  background:#0b0b0b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid var(--line);
 }
-.item{
-  display:flex; gap:12px; align-items:baseline; justify-content:space-between;
-  padding:14px 16px;
-  border-bottom:1px solid rgba(255,255,255,.05);
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
 }
-.item:last-child{border-bottom:none}
-.item .title{font-size:16px}
-.item .date{color:var(--muted); font-size:13px; white-space:nowrap}
+
+.card-body{
+  padding:12px 14px 14px;
+}
+
+.card-title{
+  font-size:18px;
+  margin:0 0 6px;
+  line-height:1.35;
+}
+
+.meta{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.badge{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:12px;
+}
+
+.footer{
+  margin-top:40px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* Article detail */
+.article h1{margin-top:8px}
+.article img{
+  max-width:100%;
+  height:auto;
+  border-radius:12px;
+  border:1px solid var(--line);
+}
 .article pre{
-  background:#111; border:1px solid rgba(255,255,255,.08);
-  padding:14px; border-radius:12px; overflow:auto;
+  background:#111;
+  border:1px solid rgba(255,255,255,.08);
+  padding:14px;
+  border-radius:12px;
+  overflow:auto;
 }
-.article code{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono","Segoe UI Mono",Consolas,monospace}
+.article code{
+  font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono",
+    "Segoe UI Mono",Consolas,monospace;
+}
 .article blockquote{
-  margin:14px 0; padding:10px 14px; border-left:3px solid rgba(255,255,255,.18);
-  color:var(--muted); background:rgba(255,255,255,.03); border-radius:10px;
+  margin:14px 0;
+  padding:10px 14px;
+  border-left:3px solid rgba(255,255,255,.18);
+  color:var(--muted);
+  background:rgba(255,255,255,.03);
+  border-radius:10px;
 }
-.article img{max-width:100%; height:auto; border-radius:12px; border:1px solid rgba(255,255,255,.06)}
-.backlink{
+
+.backbar{
   margin-top:22px;
   padding-top:16px;
   border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
 }
-.backlink a{
+.backbar a{
   color:var(--muted);
 }
-.backlink a:hover{
+.backbar a:hover{
   color:var(--fg);
+  text-decoration:underline;
 }
 </style>
 </head>
@@ -76,8 +165,7 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
   <div id="rr-nav-mount" data-current="articles"></div>
 
   <main>
-    
-<article class="article">
+    <article class="article">
   <h1>阿难尊者</h1>
   <div class="subtle">2026-02-24</div>
   <div style="height:14px"></div>
@@ -101,11 +189,11 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
 <p>故事结尾是佛为她和她麻麻说法，麻麻就地开悟，说法摩登伽女幡然悔悟，出家为比丘尼，成为佛陀座下弟子之一。皆大欢喜。</p>
 <p>除了“如是我闻”，阿难在佛教历史上还有另一个极其重要的贡献。原本，出于各种考量，佛陀是不愿女性出家的。阿难因对佛母般的摩诃波阇波提夫人（佛陀的姨母）深感恩德，便屡次请求佛陀允许女性出家。佛陀最终允许了他的请求，但规定“八敬法”，即女性必须尊重所有男性比丘。这一制度被部分现代人批评为性别不平等，在某些部派中，阿难也因开放比丘尼制而受到质疑，甚至在当年的结集中曾被“质问”。</p>
 <p>相传阿难去世后，遗体焚后化为舍利供奉在多个国家（印度、中国、缅甸等）；也有传说说他曾化身飞越恒河，身体落在中印两岸，印度和摩揭陀国为争遗体对峙，最后一人一半。。。</p>
-  <div class="backlink">
-    <a href="/articles.html">← 返回随笔目录</a>
+  <div class="backbar">
+    <a href="/articles/buddhism.html">← 返回本栏目</a>
+    <a href="/articles.html">← 返回随笔首页</a>
   </div>
 </article>
-
     <div class="footer">© 2026 RedRocks</div>
   </main>
 

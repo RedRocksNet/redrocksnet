@@ -7,68 +7,157 @@
   <link rel="stylesheet" href="/nav.css">
   <style>
 :root{
-  --bg:#0b0b0b; --fg:#f2f2f2; --muted:#b8b8b8; --card:#121212; --line:#1f1f1f;
+  --bg:#0b0b0b;
+  --fg:#f2f2f2;
+  --muted:#b8b8b8;
+  --card:rgba(255,255,255,0.04);
+  --line:rgba(255,255,255,0.06);
+  --line2:rgba(255,255,255,0.10);
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-  background:var(--bg); color:var(--fg); line-height:1.7;
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Roboto,
+    "PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.75;
 }
-a{color:var(--fg); text-decoration:none}
+a{color:inherit;text-decoration:none}
 a:hover{text-decoration:underline}
 
-main{max-width:980px; margin:0 auto; padding:92px 18px 56px}
-h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
-.subtle{color:var(--muted); font-size:14px}
-
-.footer{
-  margin-top:40px; padding-top:18px; border-top:1px solid rgba(255,255,255,.08);
-  color:var(--muted); font-size:13px;
+main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:92px 18px 56px; /* space for fixed nav */
 }
-.list-wrap{
+
+h1{
+  margin:12px 0 10px;
+  font-size:34px;
+  letter-spacing:1px;
+  line-height:1.25;
+}
+
+.subtle{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:14px;
   margin-top:18px;
+}
+
+.card{
   background:var(--card);
-  border:1px solid rgba(255,255,255,.06);
+  border:1px solid var(--line);
   border-radius:14px;
   overflow:hidden;
+  transition: transform .18s ease, border-color .18s ease;
 }
-.list-head{
-  display:flex; justify-content:space-between; align-items:center;
-  padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.06);
+.card:hover{
+  transform: translateY(-2px);
+  border-color: var(--line2);
 }
-.list{
-  max-height: 66vh;
-  overflow-y:auto;
+
+.cover{
+  width:100%;
+  height:180px;
+  background:#0b0b0b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid var(--line);
 }
-.item{
-  display:flex; gap:12px; align-items:baseline; justify-content:space-between;
-  padding:14px 16px;
-  border-bottom:1px solid rgba(255,255,255,.05);
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
 }
-.item:last-child{border-bottom:none}
-.item .title{font-size:16px}
-.item .date{color:var(--muted); font-size:13px; white-space:nowrap}
+
+.card-body{
+  padding:12px 14px 14px;
+}
+
+.card-title{
+  font-size:18px;
+  margin:0 0 6px;
+  line-height:1.35;
+}
+
+.meta{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.badge{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:12px;
+}
+
+.footer{
+  margin-top:40px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* Article detail */
+.article h1{margin-top:8px}
+.article img{
+  max-width:100%;
+  height:auto;
+  border-radius:12px;
+  border:1px solid var(--line);
+}
 .article pre{
-  background:#111; border:1px solid rgba(255,255,255,.08);
-  padding:14px; border-radius:12px; overflow:auto;
+  background:#111;
+  border:1px solid rgba(255,255,255,.08);
+  padding:14px;
+  border-radius:12px;
+  overflow:auto;
 }
-.article code{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono","Segoe UI Mono",Consolas,monospace}
+.article code{
+  font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono",
+    "Segoe UI Mono",Consolas,monospace;
+}
 .article blockquote{
-  margin:14px 0; padding:10px 14px; border-left:3px solid rgba(255,255,255,.18);
-  color:var(--muted); background:rgba(255,255,255,.03); border-radius:10px;
+  margin:14px 0;
+  padding:10px 14px;
+  border-left:3px solid rgba(255,255,255,.18);
+  color:var(--muted);
+  background:rgba(255,255,255,.03);
+  border-radius:10px;
 }
-.article img{max-width:100%; height:auto; border-radius:12px; border:1px solid rgba(255,255,255,.06)}
-.backlink{
+
+.backbar{
   margin-top:22px;
   padding-top:16px;
   border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
 }
-.backlink a{
+.backbar a{
   color:var(--muted);
 }
-.backlink a:hover{
+.backbar a:hover{
   color:var(--fg);
+  text-decoration:underline;
 }
 </style>
 </head>
@@ -76,8 +165,7 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
   <div id="rr-nav-mount" data-current="articles"></div>
 
   <main>
-    
-<article class="article">
+    <article class="article">
   <h1>TAP理论里，投影界面的物理逻辑与《金刚经》第二十七品的结构同构性研究</h1>
   <div class="subtle">2026-02-26</div>
   <div style="height:14px"></div>
@@ -107,11 +195,11 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
 <hr>
 <h2 id="_7"><strong>结论</strong></h2>
 <p>通过分析投影界面的物理逻辑，我们可以看到《金刚经》第二十七品的哲学结构与界面模型之间存在高度同构关系。界面限制导致的现象性、投影性、不可逆性与低维认知局限，是现代物理从信息论、统计力学、量子理论和维度理论共同揭示的事实。而佛典从另一路径指出“诸相非相”的结构性认知，并强调不应将界面现象误判为本体。这两种语言系统虽然来自不同文明传统，但在高维本体与低维显现的二层现实结构上达成一致。因而，《金刚经》的某些部分可以被理解为从“高维观察角度”对界面生命所提出的认识论指导，而非宗教教条。本文所强调的结构对称性，说明古典哲学与现代物理可能在更深的维度层面共享某种普适的本体论框架，为进一步探讨意识、维度、信息与现实之间的关系提供了新的理论空间。</p>
-  <div class="backlink">
-    <a href="/articles.html">← 返回随笔目录</a>
+  <div class="backbar">
+    <a href="/articles/TAP.html">← 返回本栏目</a>
+    <a href="/articles.html">← 返回随笔首页</a>
   </div>
 </article>
-
     <div class="footer">© 2026 RedRocks</div>
   </main>
 
