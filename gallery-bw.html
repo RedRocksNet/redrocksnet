@@ -9,7 +9,8 @@
     body {
       background-color: #111;
       color: white;
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI",
+        Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
       margin: 0;
       padding: 0;
     }
@@ -17,7 +18,8 @@
     main {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 92px 18px 56px;
+      padding: 92px 18px 56px; /* space for fixed nav */
+      box-sizing: border-box;
     }
 
     h1 {
@@ -32,7 +34,7 @@
       line-height: 1.6;
     }
 
-    /* Series grid (index) */
+    /* ===== Series grid (index) ===== */
     .series-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -55,7 +57,8 @@
       border-color: rgba(255,255,255,0.18);
     }
 
-    /* Cover frame: keep grid consistent, image keeps aspect ratio */
+    /* cover frame keeps consistent grid height,
+       but image keeps original aspect ratio (no crop) */
     .series-cover {
       width: 100%;
       height: 180px;
@@ -81,7 +84,7 @@
       margin: 0 0 6px;
     }
 
-    /* Series thumbnails: fixed frame + contain (no distortion, no crop) */
+    /* ===== Thumbnails (series page) ===== */
     .thumb-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -105,7 +108,7 @@
 
     .thumb-frame {
       width: 100%;
-      height: 220px; /* 缩略图框高：可以之后再微调 */
+      height: 220px;  /* uniform grid */
       background: #0b0b0b;
       display: flex;
       align-items: center;
@@ -115,23 +118,25 @@
     .thumb-frame img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* 关键：保持原比例 */
+      object-fit: contain; /* keep aspect ratio */
       display: block;
     }
 
     .backlink {
       margin-top: 18px;
     }
+
     .backlink a {
       color: #b8b8b8;
       text-decoration: none;
     }
+
     .backlink a:hover {
       color: #fff;
       text-decoration: underline;
     }
 
-    /* Lightbox */
+    /* ===== Lightbox ===== */
     #lightbox {
       display: none;
       position: fixed;
@@ -141,8 +146,19 @@
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.9);
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.92);
+      box-sizing: border-box;
+    }
+
+    #lightbox #lightbox-img {
+      display: block;
+      margin: 0 auto;
+      max-width: 92vw;
+      max-height: 88vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
     }
 
     #lightbox .close {
@@ -154,6 +170,7 @@
       font-weight: bold;
       cursor: pointer;
     }
+
     #lightbox .nav-btn {
       position: absolute;
       top: 50%;
@@ -162,7 +179,9 @@
       cursor: pointer;
       user-select: none;
       padding: 10px;
+      transform: translateY(-50%);
     }
+
     #lightbox .prev { left: 20px; }
     #lightbox .next { right: 20px; }
 
