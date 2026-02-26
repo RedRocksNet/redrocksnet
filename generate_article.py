@@ -13,10 +13,14 @@ except ImportError:
     print("ERROR: Missing dependency 'markdown'. Install with: pip3 install markdown")
     sys.exit(1)
 
+# 根目录和文章基本路径
 ROOT = Path(__file__).resolve().parent
-ARTICLES_DIR = ROOT / "articles"          # input: .md ; output: .html (in same folder)
-INDEX_OUT = ROOT / "articles.html"        # output index page at root
+ARTICLES_DIR = ROOT / "articles"  # 文章目录，下面有子目录
+INDEX_OUT = ROOT / "articles.html"  # 随笔分类首页
 SITE_TITLE = "RedRocks"
+
+# 分类列表：根据你目录实际设置调整
+CATEGORIES = ["travel", "buddhism", "tap", "misc"]
 
 
 def read_text(p: Path) -> str:
@@ -29,10 +33,6 @@ def write_text(p: Path, s: str) -> None:
 
 
 def extract_title(md_text: str, fallback: str) -> str:
-    """
-    Prefer the first Markdown H1: "# Title"
-    Otherwise fallback to filename stem.
-    """
     for line in md_text.splitlines():
         m = re.match(r"^\s*#\s+(.+?)\s*$", line)
         if m:
@@ -43,10 +43,6 @@ def extract_title(md_text: str, fallback: str) -> str:
 
 
 def strip_first_h1(md_text: str) -> str:
-    """
-    Remove the first Markdown H1 (# Title) only, to avoid duplicate title rendering.
-    Keeps the rest of the markdown untouched.
-    """
     lines = md_text.splitlines()
     out = []
     removed = False
@@ -63,7 +59,6 @@ def fmt_date(ts: float) -> str:
 
 
 def base_css() -> str:
-    # Minimal page styling; nav styling is provided by /nav.css
     return """
 :root{
   --bg:#0b0b0b; --fg:#f2f2f2; --muted:#b8b8b8; --card:#121212; --line:#1f1f1f;
@@ -77,7 +72,7 @@ body{
 a{color:var(--fg); text-decoration:none}
 a:hover{text-decoration:underline}
 
-main{max-width:980px; margin:0 auto; padding:92px 18px 56px} /* leave space for fixed nav */
+main{max-width:980px; margin:0 auto; padding:92px 18px 56px}
 h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
 .subtle{color:var(--muted); font-size:14px}
 
@@ -85,8 +80,6 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
   margin-top:40px; padding-top:18px; border-top:1px solid rgba(255,255,255,.08);
   color:var(--muted); font-size:13px;
 }
-
-/* index list */
 .list-wrap{
   margin-top:18px;
   background:var(--card);
@@ -110,8 +103,6 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
 .item:last-child{border-bottom:none}
 .item .title{font-size:16px}
 .item .date{color:var(--muted); font-size:13px; white-space:nowrap}
-
-/* article content */
 .article pre{
   background:#111; border:1px solid rgba(255,255,255,.08);
   padding:14px; border-radius:12px; overflow:auto;
@@ -122,8 +113,6 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
   color:var(--muted); background:rgba(255,255,255,.03); border-radius:10px;
 }
 .article img{max-width:100%; height:auto; border-radius:12px; border:1px solid rgba(255,255,255,.06)}
-
-/* back link (Enhancement B) */
 .backlink{
   margin-top:22px;
   padding-top:16px;
@@ -139,8 +128,6 @@ h1{font-size:34px; margin:12px 0 10px; line-height:1.25}
 
 
 def wrap_page(page_title: str, current_key: str, body_html: str) -> str:
-    # Nav module mount + assets
-    # current_key: home/gallery/sutras/articles/about
     safe_title = html.escape(page_title)
     year = datetime.now().year
     return f"""<!doctype html>
@@ -167,6 +154,7 @@ def wrap_page(page_title: str, current_key: str, body_html: str) -> str:
 
 
 def render_markdown(md_text: str) -> str:
+    import markdown
     return markdown.markdown(
         md_text,
         extensions=["extra", "tables", "fenced_code", "codehilite", "toc"],
@@ -174,67 +162,72 @@ def render_markdown(md_text: str) -> str:
     )
 
 
-def main():
-    if not ARTICLES_DIR.exists():
-        print(f"ERROR: folder not found: {ARTICLES_DIR}")
-        sys.exit(1)
+def generate_article_pages():
+    category_articles = {}
 
-    md_files = sorted(
-        [p for p in ARTICLES_DIR.iterdir() if p.is_file() and p.suffix.lower() == ".md"],
-        key=lambda p: p.stat().st_mtime,
-        reverse=True
-    )
+    for cat in CATEGORIES:
+        cat_dir = ARTICLES_DIR / cat
+        if not cat_dir.exists() or not cat_dir.is_dir():
+            print(f"Warning: Category directory missing: {cat_dir}")
+            category_articles[cat] = []
+            continue
 
-    items = []
+        md_files = sorted(
+            [p for p in cat_dir.iterdir() if p.is_file() and p.suffix.lower() == ".md"],
+            key=lambda p: p.stat().st_mtime,
+            reverse=True
+        )
 
-    for md_path in md_files:
-        md_text = read_text(md_path)
-        stem = md_path.stem
-        title = extract_title(md_text, fallback=stem)
-        mtime = md_path.stat().st_mtime
-        date_str = fmt_date(mtime)
+        items = []
 
-        # Remove duplicate title from body, keep it as page title
-        md_body = strip_first_h1(md_text)
-        content_html = render_markdown(md_body)
+        for md_path in md_files:
+            md_text = read_text(md_path)
+            stem = md_path.stem
+            title = extract_title(md_text, fallback=stem)
+            mtime = md_path.stat().st_mtime
+            date_str = fmt_date(mtime)
 
-        # detail page output: /articles/<stem>.html
-        out_path = ARTICLES_DIR / f"{stem}.html"
+            md_body = strip_first_h1(md_text)
+            content_html = render_markdown(md_body)
 
-        detail_body = f"""
+            out_path = md_path.with_suffix(".html")  # 详情页路径保持和MD同目录同文件名.html
+
+            detail_body = f"""
 <article class="article">
   <h1>{html.escape(title)}</h1>
   <div class="subtle">{html.escape(date_str)}</div>
   <div style="height:14px"></div>
   {content_html}
-
   <div class="backlink">
     <a href="/articles.html">← 返回随笔目录</a>
   </div>
 </article>
 """
-        write_text(out_path, wrap_page(title, "articles", detail_body))
+            write_text(out_path, wrap_page(title, "articles", detail_body))
 
-        items.append({
-            "title": title,
-            "date": date_str,
-            "href": f"/articles/{stem}.html",
-        })
+            items.append({
+                "title": title,
+                "date": date_str,
+                "href": f"/articles/{cat}/{stem}.html",
+            })
 
-    # index page: /articles.html
+        category_articles[cat] = items
+        print(f"✅ {cat} 类别下生成文章页：{len(items)} 篇")
+
+    return category_articles
+
+
+def generate_category_index(cat: str, items: list):
     if items:
         rows = "\n".join(
             f"""<div class="item">
   <div class="title"><a href="{html.escape(it['href'])}">{html.escape(it['title'])}</a></div>
   <div class="date">{html.escape(it['date'])}</div>
-</div>"""
-            for it in items
+</div>""" for it in items
         )
-
-        index_body = f"""
-<h1>随笔</h1>
+        body = f"""
+<h1>{cat} 随笔</h1>
 <div class="subtle">按最近发布顺序排列</div>
-
 <div class="list-wrap">
   <div class="list-head">
     <div>文章目录</div>
@@ -246,15 +239,48 @@ def main():
 </div>
 """
     else:
-        index_body = """
-<h1>随笔</h1>
-<div class="subtle">暂无文章。请在 <code>./articles/</code> 中放入 Markdown 文件（.md），然后执行生成。</div>
+        body = f"""
+<h1>{cat} 随笔</h1>
+<div class="subtle">暂无文章。</div>
 """
 
-    write_text(INDEX_OUT, wrap_page("随笔", "articles", index_body))
+    out_file = ARTICLES_DIR / f"{cat}.html"
+    write_text(out_file, wrap_page(f"{cat} 随笔", "articles", body))
+    print(f"✅ 生成分类页：{out_file}")
 
-    print(f"✅ articles.html 已生成：{INDEX_OUT}")
-    print(f"✅ 文章页已生成：{len(items)} 篇（位于 {ARTICLES_DIR}/ ）")
+
+def generate_main_index(category_articles):
+    card_template = """<div class="item" style="margin-bottom:12px; padding:14px; background:var(--card); border-radius:14px;">
+  <h2><a href="/articles/{cat}.html">{name}</a></h2>
+  <div class="subtle">{count} 篇文章</div>
+</div>"""
+    cards = []
+    for cat in CATEGORIES:
+        name = cat.capitalize()
+        count = len(category_articles.get(cat, []))
+        cards.append(card_template.format(cat=cat, name=name, count=count))
+
+    body = f"""
+<h1>随笔分类</h1>
+<div class="list-wrap">
+  {''.join(cards)}
+</div>"""
+
+    write_text(INDEX_OUT, wrap_page("随笔", "articles", body))
+    print(f"✅ 生成随笔分类首页：{INDEX_OUT}")
+
+
+def main():
+    if not ARTICLES_DIR.exists():
+        print(f"ERROR: 路径不存在: {ARTICLES_DIR}")
+        sys.exit(1)
+
+    category_articles = generate_article_pages()
+
+    for cat, items in category_articles.items():
+        generate_category_index(cat, items)
+
+    generate_main_index(category_articles)
 
 
 if __name__ == "__main__":
