@@ -4,7 +4,6 @@
 import re
 import sys
 import html
-import urllib.parse
 from pathlib import Path
 from datetime import datetime
 
@@ -22,121 +21,6 @@ SITE_TITLE = "RedRocks"
 IMG_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
 COVER_CANDIDATES = ("cover.jpg", "cover.jpeg", "cover.png", "cover.webp", "cover.gif")
 
-
-# 分类显示名（子目录名大小写不敏感）
-CATEGORY_ZH_EN = {
-    "photography": "摄影（Photography）",
-    "buddhism": "佛法（Buddhism）",
-    "misc": "杂文（Misc）",
-    "travel": "旅行（Travel）",
-    "tap": "TAP宇宙观（TAP）",
-}
-
-
-def category_display_name(dirname: str) -> str:
-    """把随笔子目录名转换为要显示的‘中文（English）’。未知目录则原样返回。"""
-    key = (dirname or "").strip().lower()
-    return CATEGORY_ZH_EN.get(key, dirname)
-
-
-def _resolve_case_path(base_dir: Path, rel_path: str) -> Path | None:
-    """
-    在大小写敏感的环境下（GitHub Pages/Linux）避免 404：
-    给定 base_dir + rel_path（可能大小写写错），逐级做 case-insensitive 匹配，
-    返回真实存在的 Path；找不到则返回 None。
-    """
-    try:
-        rel = Path(rel_path)
-    except Exception:
-        return None
-
-    cur = base_dir
-    for part in rel.parts:
-        if part in (".", ""):
-            continue
-        if part == "..":
-            cur = cur.parent
-            continue
-        if not cur.exists() or not cur.is_dir():
-            return None
-        # 精确命中
-        cand = cur / part
-        if cand.exists():
-            cur = cand
-            continue
-        # 忽略大小写匹配
-        target = part.lower()
-        found = None
-        try:
-            for child in cur.iterdir():
-                if child.name.lower() == target:
-                    found = child
-                    break
-        except Exception:
-            return None
-        if found is None:
-            return None
-        cur = found
-
-    return cur if cur.exists() else None
-
-
-def fix_resource_url_case(url: str, md_dir: Path) -> str:
-    """
-    修正 Markdown 生成 HTML 中的本地资源链接（img/src、a/href等）的大小写：
-    - 绝对路径 /xxx 从 ROOT 下解析
-    - 相对路径 xxx/yyy 从 md_dir 解析
-    - 保留 query / fragment
-    - 非本地链接（http/mailto/data/#）保持不变
-    """
-    if not url:
-        return url
-
-    u = url.strip()
-    lowered = u.lower()
-    if lowered.startswith(("http://", "https://", "mailto:", "tel:", "data:")) or u.startswith("#"):
-        return url
-
-    parsed = urllib.parse.urlsplit(u)
-    path_part = parsed.path
-
-    if not path_part:
-        return url
-
-    # 选择解析基准
-    if path_part.startswith("/"):
-        base = ROOT
-        rel = path_part.lstrip("/")
-        resolved = _resolve_case_path(base, rel)
-        if resolved is None:
-            return url
-        new_path = "/" + resolved.relative_to(ROOT).as_posix()
-    else:
-        base = md_dir
-        rel = path_part
-        resolved = _resolve_case_path(base, rel)
-        if resolved is None:
-            return url
-        new_path = resolved.relative_to(md_dir).as_posix()
-
-    rebuilt = urllib.parse.urlunsplit((parsed.scheme, parsed.netloc, new_path, parsed.query, parsed.fragment))
-    return rebuilt
-
-
-def fix_html_resource_cases(html_text: str, md_dir: Path) -> str:
-    """
-    扫描 HTML 中常见的资源属性（src/href/poster），把其中的本地路径修正为真实大小写。
-    """
-    def _repl(m: re.Match) -> str:
-        attr = m.group(1)
-        quote = m.group(2)
-        val = m.group(3)
-        fixed = fix_resource_url_case(val, md_dir)
-        return f'{attr}={quote}{html.escape(fixed, quote=True)}{quote}'
-
-    # 允许单/双引号
-    pattern = re.compile(r'\b(src|href|poster)=(["\'])([^"\']+)\2', flags=re.I)
-    return pattern.sub(_repl, html_text)
 
 # -------------------------
 # Utils
@@ -225,20 +109,10 @@ def discover_categories() -> list[str]:
 
 
 def pick_category_cover(cat_dir: Path) -> str:
-    """Return web path for category cover if exists (case-insensitive), else empty."""
-    if not cat_dir.exists() or not cat_dir.is_dir():
-        return ""
-
-    # Build a lookup for case-insensitive filename matching
-    try:
-        children = {p.name.lower(): p for p in cat_dir.iterdir() if p.is_file()}
-    except Exception:
-        children = {}
-
+    """Return web path for category cover if exists, else empty."""
     for name in COVER_CANDIDATES:
-        p = children.get(name.lower())
-        if p and p.exists():
-            # 使用真实文件名（大小写正确）
+        p = cat_dir / name
+        if p.exists() and p.is_file():
             return f"/articles/{cat_dir.name}/{p.name}"
     return ""
 
@@ -474,7 +348,6 @@ def generate_article_pages(categories: list[str]):
 
             md_body = strip_first_h1(md_text)
             content_html = render_markdown(md_body)
-            content_html = fix_html_resource_cases(content_html, md_path.parent)
 
             out_path = md_path.with_suffix(".html")  # keep beside md
 
@@ -510,7 +383,7 @@ def generate_article_pages(categories: list[str]):
 
 
 def generate_category_index(cat: str, items: list[dict]):
-    cat_title = category_display_name(cat)
+    cat_title = cat
     if items:
         cards = []
         for it in items:
@@ -579,7 +452,7 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
 <a class="card" href="/articles/{html.escape(cat)}.html">
   {cover_html}
   <div class="card-body">
-    <div class="card-title">{html.escape(category_display_name(cat))}</div>
+    <div class="card-title">{html.escape(cat)}</div>
     <div class="subtle">{html.escape(subtitle)}</div>
   </div>
 </a>
