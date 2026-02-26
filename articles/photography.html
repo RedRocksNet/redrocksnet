@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>photography · 随笔 · RedRocks</title>
+  <link rel="stylesheet" href="/nav.css">
+  <style>
+:root{
+  --bg:#0b0b0b;
+  --fg:#f2f2f2;
+  --muted:#b8b8b8;
+  --card:rgba(255,255,255,0.04);
+  --line:rgba(255,255,255,0.06);
+  --line2:rgba(255,255,255,0.10);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Roboto,
+    "PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.75;
+}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline}
+
+main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:92px 18px 56px; /* space for fixed nav */
+}
+
+h1{
+  margin:12px 0 10px;
+  font-size:34px;
+  letter-spacing:1px;
+  line-height:1.25;
+}
+
+.subtle{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap:14px;
+  margin-top:18px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  transition: transform .18s ease, border-color .18s ease;
+}
+.card:hover{
+  transform: translateY(-2px);
+  border-color: var(--line2);
+}
+
+.cover{
+  width:100%;
+  height:180px;
+  background:#0b0b0b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid var(--line);
+}
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+.card-body{
+  padding:12px 14px 14px;
+}
+
+.card-title{
+  font-size:18px;
+  margin:0 0 6px;
+  line-height:1.35;
+}
+
+.meta{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.badge{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:12px;
+}
+
+.footer{
+  margin-top:40px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* Article detail */
+.article h1{margin-top:8px}
+.article img{
+  max-width:100%;
+  height:auto;
+  border-radius:12px;
+  border:1px solid var(--line);
+}
+.article pre{
+  background:#111;
+  border:1px solid rgba(255,255,255,.08);
+  padding:14px;
+  border-radius:12px;
+  overflow:auto;
+}
+.article code{
+  font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono",
+    "Segoe UI Mono",Consolas,monospace;
+}
+.article blockquote{
+  margin:14px 0;
+  padding:10px 14px;
+  border-left:3px solid rgba(255,255,255,.18);
+  color:var(--muted);
+  background:rgba(255,255,255,.03);
+  border-radius:10px;
+}
+
+.backbar{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.backbar a{
+  color:var(--muted);
+}
+.backbar a:hover{
+  color:var(--fg);
+  text-decoration:underline;
+}
+</style>
+</head>
+<body>
+  <div id="rr-nav-mount" data-current="articles"></div>
+
+  <main>
+    <h1>photography · 随笔</h1>
+<div class="subtle">按最近更新排序 · 2 篇</div>
+
+<div class="grid">
+  <a class="card" href="/articles/photography/一个摄影师的独白.html">
+  <div class="card-body">
+    <div class="card-title">一个摄影师的独白</div>
+    <div class="subtle">一个摄影师的独白 拍了一辈子照片，一辈子跌跌撞撞，从皮老虎折叠的蔡司开始走到现在，终于驻足在单反。或者严格些说，有光学取景器的相机。 喜欢光学取景器，不是因为它“老派”，不是因为它“重”，也不是因为它的画质比微单或者手机强。 而是因为它们还保留着一种正在消失的能力：它允许我用自…</div>
+    <div class="meta">
+      <span class="badge">2026-02-25</span>
+    </div>
+  </div>
+</a><a class="card" href="/articles/photography/镜底心归：摄影里的自我心境修行.html">
+  <div class="card-body">
+    <div class="card-title">镜底心归：摄影里的自我心境修行</div>
+    <div class="subtle">**镜底心归：摄影里的自我心境修行** 摄影于我，早已不是最初那门“捕捉光影”的技艺，而是一场漫长的自我对话，一段与心境、与时间和解的修行。走过急于表达、急于证明的阶段，才慢慢懂得，那些按下快门的瞬间，从来都不止于影像本身，更多的是内心的沉淀与蜕变，是一步步走出摄影的“要求”，…</div>
+    <div class="meta">
+      <span class="badge">2026-02-24</span>
+    </div>
+  </div>
+</a>
+</div>
+
+<div class="backbar">
+  <a href="/articles.html">← 返回随笔首页</a>
+</div>
+    <div class="footer">© 2026 RedRocks</div>
+  </main>
+
+  <script src="/nav.js" defer></script>
+</body>
+</html>
