@@ -45,47 +45,50 @@ def pick_cover(folder: str):
 
 
 def base_head(title: str) -> str:
-    return f"""<head>
+    safe_title = html.escape(title)
+    head = """<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{html.escape(title)}</title>
+  <title>__TITLE__</title>
   <link rel="stylesheet" href="/nav.css">
   <style>
-    body {{
+    body {
       background-color: #111;
       color: white;
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI",
+        Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
       margin: 0;
       padding: 0;
-    }}
+    }
 
-    main {{
+    main {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 92px 18px 56px;
-    }}
+      padding: 92px 18px 56px; /* space for fixed nav */
+      box-sizing: border-box;
+    }
 
-    h1 {{
+    h1 {
       margin: 12px 0 10px;
       font-size: 34px;
       letter-spacing: 1px;
-    }}
+    }
 
-    .subtle {{
+    .subtle {
       color: #b8b8b8;
       font-size: 14px;
       line-height: 1.6;
-    }}
+    }
 
-    /* Series grid (index) */
-    .series-grid {{
+    /* ===== Series grid (index) ===== */
+    .series-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 14px;
       margin-top: 18px;
-    }}
+    }
 
-    .series-card {{
+    .series-card {
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.06);
       border-radius: 14px;
@@ -93,91 +96,94 @@ def base_head(title: str) -> str:
       text-decoration: none;
       color: inherit;
       transition: transform 0.2s ease, border-color 0.2s ease;
-    }}
+    }
 
-    .series-card:hover {{
+    .series-card:hover {
       transform: translateY(-2px);
       border-color: rgba(255,255,255,0.18);
-    }}
+    }
 
-    /* Cover frame: keep grid consistent, image keeps aspect ratio */
-    .series-cover {{
+    /* cover frame keeps consistent grid height,
+       but image keeps original aspect ratio (no crop) */
+    .series-cover {
       width: 100%;
       height: 180px;
       background: #0b0b0b;
       display: flex;
       align-items: center;
       justify-content: center;
-    }}
+    }
 
-    .series-cover img {{
+    .series-cover img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
-    }}
+    }
 
-    .series-meta {{
+    .series-meta {
       padding: 12px 14px 14px;
-    }}
+    }
 
-    .series-title {{
+    .series-title {
       font-size: 18px;
       margin: 0 0 6px;
-    }}
+    }
 
-    /* Series thumbnails: fixed frame + contain (no distortion, no crop) */
-    .thumb-grid {{
+    /* ===== Thumbnails (series page) ===== */
+    .thumb-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 14px;
       margin-top: 18px;
-    }}
+    }
 
-    .thumb {{
+    .thumb {
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.06);
       border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
       transition: transform 0.2s ease, border-color 0.2s ease;
-    }}
+    }
 
-    .thumb:hover {{
+    .thumb:hover {
       transform: translateY(-1px);
       border-color: rgba(255,255,255,0.18);
-    }}
+    }
 
-    .thumb-frame {{
+    .thumb-frame {
       width: 100%;
-      height: 220px; /* 缩略图框高：可以之后再微调 */
+      height: 220px;  /* uniform grid */
       background: #0b0b0b;
       display: flex;
       align-items: center;
       justify-content: center;
-    }}
+    }
 
-    .thumb-frame img {{
+    .thumb-frame img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* 关键：保持原比例 */
+      object-fit: contain; /* keep aspect ratio */
       display: block;
-    }}
+    }
 
-    .backlink {{
+    .backlink {
       margin-top: 18px;
-    }}
-    .backlink a {{
+    }
+
+    .backlink a {
       color: #b8b8b8;
       text-decoration: none;
-    }}
-    .backlink a:hover {{
+    }
+
+    .backlink a:hover {
       color: #fff;
       text-decoration: underline;
-    }}
+    }
 
-    /* Lightbox */
-    #lightbox {{
+    /* ===== Lightbox ===== */
+    #lightbox {
       display: none;
       position: fixed;
       z-index: 9999;
@@ -186,11 +192,22 @@ def base_head(title: str) -> str:
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.9);
-    }}
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.92);
+      box-sizing: border-box;
+    }
 
-    #lightbox .close {{
+    #lightbox #lightbox-img {
+      display: block;
+      margin: 0 auto;
+      max-width: 92vw;
+      max-height: 88vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    #lightbox .close {
       position: absolute;
       top: 20px;
       right: 35px;
@@ -198,8 +215,9 @@ def base_head(title: str) -> str:
       font-size: 40px;
       font-weight: bold;
       cursor: pointer;
-    }}
-    #lightbox .nav-btn {{
+    }
+
+    #lightbox .nav-btn {
       position: absolute;
       top: 50%;
       font-size: 60px;
@@ -207,19 +225,22 @@ def base_head(title: str) -> str:
       cursor: pointer;
       user-select: none;
       padding: 10px;
-    }}
-    #lightbox .prev {{ left: 20px; }}
-    #lightbox .next {{ right: 20px; }}
+      transform: translateY(-50%);
+    }
 
-    .footer {{
+    #lightbox .prev { left: 20px; }
+    #lightbox .next { right: 20px; }
+
+    .footer {
       margin-top: 40px;
       padding-top: 18px;
       border-top: 1px solid rgba(255,255,255,0.08);
       color: #b8b8b8;
       font-size: 13px;
-    }}
+    }
   </style>
 </head>"""
+    return head.replace("__TITLE__", safe_title)
 
 
 def page_wrap(title: str, current: str, body_html: str) -> str:
