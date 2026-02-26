@@ -1,96 +1,179 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>敦煌经生</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RedRocks</title>
 
-  <!-- ✅ 导航模块：样式（下一步我会给你 nav.css） -->
-  <link rel="stylesheet" href="/nav.css">
+  <!-- A 导航 -->
+  <link rel="stylesheet" href="/nav.css" />
 
   <style>
     body {
+      background-color: #111;
+      color: white;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
       margin: 0;
-      font-family: "Helvetica Neue", sans-serif;
-      background-color: #333;
-      color: #fff;
+      padding: 0;
     }
 
-    header {
-      background-color: #222;
-      padding: 4rem 2rem 2rem;
-      text-align: center;
-      margin-top: 3.5rem; /* 给 fixed 导航留空间 */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 92px 18px 56px; /* space for fixed nav */
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      letter-spacing: 2px;
+    /* ====== Hero / Banner ====== */
+    .hero {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #0b0b0b;
     }
 
-    .banner {
+    .hero-img {
       width: 100%;
-      height: 60vh;
+      height: 420px;
       object-fit: cover;
+      display: block;
+      background: #0b0b0b;
     }
 
-    .footer-intro {
-      background-color: #333;
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 1.1rem;
-      color: #ccc;
+    @media (max-width: 800px) {
+      .hero-img { height: 280px; }
     }
 
-    footer {
-      background-color: #222;
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      color: #666;
+    .hero-caption {
+      padding: 14px 16px;
+      color: #b8b8b8;
+      font-size: 14px;
+      line-height: 1.6;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    h1 {
+      margin: 18px 0 10px;
+      font-size: 34px;
+      letter-spacing: 1px;
+    }
+
+    .subtle {
+      color: #b8b8b8;
+      font-size: 14px;
+      line-height: 1.8;
+      margin: 0 0 16px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 14px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .card-title {
+      font-size: 16px;
+      margin: 0 0 6px;
+    }
+
+    .footer {
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: #b8b8b8;
+      font-size: 13px;
     }
   </style>
 </head>
-<body>
 
-  <!-- ✅ 导航模块挂载点：data-current 用于高亮当前页 -->
+<body>
+  <!-- A 导航挂载点 -->
   <div id="rr-nav-mount" data-current="home"></div>
 
-  <header>
-    <h1>敦煌经生</h1>
-  </header>
+  <main>
+    <!-- ====== Hero ====== -->
+    <section class="hero" aria-label="Homepage banner">
+      <!-- 默认图：如果 banner_list.js 为空/未加载，就会显示它 -->
+      <img
+        id="rr-hero-img"
+        class="hero-img"
+        src="/banner/cover.jpg"
+        alt="RedRocks banner"
+        loading="eager"
+      />
+      <div class="hero-caption" id="rr-hero-caption">
+        photography • essays • TAP
+      </div>
+    </section>
 
-  <div id="bannerContainer"></div>
+    <h1>RedRocks</h1>
+    <p class="subtle">
+      摄影、随笔、佛经手书，以及对时间与投影结构的长期思考。
+    </p>
 
-  <div class="footer-intro">
-    用摄影，文字，和佛经书写来感受和探索世界与自己内心的交融和平和。
-  </div>
+    <div class="grid">
+      <a class="card" href="/gallery.html">
+        <div class="card-title">摄影作品</div>
+        <div class="subtle">按观看方式组织：静观 / 行走 / 人间 / 微光 / 黑白</div>
+      </a>
 
-  <footer>
-    © 2025 敦煌经生. All rights reserved.
-  </footer>
+      <a class="card" href="/articles.html">
+        <div class="card-title">随笔</div>
+        <div class="subtle">文字与图像并行，记录与思考同在</div>
+      </a>
 
-  <script>
-    const images = [
-      "DSCF2838.jpg",
-      "DSCF2850.jpg",
-      "DSCF2976.jpg",
-      "DSCF3088.jpg",
-      "DSCF3091.jpg",
-      "DSCF9049.jpeg",
-      "DSCF9143 Pano 1.jpg",
-      "DSCF9411.jpg",
-      "DSCF9612.jpg",
-      "DSCF9755.jpg"
-    ];
-    const randomImage = images[Math.floor(Math.random() * images.length)];
-    const bannerContainer = document.getElementById("bannerContainer");
-    bannerContainer.innerHTML = `<img class="banner" src="images/${randomImage}" alt="banner image">`;
-  </script>
+      <a class="card" href="/sutras.html">
+        <div class="card-title">佛经手书</div>
+        <div class="subtle">每日黎明即起，手书佛经，在一笔一划中感受内心</div>
+      </a>
 
-  <!-- ✅ 导航模块：注入与自动隐藏逻辑（下一步我会给你 nav.js） -->
+      <a class="card" href="/about.html">
+        <div class="card-title">关于</div>
+        <div class="subtle">我是谁，以及为什么持续做这件事</div>
+      </a>
+    </div>
+
+    <div class="footer">© RedRocks</div>
+  </main>
+
+  <!-- A 导航脚本 -->
   <script src="/nav.js" defer></script>
 
+  <!-- Banner 清单：由 generate_banner.py 生成 -->
+  <script src="/banner_list.js"></script>
+
+  <script>
+    (function () {
+      // 由 banner_list.js 注入：window.__RR_BANNERS__ = [...]
+      const list = (window.__RR_BANNERS__ || []).filter(Boolean);
+
+      // 如果 banner/ 里没有图片，保持默认 src（/banner/cover.jpg）
+      if (!list.length) return;
+
+      // 随机挑一张
+      const pick = list[Math.floor(Math.random() * list.length)];
+
+      // 替换 hero 图
+      const img = document.getElementById("rr-hero-img");
+      if (img && pick) {
+        img.src = pick;
+      }
+    })();
+  </script>
 </body>
 </html>
