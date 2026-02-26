@@ -3,54 +3,43 @@ set -e
 
 echo "== RedRocksNet Publisher =="
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-echo "Working folder: $SCRIPT_DIR"
-cd "$SCRIPT_DIR"
+WORKDIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$WORKDIR"
+echo "Working folder: $WORKDIR"
+echo
 
-# --- Generate gallery ---
-echo ""
+# Make sure scripts run in repo root
+# Optional but strongly recommended to prevent overwriting remote changes:
+# git pull --rebase
+
+echo "-> Updating banner..."
+python3 generate_banner.py
+echo "✅ banner_list.js generated"
+echo
+
 echo "-> Updating gallery..."
-if [ -f "./run_gallery.command" ]; then
-  bash ./run_gallery.command
-else
-  python3 ./generate_gallery.py
-fi
+python3 generate_gallery.py
+echo "✅ gallery pages generated"
+echo
 
-# --- Generate sutras ---
-echo ""
 echo "-> Updating sutras..."
-if [ -f "./run_sutras.command" ]; then
-  bash ./run_sutras.command
-else
-  python3 ./generate_sutras.py
-fi
+python3 generate_sutras.py
+echo "✅ sutras.html generated"
+echo
 
-# --- Generate articles ---
-echo ""
 echo "-> Updating articles..."
-if [ -f "./run_article.command" ]; then
-  bash ./run_article.command
-else
-  if [ -f "./generate_article.py" ]; then
-    python3 ./generate_article.py
-  else
-    echo "⚠️ generate_article.py not found, skip."
-  fi
-fi
+python3 generate_article.py
+echo "✅ articles pages generated"
+echo
 
-# --- Git commit & push (only once) ---
-echo ""
 echo "-> Git commit & push..."
-git add -A
+git add .
+git status
 
 if git diff --cached --quiet; then
-  echo "✅ No changes to commit."
-  exit 0
+  echo "ℹ️ No changes to commit."
+else
+  git commit -m "Publish update"
+  git push
+  echo "✅ Published successfully!"
 fi
-
-git commit -m "Publish update"
-git push
-
-echo ""
-echo "✅ Published successfully!"
-echo "You can close this window."
