@@ -189,12 +189,7 @@ def base_head(title: str) -> str:
       overflow: auto;
       background-color: rgba(0,0,0,0.9);
     }}
-    #lightbox img {{
-      margin: auto;
-      display: block;
-      width: 80%;
-      max-width: 900px;
-    }}
+
     #lightbox .close {{
       position: absolute;
       top: 20px;
