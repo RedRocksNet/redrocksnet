@@ -1,0 +1,23 @@
+<svg width="700" height="350" xmlns="http://www.w3.org/2000/svg">
+<style>
+.text{font-family:Arial;font-size:18}
+.line{stroke:black;stroke-width:2}
+</style>
+
+<text class="text" x="100" y="80">外向 E</text>
+<line class="line" x1="200" y1="75" x2="500" y2="75"/>
+<text class="text" x="520" y="80">I 内向</text>
+
+<text class="text" x="100" y="140">感觉 S</text>
+<line class="line" x1="200" y1="135" x2="500" y2="135"/>
+<text class="text" x="520" y="140">N 直觉</text>
+
+<text class="text" x="100" y="200">思考 T</text>
+<line class="line" x1="200" y1="195" x2="500" y2="195"/>
+<text class="text" x="520" y="200">F 情感</text>
+
+<text class="text" x="100" y="260">判断 J</text>
+<line class="line" x1="200" y1="255" x2="500" y2="255"/>
+<text class="text" x="520" y="260">P 感知</text>
+
+</svg>
