@@ -15,174 +15,812 @@
   <meta name="twitter:description" content="RedRocks 展示摄影、随笔、佛经手书与 TAP 思考的个人创作网站。" />
   <title>RedRocks</title>
 
-  <!-- A 导航 -->
   <link rel="stylesheet" href="/nav.css" />
 
   <style>
+    :root {
+      --bg: #0a0c0b;
+      --bg-soft: #111614;
+      --panel: rgba(18, 24, 21, 0.84);
+      --panel-strong: rgba(20, 26, 23, 0.95);
+      --line: rgba(217, 202, 162, 0.14);
+      --line-strong: rgba(217, 202, 162, 0.28);
+      --text: #f4efe3;
+      --muted: #b6b0a0;
+      --accent: #c7a86b;
+      --accent-soft: rgba(199, 168, 107, 0.16);
+      --moss: #6f8a72;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
+      --serif: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", "Book Antiqua", "Songti SC", "STSong", serif;
+      --sans: "Avenir Next", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
     body {
-      background-color: #111;
-      color: white;
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
       margin: 0;
       padding: 0;
+      min-height: 100%;
+    }
+
+    body {
+      color: var(--text);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at top, rgba(111, 138, 114, 0.14), transparent 28%),
+        radial-gradient(circle at 80% 18%, rgba(199, 168, 107, 0.12), transparent 20%),
+        linear-gradient(180deg, #090a09 0%, #0b0d0c 28%, #101412 100%);
+      letter-spacing: 0.01em;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 100% 34px, 34px 100%;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.34), transparent 78%);
+      opacity: 0.28;
     }
 
     main {
-      max-width: 1100px;
+      width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 92px 18px 56px; /* space for fixed nav */
+      padding: 96px 0 64px;
     }
 
-    /* ====== Hero / Banner ====== */
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
     .hero {
-      border-radius: 16px;
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.72fr);
+      gap: 24px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(20, 26, 24, 0.94), rgba(10, 12, 11, 0.9)),
+        var(--panel);
+      box-shadow: var(--shadow);
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: #0b0b0b;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% -30% 32%;
+      height: 340px;
+      background: radial-gradient(circle, rgba(199, 168, 107, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 620px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #060707;
     }
 
     .hero-img {
       width: 100%;
-      height: 420px;
+      height: 100%;
       object-fit: cover;
+      filter: saturate(0.92) contrast(1.03) brightness(0.76);
+      transform: scale(1.01);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(8, 10, 9, 0.18), rgba(8, 10, 9, 0.42) 42%, rgba(8, 10, 9, 0.82) 100%),
+        linear-gradient(90deg, rgba(8, 10, 9, 0.66), transparent 60%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 30px 30px 26px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background: rgba(199, 168, 107, 0.5);
+    }
+
+    .hero-copy {
+      max-width: 540px;
+    }
+
+    .hero-title {
+      margin: 14px 0 18px;
+      font-family: var(--serif);
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: 0.96;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+
+    .hero-title span {
       display: block;
-      background: #0b0b0b;
+      color: rgba(244, 239, 227, 0.9);
+      font-size: 0.68em;
+      font-weight: 400;
+      letter-spacing: 0;
+      margin-top: 10px;
     }
 
-    @media (max-width: 800px) {
-      .hero-img { height: 280px; }
+    .hero-lead {
+      max-width: 34em;
+      color: #dbd4c4;
+      font-size: 16px;
+      line-height: 1.85;
+      margin: 0 0 26px;
     }
 
-    .hero-caption {
-      padding: 14px 16px;
-      color: #b8b8b8;
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 148px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
       font-size: 14px;
-      line-height: 1.6;
-      border-top: 1px solid rgba(255,255,255,0.08);
+      letter-spacing: 0.04em;
     }
 
-    h1 {
-      margin: 18px 0 10px;
-      font-size: 34px;
-      letter-spacing: 1px;
+    .button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(217, 202, 162, 0.52);
     }
 
-    .subtle {
-      color: #b8b8b8;
+    .button-primary {
+      background: linear-gradient(135deg, rgba(199, 168, 107, 0.22), rgba(199, 168, 107, 0.1));
+      color: #fff3d5;
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text);
+    }
+
+    .hero-footnote {
+      max-width: 420px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-panel {
+      position: relative;
+      display: grid;
+      gap: 18px;
+      align-content: start;
+      padding: 8px 0;
+    }
+
+    .panel-card {
+      padding: 22px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+        var(--panel-strong);
+    }
+
+    .panel-label {
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .panel-copy {
+      margin: 0;
+      color: #d4cebe;
       font-size: 14px;
       line-height: 1.8;
-      margin: 0 0 16px;
     }
 
-    .grid {
+    .signal-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-      margin-top: 18px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
     }
 
-    .card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 14px;
+    .signal-item {
       padding: 14px;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255,255,255,0.18);
+    .signal-item strong {
+      display: block;
+      font-size: 24px;
+      font-family: var(--serif);
+      font-weight: 400;
+      margin-bottom: 4px;
+      color: #f7f0dc;
     }
 
-    .card-title {
-      font-size: 16px;
-      margin: 0 0 6px;
+    .signal-item span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
     }
 
-    .footer {
-      margin-top: 40px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      color: #b8b8b8;
+    .section {
+      margin-top: 28px;
+      padding: 28px;
+      border-radius: 26px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+        rgba(14, 18, 16, 0.8);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 22px;
+    }
+
+    .section-kicker {
+      color: var(--accent);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.4vw, 42px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      text-wrap: balance;
+    }
+
+    .section-note {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.75;
+      max-width: 46em;
+    }
+
+    .author-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(220px, 0.72fr);
+      gap: 18px;
+    }
+
+    .author-card,
+    .author-aside {
+      border-radius: 22px;
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .author-card p,
+    .author-aside p {
+      margin: 0;
+      color: #ddd6c7;
+      line-height: 1.9;
+      font-size: 15px;
+    }
+
+    .author-aside {
+      display: grid;
+      align-content: center;
+      gap: 10px;
+    }
+
+    .entry-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .entry-card {
+      position: relative;
+      min-height: 240px;
+      padding: 22px 20px 20px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background:
+        radial-gradient(circle at top right, rgba(199, 168, 107, 0.14), transparent 35%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+        rgba(255, 255, 255, 0.025);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease;
+    }
+
+    .entry-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(217, 202, 162, 0.28);
+      background:
+        radial-gradient(circle at top right, rgba(199, 168, 107, 0.18), transparent 38%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+        rgba(255, 255, 255, 0.035);
+    }
+
+    .entry-index {
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .entry-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 28px;
+      line-height: 1.05;
+      font-weight: 400;
+    }
+
+    .entry-summary {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+      flex: 1;
+    }
+
+    .entry-tail {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #f4ead2;
       font-size: 13px;
+      letter-spacing: 0.03em;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .feature-card {
+      padding: 20px;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.03);
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(217, 202, 162, 0.24);
+    }
+
+    .feature-type {
+      color: var(--accent);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 12px;
+    }
+
+    .feature-title {
+      margin: 0 0 10px;
+      font-family: var(--serif);
+      font-size: 25px;
+      line-height: 1.14;
+      font-weight: 400;
+    }
+
+    .feature-desc {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .feature-meta {
+      margin-top: 18px;
+      color: #e8ddc4;
+      font-size: 13px;
+    }
+
+    .recent-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .recent-item {
+      padding: 18px 20px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.025);
+      transition: border-color 0.22s ease, transform 0.22s ease;
+    }
+
+    .recent-item:hover {
+      transform: translateY(-2px);
+      border-color: rgba(217, 202, 162, 0.22);
+    }
+
+    .recent-date {
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .recent-title {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.5;
+      color: #f3eee2;
+    }
+
+    .recent-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .site-footer {
+      margin-top: 26px;
+      padding: 22px 4px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .site-footer a {
+      color: #e8ddc4;
+    }
+
+    @media (max-width: 1080px) {
+      .hero,
+      .author-layout,
+      .entry-grid,
+      .feature-grid,
+      .recent-list {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        min-height: 520px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      main {
+        width: min(100% - 20px, 1180px);
+        padding-top: 82px;
+        padding-bottom: 42px;
+      }
+
+      .hero,
+      .section {
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      .hero-visual {
+        min-height: 420px;
+      }
+
+      .hero-overlay {
+        padding: 22px 18px 18px;
+      }
+
+      .hero-title {
+        font-size: clamp(34px, 11vw, 54px);
+      }
+
+      .section-head {
+        grid-template-columns: 1fr;
+      }
+
+      .signal-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
-  <!-- A 导航挂载点 -->
   <div id="rr-nav-mount" data-current="home"></div>
 
   <main>
-    <!-- ====== Hero ====== -->
-    <section class="hero" aria-label="Homepage banner">
-      <!-- 默认图：如果 banner_list.js 为空/未加载，就会显示它 -->
-      <img
-        id="rr-hero-img"
-        class="hero-img"
-        src="/banner/cover.jpg"
-        alt="RedRocks banner"
-        loading="eager"
-      />
-      <div class="hero-caption" id="rr-hero-caption">
-        photography • essays • TAP
+    <section class="hero" aria-label="RedRocks homepage">
+      <div class="hero-visual">
+        <img
+          id="rr-hero-img"
+          class="hero-img"
+          src="/banner/cover.jpg"
+          alt="RedRocks banner"
+          loading="eager"
+        />
+        <div class="hero-overlay">
+          <div>
+            <div class="eyebrow">RedRocks Archive</div>
+          </div>
+
+          <div class="hero-copy">
+            <h1 class="hero-title">
+              观看世界，也观看
+              <span>心如何在时间与投影中成形。</span>
+            </h1>
+            <p class="hero-lead">
+              这里不是单纯的作品列表，而是一个长期生长的作者现场。摄影、随笔、佛经手书与 TAP
+              思考，在同一条隐线中彼此照见。
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="/articles.html">进入随笔</a>
+              <a class="button button-secondary" href="/gallery.html">观看摄影</a>
+            </div>
+          </div>
+
+          <div class="hero-footnote" id="rr-hero-caption">
+            photography • essays • sutras • TAP
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-panel">
+        <div class="panel-card">
+          <div class="panel-label">Author Note</div>
+          <p class="panel-copy">
+            我把网站当作长期的精神档案馆。拍照，是为了留下世界抵达内心的瞬间；写作，是为了替模糊的感受找到结构；抄经，是让自己在重复之中缓慢安定。
+          </p>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-label">Signals</div>
+          <div class="signal-grid">
+            <div class="signal-item">
+              <strong>观看</strong>
+              <span>静观、行走、人间、微光与黑白。</span>
+            </div>
+            <div class="signal-item">
+              <strong>书写</strong>
+              <span>佛法、杂文、摄影心得与旅行旁白。</span>
+            </div>
+            <div class="signal-item">
+              <strong>安顿</strong>
+              <span>在手书与重复中，收拢杂念与速度。</span>
+            </div>
+            <div class="signal-item">
+              <strong>思考</strong>
+              <span>关于时间、投影结构与世界的长期问题。</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" aria-labelledby="author-intro">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Author</div>
+          <h2 class="section-title" id="author-intro">这不是栏目堆叠，而是同一个问题的不同入口。</h2>
+        </div>
+      </div>
+      <div class="author-layout">
+        <div class="author-card">
+          <p>
+            我关心的是同一件事：人在世界之中如何观看、如何感受、如何安顿，又如何为那些难以言说的经验建立结构。摄影偏向直觉，随笔偏向表达，佛经手书偏向修行，TAP 偏向框架。它们的形式不同，却都指向同一个内核。
+          </p>
+        </div>
+        <div class="author-aside">
+          <div class="panel-label">Current Axis</div>
+          <p>
+            世界与内心的交界、秩序与漂泊的拉扯、时间方向的来源，以及人在其中如何不失去自己。
+          </p>
+        </div>
       </div>
     </section>
 
-    <h1>RedRocks</h1>
-    <p class="subtle">
-      摄影、随笔、佛经手书，以及对时间与投影结构的长期思考。
-    </p>
+    <section class="section" aria-labelledby="entry-points">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Entry Points</div>
+          <h2 class="section-title" id="entry-points">从观看、书写、安顿与思考进入。</h2>
+          <p class="section-note">
+            四个入口不是平行栏目，而是你进入这个网站世界的四种方式。
+          </p>
+        </div>
+      </div>
+      <div class="entry-grid">
+        <a class="entry-card" href="/gallery.html">
+          <div class="entry-index">01 / 观看</div>
+          <h3 class="entry-title">摄影作品</h3>
+          <p class="entry-summary">
+            以静观、行走、人间、微光与黑白的方式重新组织照片，让观看本身成为一种叙述。
+          </p>
+          <div class="entry-tail">
+            <span>进入系列</span>
+            <span>静观 / 行走 / 人间</span>
+          </div>
+        </a>
 
-    <div class="grid">
-      <a class="card" href="/gallery.html">
-        <div class="card-title">摄影作品</div>
-        <div class="subtle">按观看方式组织：静观 / 行走 / 人间 / 微光 / 黑白</div>
-      </a>
+        <a class="entry-card" href="/articles.html">
+          <div class="entry-index">02 / 书写</div>
+          <h3 class="entry-title">随笔</h3>
+          <p class="entry-summary">
+            从佛法、文明、摄影到日常经验，文字在这里不是记录，而是为感觉与判断寻找骨架。
+          </p>
+          <div class="entry-tail">
+            <span>进入随笔</span>
+            <span>佛法 / 杂文 / TAP</span>
+          </div>
+        </a>
 
-      <a class="card" href="/articles.html">
-        <div class="card-title">随笔</div>
-        <div class="subtle">文字与图像并行，记录与思考同在</div>
-      </a>
+        <a class="entry-card" href="/sutras.html">
+          <div class="entry-index">03 / 安顿</div>
+          <h3 class="entry-title">佛经手书</h3>
+          <p class="entry-summary">
+            在一笔一划的重复中，把注意力从喧嚣中收回来，让书写成为一种稳定内心的节律。
+          </p>
+          <div class="entry-tail">
+            <span>进入手书</span>
+            <span>日课 / 手写 / 静心</span>
+          </div>
+        </a>
 
-      <a class="card" href="/sutras.html">
-        <div class="card-title">佛经手书</div>
-        <div class="subtle">每日黎明即起，手书佛经，在一笔一划中感受内心</div>
-      </a>
+        <a class="entry-card" href="/about.html">
+          <div class="entry-index">04 / 作者</div>
+          <h3 class="entry-title">关于 RedRocks</h3>
+          <p class="entry-summary">
+            了解这个网站为何持续存在，以及为什么这些看似不同的内容会在这里长期汇聚。
+          </p>
+          <div class="entry-tail">
+            <span>进入关于</span>
+            <span>作者 / 动机 / 方法</span>
+          </div>
+        </a>
+      </div>
+    </section>
 
-      <a class="card" href="/about.html">
-        <div class="card-title">关于</div>
-        <div class="subtle">我是谁，以及为什么持续做这件事</div>
-      </a>
+    <section class="section" aria-labelledby="featured">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Selected</div>
+          <h2 class="section-title" id="featured">如果第一次来，不妨先从这些内容开始。</h2>
+          <p class="section-note">
+            首页不只做目录，也帮你策展几个更能代表这个网站气质的入口。
+          </p>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <a class="feature-card" href="/articles/misc/%E6%88%BF%E9%87%8C%E6%9C%89%E7%8C%AA%EF%BC%9A%E5%85%B3%E4%BA%8E%E5%AE%B6%E7%9A%84%E8%83%A1%E6%80%9D%E4%B9%B1%E6%83%B3.html">
+          <div class="feature-type">杂文</div>
+          <h3 class="feature-title">房里有猪：关于家的胡思乱想</h3>
+          <p class="feature-desc">
+            从“家”这个字出发，讨论农耕与游牧、东方与西方、安定与掠夺之间的文明逻辑。
+          </p>
+          <div class="feature-meta">最新杂文</div>
+        </a>
+
+        <a class="feature-card" href="/articles/tap.html">
+          <div class="feature-type">TAP</div>
+          <h3 class="feature-title">TAP 宇宙观与投影结构</h3>
+          <p class="feature-desc">
+            进入关于时间方向、投影界面与高维结构的长期思考，阅读这个网站最具框架性的部分。
+          </p>
+          <div class="feature-meta">理论入口</div>
+        </a>
+
+        <a class="feature-card" href="/gallery-light.html">
+          <div class="feature-type">摄影</div>
+          <h3 class="feature-title">微光</h3>
+          <p class="feature-desc">
+            从一组更接近内心状态的照片进入，让图像先于概念发声。
+          </p>
+          <div class="feature-meta">系列推荐</div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="recent-updates">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">Recent</div>
+          <h2 class="section-title" id="recent-updates">这个站仍在继续生长。</h2>
+        </div>
+      </div>
+      <div class="recent-list">
+        <a class="recent-item" href="/articles/misc/%E6%88%BF%E9%87%8C%E6%9C%89%E7%8C%AA%EF%BC%9A%E5%85%B3%E4%BA%8E%E5%AE%B6%E7%9A%84%E8%83%A1%E6%80%9D%E4%B9%B1%E6%83%B3.html">
+          <div class="recent-date">杂文 / 近期</div>
+          <h3 class="recent-title">房里有猪：关于家的胡思乱想</h3>
+          <p class="recent-text">关于“家”的字形、房产焦虑与文明深层生存逻辑的一次延展思考。</p>
+        </a>
+
+        <a class="recent-item" href="/articles/photography/Graflex%20RB%20Series%20B%20%E6%8B%8D%E6%91%84%E6%B5%81%E7%A8%8B%E4%B8%8E%E5%8F%A3%E8%AF%80.html">
+          <div class="recent-date">摄影 / 近期</div>
+          <h3 class="recent-title">Graflex RB Series B 拍摄流程与口诀</h3>
+          <p class="recent-text">一篇兼具器材经验与身体记忆的使用笔记，适合摄影读者作为入口。</p>
+        </a>
+
+        <a class="recent-item" href="/articles/buddhism/%E6%8A%84%E7%BB%8F%E9%9A%8F%E7%AC%94.html">
+          <div class="recent-date">佛法 / 推荐</div>
+          <h3 class="recent-title">抄经随笔</h3>
+          <p class="recent-text">从抄经的重复、耐心与清净，进入这个网站更安静、更向内的一面。</p>
+        </a>
+      </div>
+    </section>
+
+    <div class="site-footer">
+      <div>© RedRocks · Photography, Essays, Sutras, TAP</div>
+      <div>
+        <a href="/about.html">关于我</a> ·
+        <a href="mailto:redrocks@qq.com">redrocks@qq.com</a>
+      </div>
     </div>
-
-    <div class="footer">© RedRocks</div>
   </main>
 
-  <!-- A 导航脚本 -->
   <script src="/nav.js" defer></script>
-
-  <!-- Banner 清单：由 generate_banner.py 生成 -->
   <script src="/banner_list.js"></script>
-
   <script>
     (function () {
-      // 由 banner_list.js 注入：window.__RR_BANNERS__ = [...]
       const list = (window.__RR_BANNERS__ || []).filter(Boolean);
-
-      // 如果 banner/ 里没有图片，保持默认 src（/banner/cover.jpg）
       if (!list.length) return;
-
-      // 随机挑一张
       const pick = list[Math.floor(Math.random() * list.length)];
-
-      // 替换 hero 图
       const img = document.getElementById("rr-hero-img");
-      if (img && pick) {
-        img.src = pick;
-      }
+      if (img && pick) img.src = pick;
     })();
   </script>
 </body>
