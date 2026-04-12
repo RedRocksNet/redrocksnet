@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parent
 ARTICLES_DIR = ROOT / "articles"          # articles/<category>/*.md
 INDEX_OUT = ROOT / "articles.html"        # 随笔首页（栏目卡片）
 SITE_TITLE = "RedRocks"
+SITE_URL = "https://www.redrocks.net"
 
 IMG_EXTS = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
 COVER_CANDIDATES = ("cover.jpg", "cover.jpeg", "cover.png", "cover.webp", "cover.gif")
@@ -209,6 +210,20 @@ def excerpt_from_md(md_text: str, max_len: int = 140) -> str:
     if len(plain) <= max_len:
         return plain
     return plain[: max_len - 1].rstrip() + "…"
+
+
+def absolute_url(path: str) -> str:
+    clean = "/" + (path or "").lstrip("/")
+    return f"{SITE_URL}{clean}"
+
+
+def seo_description(text: str, fallback: str = "") -> str:
+    base = re.sub(r"\s+", " ", (text or "").strip())
+    if not base:
+        base = fallback.strip()
+    if len(base) <= 160:
+        return base
+    return base[:159].rstrip() + "…"
 
 
 def discover_categories() -> list[str]:
@@ -409,14 +424,36 @@ h1{
 """
 
 
-def wrap_page(page_title: str, current_key: str, body_html: str) -> str:
+def wrap_page(
+    page_title: str,
+    current_key: str,
+    body_html: str,
+    description: str = "",
+    canonical_path: str = "",
+    og_type: str = "article",
+) -> str:
     safe_title = html.escape(page_title)
+    safe_description = html.escape(
+        seo_description(description, f"{page_title} · {SITE_TITLE}")
+    )
+    canonical_url = absolute_url(canonical_path or "/")
+    safe_canonical_url = html.escape(canonical_url)
     year = datetime.now().year
     return f"""<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="{safe_description}" />
+  <link rel="canonical" href="{safe_canonical_url}" />
+  <meta property="og:site_name" content="{SITE_TITLE}" />
+  <meta property="og:title" content="{safe_title} · {SITE_TITLE}" />
+  <meta property="og:description" content="{safe_description}" />
+  <meta property="og:type" content="{html.escape(og_type)}" />
+  <meta property="og:url" content="{safe_canonical_url}" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="{safe_title} · {SITE_TITLE}" />
+  <meta name="twitter:description" content="{safe_description}" />
   <title>{safe_title} · {SITE_TITLE}</title>
   <link rel="stylesheet" href="/nav.css">
   <style>{base_css()}</style>
@@ -496,7 +533,16 @@ def generate_article_pages(categories: list[str]):
 </article>
 """.strip()
 
-            write_text(out_path, wrap_page(title, "articles", detail_body))
+            write_text(
+                out_path,
+                wrap_page(
+                    title,
+                    "articles",
+                    detail_body,
+                    description=summary,
+                    canonical_path=f"/articles/{cat}/{stem}.html",
+                ),
+            )
 
             items.append(
                 {
@@ -555,7 +601,18 @@ def generate_category_index(cat: str, items: list[dict]):
 """.strip()
 
     out_file = ARTICLES_DIR / f"{category_slug(cat)}.html"
-    write_text(out_file, wrap_page(f"{cat_title} · 随笔", "articles", body))
+    desc = f"{cat_title} 栏目文章列表，共 {len(items)} 篇，按最近更新时间排序。"
+    write_text(
+        out_file,
+        wrap_page(
+            f"{cat_title} · 随笔",
+            "articles",
+            body,
+            description=desc,
+            canonical_path=f"/articles/{category_slug(cat)}.html",
+            og_type="website",
+        ),
+    )
     print(f"✅ 生成栏目页：{out_file}")
 
 
@@ -600,7 +657,19 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
 </div>
 """.strip()
 
-    write_text(INDEX_OUT, wrap_page("随笔", "articles", body))
+    total = sum(len(category_articles.get(cat, [])) for cat in categories)
+    desc = f"RedRocks 随笔首页，按栏目整理摄影、佛法、TAP、杂文与旅行相关内容，共 {total} 篇。"
+    write_text(
+        INDEX_OUT,
+        wrap_page(
+            "随笔",
+            "articles",
+            body,
+            description=desc,
+            canonical_path="/articles.html",
+            og_type="website",
+        ),
+    )
     print(f"✅ 生成随笔首页：{INDEX_OUT}")
 
 

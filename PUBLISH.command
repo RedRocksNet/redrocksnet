@@ -123,6 +123,11 @@ python3 generate_article.py
 echo "✅ articles pages generated"
 echo
 
+echo "-> Updating sitemap..."
+python3 generate_sitemap.py
+echo "✅ sitemap.xml generated"
+echo
+
 echo "-> Git commit & push..."
 git add .
 git status
