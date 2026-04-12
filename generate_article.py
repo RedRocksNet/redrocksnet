@@ -39,6 +39,11 @@ def category_display_name(dirname: str) -> str:
     return CATEGORY_ZH_EN.get(key, dirname)
 
 
+def category_slug(dirname: str) -> str:
+    """Normalize category page filenames/URLs so links stay stable on case-sensitive hosts."""
+    return (dirname or "").strip().lower()
+
+
 def _resolve_case_path(base_dir: Path, rel_path: str) -> Path | None:
     """
     在大小写敏感的环境下（GitHub Pages/Linux）避免 404：
@@ -485,7 +490,7 @@ def generate_article_pages(categories: list[str]):
   <div style="height:14px"></div>
   {content_html}
   <div class="backbar">
-    <a href="/articles/{html.escape(cat)}.html">← 返回本栏目</a>
+    <a href="/articles/{html.escape(category_slug(cat))}.html">← 返回本栏目</a>
     <a href="/articles.html">← 返回随笔首页</a>
   </div>
 </article>
@@ -549,7 +554,7 @@ def generate_category_index(cat: str, items: list[dict]):
 </div>
 """.strip()
 
-    out_file = ARTICLES_DIR / f"{cat}.html"
+    out_file = ARTICLES_DIR / f"{category_slug(cat)}.html"
     write_text(out_file, wrap_page(f"{cat_title} · 随笔", "articles", body))
     print(f"✅ 生成栏目页：{out_file}")
 
@@ -576,7 +581,7 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
 
         cards.append(
             f"""
-<a class="card" href="/articles/{html.escape(cat)}.html">
+<a class="card" href="/articles/{html.escape(category_slug(cat))}.html">
   {cover_html}
   <div class="card-body">
     <div class="card-title">{html.escape(category_display_name(cat))}</div>
