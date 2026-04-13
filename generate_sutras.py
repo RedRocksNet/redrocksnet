@@ -162,10 +162,10 @@ def generate_html(images):
     }}
 
     .hero-title {{
-      margin: 14px 0 18px;
+      margin: 0;
       font-family: var(--serif);
-      font-size: clamp(34px, 6vw, 64px);
-      line-height: 0.98;
+      font-size: clamp(28px, 4.8vw, 48px);
+      line-height: 1.02;
       letter-spacing: -0.03em;
     }}
 
@@ -175,14 +175,6 @@ def generate_html(images):
       font-size: 0.54em;
       font-weight: 400;
       margin-top: 6px;
-    }}
-
-    .hero-lead {{
-      margin: 0;
-      max-width: 34em;
-      color: #d8d0c1;
-      font-size: 14px;
-      line-height: 1.72;
     }}
 
     .hero-panel {{
@@ -349,7 +341,6 @@ def generate_html(images):
     <section class="hero">
       <div class="hero-copy">
         <h1 class="hero-title">佛经手书<span>在一笔一划的重复中，让书写成为安顿内心的一种节律。</span></h1>
-        <p class="hero-lead">这里不是单纯的作品展示，更像是一种日复一日的书写练习：借重复收拢心念，也借笔墨让自己慢慢安定。</p>
       </div>
 
       <div class="hero-panel">
