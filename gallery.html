@@ -141,18 +141,18 @@
     .hero-title span {
       display: block;
       color: rgba(244, 239, 227, 0.88);
-      font-size: 0.58em;
+      font-size: 0.54em;
       font-weight: 400;
-      margin-top: 8px;
+      margin-top: 6px;
       letter-spacing: 0;
     }
 
     .hero-lead {
       margin: 0;
-      max-width: 34em;
+      max-width: 32em;
       color: #d8d0c1;
-      font-size: 15px;
-      line-height: 1.8;
+      font-size: 14px;
+      line-height: 1.72;
     }
 
     .hero-panel {
@@ -162,8 +162,8 @@
     }
 
     .panel-card {
-      padding: 16px;
-      border-radius: 18px;
+      padding: 14px 16px;
+      border-radius: 16px;
       border: 1px solid var(--line);
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
@@ -181,15 +181,15 @@
     .panel-copy {
       margin: 0;
       color: #d1c9ba;
-      font-size: 13px;
-      line-height: 1.7;
+      font-size: 12px;
+      line-height: 1.6;
     }
 
     .panel-quote {
       margin: 0;
       font-family: var(--serif);
-      font-size: 20px;
-      line-height: 1.35;
+      font-size: 18px;
+      line-height: 1.28;
       color: #f0e7d7;
     }
 
@@ -442,8 +442,18 @@
 <body>
   <div id="rr-nav-mount" data-current="gallery"></div>
   <main>
-    <section class="hero hero-minimal">
-  <p class="hero-line">观看世界的几种不同方式</p>
+    <section class="hero">
+  <div class="hero-copy">
+    <h1 class="hero-title">摄影作品<span>观看世界的几种不同方式</span></h1>
+    <p class="hero-lead">这里的系列不是按题材堆放，而是按观看世界的方式重新组织。</p>
+  </div>
+
+  <div class="hero-panel">
+    <div class="panel-card">
+      <p class="panel-copy">静观、行走、人间、微光与黑白，不是分类，而是几种不同的目光。</p>
+      <p class="panel-quote" style="margin-top: 10px;">让图像先说话。</p>
+    </div>
+  </div>
 </section>
 
 <section class="section">
