@@ -87,11 +87,13 @@
 
     .hero-minimal {
       display: block;
-      padding: 12px 4px 6px;
-      border: 0;
-      border-radius: 0;
-      background: transparent;
-      box-shadow: none;
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+        rgba(40, 45, 42, 0.76);
+      box-shadow: var(--shadow);
     }
 
     .hero-minimal::after {
@@ -195,7 +197,7 @@
     .hero-line {
       margin: 0;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 18px;
       line-height: 1.8;
       font-weight: 300;
       letter-spacing: 0.02em;
