@@ -240,8 +240,8 @@ def base_head(title: str) -> str:
     .hero-line {
       margin: 0;
       color: var(--muted);
-      font-size: 18px;
-      line-height: 1.85;
+      font-size: 14px;
+      line-height: 1.8;
       font-weight: 300;
       letter-spacing: 0.02em;
     }
@@ -331,9 +331,15 @@ def base_head(title: str) -> str:
 
     .series-title {
       font-family: var(--serif);
-      font-size: 30px;
-      line-height: 1.08;
-      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.12;
+      margin: 0 0 6px;
+      color: #d8d0c1;
+    }
+
+    .series-meta .subtle {
+      font-size: 13px;
+      line-height: 1.7;
     }
 
     /* ===== Thumbnails (series page) ===== */
