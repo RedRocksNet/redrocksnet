@@ -242,10 +242,11 @@ def base_head(title: str) -> str:
     .hero-line {
       margin: 0;
       color: var(--muted);
+      font-family: var(--serif);
       font-size: 20px;
-      line-height: 1.8;
-      font-weight: 300;
-      letter-spacing: 0.02em;
+      line-height: 1.35;
+      font-weight: 400;
+      letter-spacing: -0.01em;
     }
 
     .section {
