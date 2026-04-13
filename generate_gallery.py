@@ -283,7 +283,7 @@ def build_index() -> str:
 
     body = f"""
 <h1>摄影作品</h1>
-<div class="subtle">按观看方式分为若干系列。点击进入。</div>
+<div class="subtle">从静观、行走、人间、微光与黑白，进入观看世界的不同方式。</div>
 
 <div class="series-grid">
   {''.join(cards)}
