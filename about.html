@@ -1,104 +1,463 @@
 <!DOCTYPE html>
 <html lang="zh">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="关于 RedRocks：摄影、旅行、佛经手书与长期创作方向。" />
+  <meta name="description" content="关于 RedRocks：从家风、科学训练、汶川转向，到摄影、极地与佛经手书的长期生命线。" />
   <link rel="canonical" href="https://www.redrocks.net/about.html" />
   <meta property="og:site_name" content="RedRocks" />
   <meta property="og:title" content="关于我 - REDROCKS" />
-  <meta property="og:description" content="关于 RedRocks：摄影、旅行、佛经手书与长期创作方向。" />
+  <meta property="og:description" content="关于 RedRocks：从家风、科学训练、汶川转向，到摄影、极地与佛经手书的长期生命线。" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.redrocks.net/about.html" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="关于我 - REDROCKS" />
-  <meta name="twitter:description" content="关于 RedRocks：摄影、旅行、佛经手书与长期创作方向。" />
+  <meta name="twitter:description" content="关于 RedRocks：从家风、科学训练、汶川转向，到摄影、极地与佛经手书的长期生命线。" />
   <title>关于我 - REDROCKS</title>
 
-  <!-- A 导航模块样式 -->
-  <link rel="stylesheet" href="/nav.css">
+  <link rel="stylesheet" href="/nav.css" />
 
   <style>
+    :root {
+      --bg: #171a19;
+      --bg-soft: #222725;
+      --panel: rgba(43, 48, 44, 0.8);
+      --panel-strong: rgba(49, 55, 50, 0.9);
+      --line: rgba(215, 201, 165, 0.12);
+      --line-strong: rgba(215, 201, 165, 0.22);
+      --text: #ebe5d8;
+      --muted: #b9b1a1;
+      --accent: #c7a86b;
+      --accent-soft: rgba(199, 168, 107, 0.16);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.18);
+      --serif: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", "Book Antiqua", "Songti SC", "STSong", serif;
+      --sans: "Avenir Next", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-        "Open Sans", "Helvetica Neue", sans-serif;
-      background-color: #1a1a1a;
-      color: #f0f0f0;
-      background-image: url('about.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      padding: 0;
+      min-height: 100%;
+    }
+
+    body {
+      color: var(--text);
+      font-family: var(--sans);
+      background:
+        linear-gradient(180deg, rgba(23, 26, 25, 0.72), rgba(23, 26, 25, 0.9)),
+        radial-gradient(circle at top, rgba(111, 138, 114, 0.12), transparent 28%),
+        linear-gradient(180deg, #191d1b 0%, #1c211f 32%, #232826 100%);
+      letter-spacing: 0.01em;
       background-attachment: fixed;
     }
 
-    .overlay {
-      background-color: rgba(0, 0, 0, 0.6);
-      min-height: 100vh;
-      padding: 5rem 1rem 2rem; /* 顶部给 fixed 导航留空间 */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.014) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+      background-size: 100% 34px, 34px 100%;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.34), transparent 78%);
+      opacity: 0.18;
     }
 
-    .content {
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 2rem;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    main {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 96px 0 64px;
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(260px, 0.88fr);
+      gap: 22px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(50, 56, 51, 0.92), rgba(31, 35, 33, 0.88)),
+        var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -14% -34% 30%;
+      height: 320px;
+      background: radial-gradient(circle, rgba(199, 168, 107, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+      padding: 8px 6px 8px 6px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background: rgba(199, 168, 107, 0.5);
+    }
+
+    .hero-title {
+      margin: 14px 0 18px;
+      font-family: var(--serif);
+      font-size: clamp(34px, 6vw, 64px);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+
+    .hero-title span {
+      display: block;
+      color: rgba(244, 239, 227, 0.88);
+      font-size: 0.66em;
+      font-weight: 400;
+      margin-top: 10px;
+      letter-spacing: 0;
+    }
+
+    .hero-lead {
+      max-width: 36em;
+      margin: 0;
+      color: #d8d0c1;
+      font-size: 16px;
+      line-height: 1.9;
+    }
+
+    .hero-panel {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .panel-card {
+      padding: 20px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+        var(--panel-strong);
+    }
+
+    .panel-label {
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .panel-copy {
+      margin: 0;
+      color: #d1c9ba;
+      font-size: 14px;
       line-height: 1.8;
-      background-color: rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
     }
 
-    .content h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+    .panel-quote {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 24px;
+      line-height: 1.35;
+      color: #f0e7d7;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 24px;
+      margin-top: 28px;
+      align-items: start;
+    }
+
+    .toc,
+    .article {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0)),
+        var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .toc {
+      position: sticky;
+      top: 94px;
+      padding: 20px 18px;
+    }
+
+    .toc-title {
+      margin: 0 0 16px;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .toc a {
+      display: block;
+      padding: 9px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .toc a:hover {
+      color: var(--text);
+      transform: translateX(2px);
+    }
+
+    .article {
+      padding: 30px 30px 36px;
+    }
+
+    .section {
+      padding: 10px 0 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .section:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .section-label {
+      display: inline-flex;
+      margin-bottom: 14px;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .section h2 {
+      margin: 0 0 16px;
+      font-family: var(--serif);
+      font-size: clamp(28px, 3vw, 38px);
+      font-weight: 500;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    .section p {
+      margin: 0 0 16px;
+      color: #d8d0c1;
+      font-size: 16px;
+      line-height: 1.95;
+    }
+
+    .section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .pull-quote {
+      margin: 22px 0;
+      padding: 18px 20px;
+      border-left: 2px solid rgba(199, 168, 107, 0.5);
+      background: rgba(199, 168, 107, 0.06);
+      border-radius: 0 18px 18px 0;
+      font-family: var(--serif);
+      font-size: 24px;
+      line-height: 1.5;
+      color: #f0e7d7;
     }
 
     .contact {
-      margin-top: 3rem;
-      text-align: center;
-      font-size: 0.95rem;
-      color: #ccc;
-    }
-
-    .contact a {
-      color: #aaa;
-      text-decoration: none;
-      margin: 0 0.5rem;
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 18px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
     }
 
     .contact a:hover {
-      text-decoration: underline;
+      color: var(--text);
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .toc {
+        position: static;
+      }
+
+      .article {
+        padding: 24px 20px 28px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        width: min(100%, calc(100% - 20px));
+        padding-top: 88px;
+      }
+
+      .hero {
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      .hero-title {
+        font-size: 34px;
+      }
+
+      .hero-lead,
+      .section p {
+        font-size: 15px;
+        line-height: 1.88;
+      }
+
+      .pull-quote,
+      .panel-quote {
+        font-size: 21px;
+      }
     }
   </style>
 </head>
-
 <body>
-
-  <!-- A 导航模块挂载点 -->
   <div id="rr-nav-mount" data-current="about"></div>
 
-  <div class="overlay">
-    <div class="content">
-      <h1>关于我</h1>
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">About</div>
+        <h1 class="hero-title">关于我<span>观看世界，也为经验建立结构</span></h1>
+        <p class="hero-lead">我一直觉得，一个人真正持续在做的事情，表面上彼此不同，深处却往往都在回答同一个问题。对我来说，这个问题也许是：人在世界之中，如何观看，如何理解，如何安顿，又如何为那些难以言说的经验建立结构。</p>
+      </div>
 
-      <p>
-        摄影师、旅行者、佛经手书者。以镜头和文字记录世界的静谧与庄严，在旅途中寻找内心的觉知与安定。
-        书写经文，寻找光影，感知内心，忘却自我。
-      </p>
+      <div class="hero-panel">
+        <div class="panel-card">
+          <div class="panel-label">Current Axis</div>
+          <p class="panel-copy">摄影偏向直觉，随笔偏向表达，佛经手书偏向安顿，TAP 偏向框架。它们形式不同，却都指向同一个内核。</p>
+        </div>
+        <div class="panel-card">
+          <div class="panel-label">一句话</div>
+          <p class="panel-quote">不是并列的栏目，而是同一个问题的不同入口。</p>
+        </div>
+      </div>
+    </section>
 
-      <p>
-        REDROCKS 是我的创作空间。这个网站展示了我的摄影集、每日书写的佛经，以及旅行途中记录的点滴体悟。
-      </p>
-    </div>
+    <section class="content-grid">
+      <aside class="toc">
+        <h2 class="toc-title">Sections</h2>
+        <a href="#origin">来处</a>
+        <a href="#training">训练</a>
+        <a href="#turn">转向</a>
+        <a href="#seeing">观看</a>
+        <a href="#journey">行走</a>
+        <a href="#settling">安顿</a>
+        <a href="#website">这个网站</a>
+      </aside>
 
-    <div class="contact">
-      📧 <a href="mailto:redrocks@qq.com">redrocks@qq.com</a>
-      ｜ 🌐 <a href="https://weibo.com/redrocks" target="_blank" rel="noopener noreferrer">@RedRocks</a>
-    </div>
-  </div>
+      <article class="article">
+        <section class="section" id="origin">
+          <div class="section-label">Origin</div>
+          <h2>来处</h2>
+          <p>我成长在一个文革晚期的大学校园环境里。时代仍在动荡的余波之中，但我的小环境相对稳定。父母都是老师，家里有大量藏书，也一直无条件支持我阅读。知识、阅读、思考，对我来说并不是后来为了职业竞争才刻意获得的能力，而更像一种成长中的空气。</p>
+          <p>真正为我写下“家”这个字的人，是姥姥。</p>
+          <p>她经历过抗战、逃难、贫困、失去和生活的重压，却始终以一种讲理、温厚、克制而又有力量的方式，把一个家的秩序和温度守了下来。我始终觉得，今天我对“家”“安顿”“秩序”“善”和“体面”的许多理解，其实都来自她。</p>
+          <p>父亲给了我沉静的理想主义、结构感和责任感；母亲给了我热烈的生命力、对人的温情和将善落实于行动的能力。后来我越来越意识到，很多地方不过是他们两种力量的继续显现。</p>
+          <p>如果说家庭给了我最初的土壤，那么万琳老师就是那个在时代秩序尚未完全恢复的时候，率先把标准、纪律、志气和向上的可能性种进我生命里的人。她不仅教我们读书，也教会了我一种面对世界的姿态：在环境尚混乱时先把自己立住，知道什么是标准，什么是认真，什么是不能糊弄。</p>
+        </section>
 
-  <!-- A 导航模块脚本 -->
+        <section class="section" id="training">
+          <div class="section-label">Training</div>
+          <h2>训练</h2>
+          <p>我从复旦大学物理系毕业后，在上海瑞金医院激光室工作一年，最初接触医学物理。之后出国，取得生物医学物理博士。我的职业生涯长期围绕光学在癌症基础和临床科研中的应用展开。</p>
+          <p>这段经历对我的意义，绝不只是履历。</p>
+          <p>它让我学会面对复杂系统，在现象背后寻找机制，对抽象问题保持耐心，也学会为经验建立结构。后来即使我逐渐离开狭义的科研职业轨道，这种结构能力也一直留在我身上，并最终成为我理解世界、写作、摄影，乃至后来思考 TAP 理论的重要基础。</p>
+        </section>
+
+        <section class="section" id="turn">
+          <div class="section-label">Turning</div>
+          <h2>转向</h2>
+          <p>如果说人生有某个明确的里程碑，那么汶川一定是其中之一。</p>
+          <p>在那里，我第一次如此近距离地面对真正被打碎的生活。真正留在我心里的，不是宏大叙事，而是那些极其具体的现实：孩子看着干粮的目光、田埂上的老人、老奶奶刨出来的碎锅、裂了口的篷布，以及那句让我至今无法忘记的话：</p>
+          <div class="pull-quote">人生在世，头顶一片瓦。</div>
+          <p>那一刻我忽然明白，人活着最基本的需求究竟是什么。后来再回头看，去汶川的目的是为了救援，最后结果也许只是救了自己。</p>
+          <p>汶川对我来说，是一个终点，也是一个起点。</p>
+        </section>
+
+        <section class="section" id="seeing">
+          <div class="section-label">Seeing</div>
+          <h2>观看</h2>
+          <p>摄影很早就进入了我的生命。父亲是我摄影的领路人，而真正让这团火彻底烧起来的，是孩子的出生。从那时起，我开始系统地记录，也建立了自己的第一套暗房，从此一发不可收。</p>
+          <p>后来我背着各种器材走世界，彩色为杂志拍，黑白为自己拍。慢慢地，我开始明白：比拍照更重要的，是观察。</p>
+          <p>摄影于我，最终不只是职业身份，而是一种观看世界的方法，一种理解世界、沉淀经验的方式。</p>
+        </section>
+
+        <section class="section" id="journey">
+          <div class="section-label">Journey</div>
+          <h2>行走</h2>
+          <p>旅行和摄影密不可分。札达的土林，耶路撒冷的哭墙，乞力马扎罗的冰川，法老的金字塔，高棉的微笑，贝尔格莱德的废墟和弹孔，那些日日夜夜，如梦幻泡影。</p>
+          <p>在我的拍摄生涯中，早年最关注的几个项目包括美国国家公园、美国牛仔和北极熊。我也一直偏爱那些贯穿着人类文明演绎的大河：湄公河、多瑙河、亚马逊河、密西西比河、科罗拉多河，从源头到出海，大河之滨，我走了很远。</p>
+          <p>南北极是这条摄影与观看之路自然而然的延伸。极地自然让我越来越强烈地意识到：图片并不仅仅是光圈、快门和构图，更重要的是摄影之外的观察。</p>
+          <p>安静地听北极熊在风中踏过冰原的脚步声，远比似海潮不绝的快门声动人。观看本身，可以比拍摄更重要。</p>
+          <p>后来，我没有以摄影师的身份去南极，而是慢慢变成了极地自然向导和同传翻译。这意味着我不再只是拍世界的人，也开始成为帮助别人进入世界的人。</p>
+          <p>在极地工作九年，53 岁学会驾驶冲锋舟，是我非常自豪的一件事。更重要的是，在南极冰山环绕的夕阳里，第一次手中没有相机的满足感，竟完全超过了摄影本身。从那以后，相机不再是唯一重要的东西。虽然还在拍，但内心的感受、人与环境之间的关系，这些问题，越来越重要。</p>
+        </section>
+
+        <section class="section" id="settling">
+          <div class="section-label">Settling</div>
+          <h2>安顿</h2>
+          <p>佛经书写最初并不是源于系统的佛学认识，而是来自一次非常具体的生命情境。母亲一次生病，我在陪伴中的无聊里写了一份《心经》。最初吸引我的，不是教义，而是那种只在乎一笔一划写字的专注感。</p>
+          <p>后来，写经成了我生活中不可或缺的一部分，也让我在书写中慢慢体会到安静、修行和放下。十年写下来，我似乎又回到了另一种简单：依然会去写，只是回到那种一笔一划、一个字一个字写下去的朴素状态。</p>
+          <p>所以佛法对我来说，不是晚年附加的兴趣，不是对现实的逃避，也不是装饰性的精神标签，而是一条始终在生长的内在线。世界经验越丰富，内心越需要一种更稳的秩序；看得越多，越需要一种更深的放下。</p>
+        </section>
+
+        <section class="section" id="website">
+          <div class="section-label">Website</div>
+          <h2>这个网站</h2>
+          <p>这个网站最终想留下的，不只是作品。</p>
+          <p>摄影、随笔、佛经手书和 TAP 理论，对我来说并不是四个并列栏目，而是同一个问题的不同入口。摄影偏向直觉，随笔偏向表达，佛经手书偏向安顿，TAP 偏向框架。它们形式不同，却都指向同一个内核：人在世界之中如何观看，如何感受，如何理解，又如何为自己和内心留下一块完整之地。</p>
+          <p>如果说这个网站真正想保存什么，那大概不是一个人的“成就”，而是一条不断显现的生命之线。</p>
+
+          <div class="contact">
+            <span>📧 <a href="mailto:redrocks@qq.com">redrocks@qq.com</a></span>
+            <span>🌐 <a href="https://weibo.com/redrocks" target="_blank" rel="noopener noreferrer">@RedRocks</a></span>
+          </div>
+        </section>
+      </article>
+    </section>
+  </main>
+
   <script src="/nav.js" defer></script>
-
 </body>
 </html>
