@@ -513,10 +513,6 @@ def build_index() -> str:
 </section>
 
 <section class="section">
-  <div class="section-head">
-    <div class="section-kicker">Series</div>
-    <h2 class="section-title">从几种不同的观看方式进入。</h2>
-  </div>
   <div class="series-grid">
     {''.join(cards)}
   </div>
