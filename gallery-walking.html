@@ -90,6 +90,19 @@
       overflow: hidden;
     }
 
+    .hero-minimal {
+      display: block;
+      padding: 12px 4px 6px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .hero-minimal::after {
+      display: none;
+    }
+
     .hero::after {
       content: "";
       position: absolute;
@@ -176,6 +189,15 @@
       font-size: 20px;
       line-height: 1.35;
       color: #f0e7d7;
+    }
+
+    .hero-line {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.85;
+      font-weight: 300;
+      letter-spacing: 0.02em;
     }
 
     .section {

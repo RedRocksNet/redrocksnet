@@ -307,6 +307,15 @@ h1{
   line-height:1.65;
 }
 
+.intro-line{
+  margin:8px 0 0;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.85;
+  font-weight:300;
+  letter-spacing:.02em;
+}
+
 .grid{
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -580,8 +589,7 @@ def generate_category_index(cat: str, items: list[dict]):
             )
 
         body = f"""
-<h1>{html.escape(cat_title)} · 随笔</h1>
-<div class="subtle">按最近更新排序 · {len(items)} 篇</div>
+<div class="intro-line">{html.escape(cat_title)}这一侧的书写，按最近更新排序。</div>
 
 <div class="grid">
   {''.join(cards)}
@@ -593,8 +601,7 @@ def generate_category_index(cat: str, items: list[dict]):
 """.strip()
     else:
         body = f"""
-<h1>{html.escape(cat_title)} · 随笔</h1>
-<div class="subtle">暂无文章。</div>
+<div class="intro-line">{html.escape(cat_title)}这一侧的书写，暂时还在沉淀中。</div>
 <div class="backbar">
   <a href="/articles.html">← 返回随笔首页</a>
 </div>
@@ -649,8 +656,7 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
         )
 
     body = f"""
-<h1>随笔</h1>
-<div class="subtle">从佛法、杂文、摄影、旅行与 TAP，进入书写的不同侧面。</div>
+<div class="intro-line">从佛法、杂文、摄影、旅行与 TAP，进入书写的不同侧面。</div>
 
 <div class="grid">
   {''.join(cards)}

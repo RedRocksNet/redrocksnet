@@ -85,6 +85,19 @@
       overflow: hidden;
     }
 
+    .hero-minimal {
+      display: block;
+      padding: 12px 4px 6px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .hero-minimal::after {
+      display: none;
+    }
+
     .hero::after {
       content: "";
       position: absolute;
@@ -177,6 +190,15 @@
       font-size: 24px;
       line-height: 1.35;
       color: #f0e7d7;
+    }
+
+    .hero-line {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.85;
+      font-weight: 300;
+      letter-spacing: 0.02em;
     }
 
     .gallery-shell {
@@ -292,23 +314,8 @@
   <div id="rr-nav-mount" data-current="sutras"></div>
 
   <main>
-    <section class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow">Sutras</div>
-        <h1 class="hero-title">佛经手书<span>在一笔一划的重复中，让内心慢慢安定</span></h1>
-        <p class="hero-lead">佛经书写最初并不是源于系统的佛学认识，而是来自一次非常具体的生命情境。后来，写经成了我生活中不可或缺的一部分，也让我在书写里慢慢体会到专注、安静、修行与放下。</p>
-      </div>
-
-      <div class="hero-panel">
-        <div class="panel-card">
-          <div class="panel-label">Practice</div>
-          <p class="panel-copy">静的时候可以写，焦躁的时候更该写。写到最后，重要的也许不再是“懂了多少”，而是回到那种一个字一个字写下去的简单。</p>
-        </div>
-        <div class="panel-card">
-          <div class="panel-label">一句话</div>
-          <p class="panel-quote">不是展示字，而是借书写安顿自己。</p>
-        </div>
-      </div>
+    <section class="hero hero-minimal">
+      <p class="hero-line">在一笔一划的重复中，让书写成为安顿内心的一种节律。</p>
     </section>
 
     <section class="gallery-shell">
