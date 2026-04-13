@@ -108,10 +108,10 @@ def base_head(title: str) -> str:
     }
 
     h1 {
-      margin: 0 0 10px;
+      margin: 0 0 8px;
       font-family: var(--serif);
-      font-size: clamp(34px, 6vw, 64px);
-      line-height: 0.98;
+      font-size: clamp(28px, 4.8vw, 48px);
+      line-height: 1.02;
       letter-spacing: -0.03em;
     }
 
@@ -124,9 +124,9 @@ def base_head(title: str) -> str:
     .hero {
       position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 1.16fr) minmax(280px, 0.84fr);
-      gap: 22px;
-      padding: 22px;
+      grid-template-columns: minmax(0, 1.24fr) minmax(240px, 0.76fr);
+      gap: 18px;
+      padding: 18px;
       border: 1px solid var(--line);
       border-radius: 28px;
       background:
@@ -172,18 +172,18 @@ def base_head(title: str) -> str:
     .hero-title span {
       display: block;
       color: rgba(244, 239, 227, 0.88);
-      font-size: 0.64em;
+      font-size: 0.58em;
       font-weight: 400;
-      margin-top: 10px;
+      margin-top: 8px;
       letter-spacing: 0;
     }
 
     .hero-lead {
       margin: 0;
-      max-width: 38em;
+      max-width: 34em;
       color: #d8d0c1;
-      font-size: 16px;
-      line-height: 1.92;
+      font-size: 15px;
+      line-height: 1.8;
     }
 
     .hero-panel {
@@ -193,8 +193,8 @@ def base_head(title: str) -> str:
     }
 
     .panel-card {
-      padding: 20px;
-      border-radius: 22px;
+      padding: 16px;
+      border-radius: 18px;
       border: 1px solid var(--line);
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
@@ -212,14 +212,14 @@ def base_head(title: str) -> str:
     .panel-copy {
       margin: 0;
       color: #d1c9ba;
-      font-size: 14px;
-      line-height: 1.8;
+      font-size: 13px;
+      line-height: 1.7;
     }
 
     .panel-quote {
       margin: 0;
       font-family: var(--serif);
-      font-size: 24px;
+      font-size: 20px;
       line-height: 1.35;
       color: #f0e7d7;
     }
@@ -499,18 +499,18 @@ def build_index() -> str:
 <section class="hero">
   <div class="hero-copy">
     <div class="eyebrow">Gallery</div>
-    <h1 class="hero-title">摄影作品<span>从静观、行走、人间、微光与黑白进入观看</span></h1>
-    <p class="hero-lead">摄影于我，最终不只是职业身份，而是一种观看世界的方法，一种理解世界、沉淀经验的方式。这里的系列不是按题材堆放，而是按观看世界的方式重新组织。</p>
+    <h1 class="hero-title">摄影作品<span>从几种不同的观看方式进入</span></h1>
+    <p class="hero-lead">这里的系列不是按题材堆放，而是按观看世界的方式重新组织。</p>
   </div>
 
   <div class="hero-panel">
     <div class="panel-card">
       <div class="panel-label">Current Axis</div>
-      <p class="panel-copy">有些照片更接近静观，有些属于行走，有些落在人间，有些只剩微光与黑白。它们共同指向的，不是题目，而是观看本身。</p>
+      <p class="panel-copy">静观、行走、人间、微光与黑白，不是分类，而是几种不同的目光。</p>
     </div>
     <div class="panel-card">
       <div class="panel-label">一句话</div>
-      <p class="panel-quote">不是整理照片，而是整理观看。</p>
+      <p class="panel-quote">让图像先说话。</p>
     </div>
   </div>
 </section>
