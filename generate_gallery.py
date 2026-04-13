@@ -186,7 +186,7 @@ def base_head(title: str) -> str:
 
     .hero-title span {
       display: block;
-      color: rgba(244, 239, 227, 0.88);
+      color: rgba(210, 202, 188, 0.72);
       font-size: 0.54em;
       font-weight: 400;
       margin-top: 6px;
@@ -218,7 +218,7 @@ def base_head(title: str) -> str:
 
     .panel-copy {
       margin: 0;
-      color: #d1c9ba;
+      color: rgba(198, 190, 176, 0.8);
       font-size: 12px;
       line-height: 1.6;
     }
@@ -228,7 +228,7 @@ def base_head(title: str) -> str:
       font-family: var(--serif);
       font-size: 18px;
       line-height: 1.28;
-      color: #f0e7d7;
+      color: rgba(224, 214, 194, 0.76);
     }
 
     .hero-line {
