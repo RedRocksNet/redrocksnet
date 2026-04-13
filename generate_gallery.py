@@ -52,62 +52,244 @@ def base_head(title: str) -> str:
   <title>__TITLE__</title>
   <link rel="stylesheet" href="/nav.css">
   <style>
-    body {
-      background-color: #111;
-      color: white;
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI",
-        Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    :root {
+      --bg: #171a19;
+      --panel: rgba(43, 48, 44, 0.8);
+      --panel-strong: rgba(49, 55, 50, 0.9);
+      --line: rgba(215, 201, 165, 0.12);
+      --line-strong: rgba(215, 201, 165, 0.22);
+      --text: #ebe5d8;
+      --muted: #b9b1a1;
+      --accent: #c7a86b;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.18);
+      --serif: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", "Book Antiqua", "Songti SC", "STSong", serif;
+      --sans: "Avenir Next", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
       margin: 0;
       padding: 0;
+      min-height: 100%;
+    }
+
+    body {
+      color: var(--text);
+      font-family: var(--sans);
+      background:
+        linear-gradient(180deg, rgba(23, 26, 25, 0.72), rgba(23, 26, 25, 0.92)),
+        radial-gradient(circle at top, rgba(111, 138, 114, 0.12), transparent 28%),
+        linear-gradient(180deg, #191d1b 0%, #1c211f 32%, #232826 100%);
+      letter-spacing: 0.01em;
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.014) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+      background-size: 100% 34px, 34px 100%;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.34), transparent 78%);
+      opacity: 0.18;
     }
 
     main {
-      max-width: 1100px;
+      width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 92px 18px 56px; /* space for fixed nav */
+      padding: 96px 0 64px;
       box-sizing: border-box;
     }
 
     h1 {
-      margin: 12px 0 10px;
-      font-size: 34px;
-      letter-spacing: 1px;
+      margin: 0 0 10px;
+      font-family: var(--serif);
+      font-size: clamp(34px, 6vw, 64px);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
     }
 
     .subtle {
-      color: #b8b8b8;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.16fr) minmax(280px, 0.84fr);
+      gap: 22px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(50, 56, 51, 0.92), rgba(31, 35, 33, 0.88)),
+        var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -14% -34% 30%;
+      height: 320px;
+      background: radial-gradient(circle, rgba(199, 168, 107, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-copy,
+    .hero-panel {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background: rgba(199, 168, 107, 0.5);
+    }
+
+    .hero-title span {
+      display: block;
+      color: rgba(244, 239, 227, 0.88);
+      font-size: 0.64em;
+      font-weight: 400;
+      margin-top: 10px;
+      letter-spacing: 0;
+    }
+
+    .hero-lead {
+      margin: 0;
+      max-width: 38em;
+      color: #d8d0c1;
+      font-size: 16px;
+      line-height: 1.92;
+    }
+
+    .hero-panel {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .panel-card {
+      padding: 20px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+        var(--panel-strong);
+    }
+
+    .panel-label {
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .panel-copy {
+      margin: 0;
+      color: #d1c9ba;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.8;
+    }
+
+    .panel-quote {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 24px;
+      line-height: 1.35;
+      color: #f0e7d7;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding: 28px;
+      border-radius: 26px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+        rgba(40, 45, 42, 0.76);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      margin-bottom: 22px;
+    }
+
+    .section-kicker {
+      color: var(--accent);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.4vw, 42px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      text-wrap: balance;
     }
 
     /* ===== Series grid (index) ===== */
     .series-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 14px;
-      margin-top: 18px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
     }
 
     .series-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 14px;
+      background:
+        radial-gradient(circle at top right, rgba(199, 168, 107, 0.1), transparent 35%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+        rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 22px;
       overflow: hidden;
       text-decoration: none;
       color: inherit;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease;
     }
 
     .series-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255,255,255,0.18);
+      transform: translateY(-4px);
+      border-color: rgba(217, 202, 162, 0.28);
+      background:
+        radial-gradient(circle at top right, rgba(199, 168, 107, 0.14), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+        rgba(255,255,255,0.055);
     }
 
     /* cover frame keeps consistent grid height,
        but image keeps original aspect ratio (no crop) */
     .series-cover {
       width: 100%;
-      height: 180px;
+      height: 260px;
       background: #0b0b0b;
       display: flex;
       align-items: center;
@@ -122,12 +304,14 @@ def base_head(title: str) -> str:
     }
 
     .series-meta {
-      padding: 12px 14px 14px;
+      padding: 18px 18px 20px;
     }
 
     .series-title {
-      font-size: 18px;
-      margin: 0 0 6px;
+      font-family: var(--serif);
+      font-size: 30px;
+      line-height: 1.08;
+      margin: 0 0 8px;
     }
 
     /* ===== Thumbnails (series page) ===== */
@@ -141,7 +325,7 @@ def base_head(title: str) -> str:
     .thumb {
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 12px;
+      border-radius: 18px;
       overflow: hidden;
       cursor: pointer;
       transition: transform 0.2s ease, border-color 0.2s ease;
@@ -154,7 +338,7 @@ def base_head(title: str) -> str:
 
     .thumb-frame {
       width: 100%;
-      height: 220px;  /* uniform grid */
+      height: 260px;
       background: #0b0b0b;
       display: flex;
       align-items: center;
@@ -173,12 +357,12 @@ def base_head(title: str) -> str:
     }
 
     .backlink a {
-      color: #b8b8b8;
+      color: var(--muted);
       text-decoration: none;
     }
 
     .backlink a:hover {
-      color: #fff;
+      color: var(--text);
       text-decoration: underline;
     }
 
@@ -235,8 +419,38 @@ def base_head(title: str) -> str:
       margin-top: 40px;
       padding-top: 18px;
       border-top: 1px solid rgba(255,255,255,0.08);
-      color: #b8b8b8;
+      color: var(--muted);
       font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .series-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      main {
+        width: min(100% - 20px, 1180px);
+        padding-top: 82px;
+        padding-bottom: 42px;
+      }
+
+      .hero,
+      .section {
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      .hero-title {
+        font-size: clamp(34px, 11vw, 54px);
+      }
+
+      .series-cover,
+      .thumb-frame {
+        height: 220px;
+      }
     }
   </style>
 </head>"""
@@ -282,12 +496,34 @@ def build_index() -> str:
 """.strip())
 
     body = f"""
-<h1>摄影作品</h1>
-<div class="subtle">从静观、行走、人间、微光与黑白，进入观看世界的不同方式。</div>
+<section class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">Gallery</div>
+    <h1 class="hero-title">摄影作品<span>从静观、行走、人间、微光与黑白进入观看</span></h1>
+    <p class="hero-lead">摄影于我，最终不只是职业身份，而是一种观看世界的方法，一种理解世界、沉淀经验的方式。这里的系列不是按题材堆放，而是按观看世界的方式重新组织。</p>
+  </div>
 
-<div class="series-grid">
-  {''.join(cards)}
-</div>
+  <div class="hero-panel">
+    <div class="panel-card">
+      <div class="panel-label">Current Axis</div>
+      <p class="panel-copy">有些照片更接近静观，有些属于行走，有些落在人间，有些只剩微光与黑白。它们共同指向的，不是题目，而是观看本身。</p>
+    </div>
+    <div class="panel-card">
+      <div class="panel-label">一句话</div>
+      <p class="panel-quote">不是整理照片，而是整理观看。</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div class="section-kicker">Series</div>
+    <h2 class="section-title">从几种不同的观看方式进入。</h2>
+  </div>
+  <div class="series-grid">
+    {''.join(cards)}
+  </div>
+</section>
 """.strip()
 
     return page_wrap("摄影作品", "gallery", body)
@@ -311,14 +547,30 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
     js_array = json.dumps(image_paths, ensure_ascii=False)
 
     body = f"""
-<h1>{html.escape(name)}</h1>
-<div class="subtle">{html.escape(motto)}</div>
+<section class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">Series</div>
+    <h1 class="hero-title">{html.escape(name)}<span>{html.escape(motto)}</span></h1>
+    <p class="hero-lead">这一组照片不是在说明一个题材，而是在保留一种观看时的内在状态。慢一点看，画面之外的气息会更清楚。</p>
+  </div>
 
-<div class="backlink"><a href="gallery.html">← 返回系列目录</a></div>
+  <div class="hero-panel">
+    <div class="panel-card">
+      <div class="panel-label">Back</div>
+      <p class="panel-copy"><a href="gallery.html">← 返回系列目录</a></p>
+    </div>
+  </div>
+</section>
 
-<div class="thumb-grid">
-  {''.join(thumbs)}
-</div>
+<section class="section">
+  <div class="section-head">
+    <div class="section-kicker">Frames</div>
+    <h2 class="section-title">点击放大，继续观看。</h2>
+  </div>
+  <div class="thumb-grid">
+    {''.join(thumbs)}
+  </div>
+</section>
 
 <div id="lightbox">
   <span class="close" onclick="closeLightbox()">&times;</span>
