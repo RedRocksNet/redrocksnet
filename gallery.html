@@ -90,6 +90,19 @@
       overflow: hidden;
     }
 
+    .hero-minimal {
+      display: block;
+      padding: 12px 4px 6px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .hero-minimal::after {
+      display: none;
+    }
+
     .hero::after {
       content: "";
       position: absolute;
@@ -176,6 +189,15 @@
       font-size: 20px;
       line-height: 1.35;
       color: #f0e7d7;
+    }
+
+    .hero-line {
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.85;
+      font-weight: 300;
+      letter-spacing: 0.02em;
     }
 
     .section {
@@ -411,20 +433,8 @@
 <body>
   <div id="rr-nav-mount" data-current="gallery"></div>
   <main>
-    <section class="hero">
-  <div class="hero-copy">
-    <div class="eyebrow">Gallery</div>
-    <h1 class="hero-title">摄影作品<span>观看世界的几种不同方式</span></h1>
-    <p class="hero-lead">这里的系列不是按题材堆放，而是按观看世界的方式重新组织。</p>
-  </div>
-
-  <div class="hero-panel">
-    <div class="panel-card">
-      <div class="panel-label">Current Axis</div>
-      <p class="panel-copy">静观、行走、人间、微光与黑白，不是分类，而是几种不同的目光。</p>
-      <p class="panel-quote" style="margin-top: 14px;">让图像先说话。</p>
-    </div>
-  </div>
+    <section class="hero hero-minimal">
+  <p class="hero-line">观看世界的几种不同方式</p>
 </section>
 
 <section class="section">
