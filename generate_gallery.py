@@ -507,10 +507,7 @@ def build_index() -> str:
     <div class="panel-card">
       <div class="panel-label">Current Axis</div>
       <p class="panel-copy">静观、行走、人间、微光与黑白，不是分类，而是几种不同的目光。</p>
-    </div>
-    <div class="panel-card">
-      <div class="panel-label">一句话</div>
-      <p class="panel-quote">让图像先说话。</p>
+      <p class="panel-quote" style="margin-top: 14px;">让图像先说话。</p>
     </div>
   </div>
 </section>
