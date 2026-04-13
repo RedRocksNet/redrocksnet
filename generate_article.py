@@ -650,7 +650,7 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
 
     body = f"""
 <h1>随笔</h1>
-<div class="subtle">按栏目整理。点击进入。</div>
+<div class="subtle">从佛法、杂文、摄影、旅行与 TAP，进入书写的不同侧面。</div>
 
 <div class="grid">
   {''.join(cards)}
@@ -658,7 +658,7 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
 """.strip()
 
     total = sum(len(category_articles.get(cat, [])) for cat in categories)
-    desc = f"RedRocks 随笔首页，按栏目整理摄影、佛法、TAP、杂文与旅行相关内容，共 {total} 篇。"
+    desc = f"RedRocks 随笔首页，从佛法、杂文、摄影、旅行与 TAP 进入书写的不同侧面，共 {total} 篇。"
     write_text(
         INDEX_OUT,
         wrap_page(
