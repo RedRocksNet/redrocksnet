@@ -193,14 +193,6 @@ def base_head(title: str) -> str:
       letter-spacing: 0;
     }
 
-    .hero-lead {
-      margin: 0;
-      max-width: 32em;
-      color: #d8d0c1;
-      font-size: 14px;
-      line-height: 1.72;
-    }
-
     .hero-panel {
       display: grid;
       gap: 16px;
@@ -530,7 +522,6 @@ def build_index() -> str:
 <section class="hero">
   <div class="hero-copy">
     <h1 class="hero-title">摄影作品<span>观看世界的几种不同方式</span></h1>
-    <p class="hero-lead">这里的系列不是按题材堆放，而是按观看世界的方式重新组织。</p>
   </div>
 
   <div class="hero-panel">
