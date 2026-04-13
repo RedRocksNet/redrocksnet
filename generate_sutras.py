@@ -226,7 +226,7 @@ def generate_html(images):
     .hero-line {{
       margin: 0;
       color: var(--muted);
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1.8;
       font-weight: 300;
       letter-spacing: 0.02em;
