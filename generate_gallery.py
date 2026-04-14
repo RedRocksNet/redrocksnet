@@ -15,7 +15,8 @@ SERIES = [
     ("stillness", "静观", "世界不要求回应"),
     ("walking",   "行走", "身体在路上，心在当下。"),
     ("human",     "人间", "世界不是风景，是众生。"),
-    ("light",     "微光", "光不是照亮世界，而是照见自己。"),
+    ("nature",    "自然", "山水不只是风景，万物各有其意。"),
+    ("polar",     "极地", "在风与冰之间，世界退回最原初的尺度。"),
     ("bw",        "黑白", "从三维世界到二维画面，从色彩缤纷到黑白灰，观察即抽象。"),
 ]
 
@@ -538,7 +539,7 @@ def build_index() -> str:
 
   <div class="hero-panel">
     <div class="panel-card">
-      <p class="panel-copy">静观、行走、人间、微光与黑白，不是分类，而是几种不同的目光。</p>
+      <p class="panel-copy">静观、行走、人间、自然、极地与黑白，不是分类，而是几种不同的目光。</p>
       <p class="panel-quote" style="margin-top: 10px;">让图像先说话。</p>
     </div>
   </div>
