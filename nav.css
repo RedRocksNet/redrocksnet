@@ -34,7 +34,7 @@
 /* Links */
 .rr-nav-link {
   color: #ddd;
-  text-decoration: none;
+  text-decoration: none !important;
   font-size: 0.95rem;
   letter-spacing: 0.08em;
   padding: 0.28rem 0.6rem;
@@ -50,7 +50,7 @@
 .rr-nav-link:hover {
   color: #fff;
   opacity: 1;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 /* Current page */
@@ -58,12 +58,12 @@
   color: #d9caa2;
   background: rgba(199, 168, 107, 0.12);
   box-shadow: inset 0 0 0 1px rgba(217, 202, 162, 0.16);
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .rr-nav-link[aria-current="page"]:hover {
   color: #e4d6b2;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 /* Mobile adjustment */
