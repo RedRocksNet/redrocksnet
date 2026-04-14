@@ -1,56 +1,9 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-import html
-import json
-from pathlib import Path
-
-ROOT = Path(__file__).resolve().parent
-IMAGES_ROOT = ROOT / "images"
-OUTPUT_INDEX = ROOT / "gallery.html"
-
-SITE_TITLE = "RedRocks"
-
-SERIES = [
-    ("stillness", "静观", "世界不要求回应"),
-    ("walking",   "行走", "身体在路上，心在当下。"),
-    ("human",     "人间", "世界不是风景，是众生。"),
-    ("nature",    "自然", "山水不只是风景，万物各有其意。"),
-    ("polar",     "极地", "在风与冰之间，世界退回最原初的尺度。"),
-    ("bw",        "黑白", "从三维世界到二维画面，从色彩缤纷到黑白灰，观察即抽象。"),
-]
-
-IMG_EXTS = (".jpg", ".jpeg", ".png", ".gif", ".webp")
-COVER_CANDIDATES = ("cover.jpg", "cover.jpeg", "cover.png", "cover.webp", "cover.gif")
-
-
-def list_images(folder: Path):
-    if not folder.exists() or not folder.is_dir():
-        return []
-    imgs = [p for p in folder.iterdir() if p.is_file() and p.suffix.lower() in IMG_EXTS]
-    imgs.sort(key=lambda p: p.name.lower())
-    return imgs
-
-
-def pick_cover(folder: str):
-    series_dir = IMAGES_ROOT / folder
-    for name in COVER_CANDIDATES:
-        p = series_dir / name
-        if p.exists() and p.is_file():
-            return f"images/{folder}/{p.name}"
-
-    imgs = list_images(series_dir)
-    if imgs:
-        return f"images/{folder}/{imgs[0].name}"
-    return ""
-
-
-def base_head(title: str) -> str:
-    safe_title = html.escape(title)
-    head = """<head>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>__TITLE__</title>
+  <title>自然 · 摄影作品</title>
   <link rel="stylesheet" href="/nav.css">
   <style>
     :root {
@@ -489,93 +442,13 @@ def base_head(title: str) -> str:
       }
     }
   </style>
-</head>"""
-    return head.replace("__TITLE__", safe_title)
-
-
-def page_wrap(title: str, current: str, body_html: str) -> str:
-    return f"""<!DOCTYPE html>
-<html lang="zh">
-{base_head(title)}
+</head>
 <body>
-  <div id="rr-nav-mount" data-current="{html.escape(current)}"></div>
+  <div id="rr-nav-mount" data-current="gallery"></div>
   <main>
-    {body_html}
-    <div class="footer">© {SITE_TITLE}</div>
-  </main>
-  <script src="/nav.js" defer></script>
-</body>
-</html>"""
-
-
-def build_index() -> str:
-    cards = []
-    for folder, name, motto in SERIES:
-        imgs = list_images(IMAGES_ROOT / folder)
-        href = f"gallery-{folder}.html"
-
-        cover_src = pick_cover(folder)
-        if cover_src:
-            cover_html = f'<div class="series-cover"><img src="{html.escape(cover_src)}" alt="cover"></div>'
-        else:
-            cover_html = '<div class="series-cover"></div>'
-
-        cards.append(f"""
-<a class="series-card" href="{html.escape(href)}">
-  {cover_html}
-  <div class="series-meta">
-    <div class="series-title">{html.escape(name)}</div>
-    <div class="subtle">{html.escape(motto)}</div>
-    <div class="subtle" style="margin-top:8px;">{len(imgs)} 张</div>
-  </div>
-</a>
-""".strip())
-
-    body = f"""
-<section class="hero">
+    <section class="hero">
   <div class="hero-copy">
-    <h1 class="hero-title">摄影作品<span>观看世界的几种不同方式</span></h1>
-  </div>
-
-  <div class="hero-panel">
-    <div class="panel-card">
-      <p class="panel-copy">静观、行走、人间、自然、极地与黑白，不是分类，而是几种不同的目光。</p>
-      <p class="panel-quote" style="margin-top: 10px;">让图像先说话。</p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="series-grid">
-    {''.join(cards)}
-  </div>
-</section>
-""".strip()
-
-    return page_wrap("摄影作品", "gallery", body)
-
-
-def build_series_page(folder: str, name: str, motto: str) -> str:
-    imgs = list_images(IMAGES_ROOT / folder)
-
-    thumbs = []
-    for p in imgs:
-        src = f"images/{folder}/{p.name}"
-        thumbs.append(f"""
-<div class="thumb" onclick="openLightbox('{html.escape(src)}')">
-  <div class="thumb-frame">
-    <img src="{html.escape(src)}" alt="">
-  </div>
-</div>
-""".strip())
-
-    image_paths = [f"images/{folder}/{p.name}" for p in imgs]
-    js_array = json.dumps(image_paths, ensure_ascii=False)
-
-    body = f"""
-<section class="hero">
-  <div class="hero-copy">
-    <h1 class="hero-title">{html.escape(name)}<span>{html.escape(motto)}</span></h1>
+    <h1 class="hero-title">自然<span>山水不只是风景，万物各有其意。</span></h1>
   </div>
 
   <div class="hero-panel">
@@ -588,7 +461,31 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
 
 <section class="section">
   <div class="thumb-grid">
-    {''.join(thumbs)}
+    <div class="thumb" onclick="openLightbox('images/nature/cover.jpg')">
+  <div class="thumb-frame">
+    <img src="images/nature/cover.jpg" alt="">
+  </div>
+</div><div class="thumb" onclick="openLightbox('images/nature/DSC_2451.jpg')">
+  <div class="thumb-frame">
+    <img src="images/nature/DSC_2451.jpg" alt="">
+  </div>
+</div><div class="thumb" onclick="openLightbox('images/nature/DSCF0592.jpg')">
+  <div class="thumb-frame">
+    <img src="images/nature/DSCF0592.jpg" alt="">
+  </div>
+</div><div class="thumb" onclick="openLightbox('images/nature/DSCF5570.jpg')">
+  <div class="thumb-frame">
+    <img src="images/nature/DSCF5570.jpg" alt="">
+  </div>
+</div><div class="thumb" onclick="openLightbox('images/nature/DSCF6392.jpg')">
+  <div class="thumb-frame">
+    <img src="images/nature/DSCF6392.jpg" alt="">
+  </div>
+</div><div class="thumb" onclick="openLightbox('images/nature/DSCF9627.jpg')">
+  <div class="thumb-frame">
+    <img src="images/nature/DSCF9627.jpg" alt="">
+  </div>
+</div>
   </div>
 </section>
 
@@ -600,62 +497,47 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
 </div>
 
 <script>
-  let images = {js_array};
+  let images = ["images/nature/cover.jpg", "images/nature/DSC_2451.jpg", "images/nature/DSCF0592.jpg", "images/nature/DSCF5570.jpg", "images/nature/DSCF6392.jpg", "images/nature/DSCF9627.jpg"];
   let currentIndex = 0;
 
-  function openLightbox(src) {{
+  function openLightbox(src) {
     currentIndex = images.indexOf(src);
     document.getElementById('lightbox').style.display = "block";
     document.getElementById('lightbox-img').src = src;
     const el = document.documentElement;
-    if (el.requestFullscreen) {{
-      el.requestFullscreen().catch(() => {{}});
-    }}
-  }}
+    if (el.requestFullscreen) {
+      el.requestFullscreen().catch(() => {});
+    }
+  }
 
-  function closeLightbox() {{
+  function closeLightbox() {
     document.getElementById('lightbox').style.display = "none";
-    if (document.fullscreenElement && document.exitFullscreen) {{
-      document.exitFullscreen().catch(() => {{}});
-    }}
-  }}
+    if (document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
 
-  function changeImage(direction) {{
+  function changeImage(direction) {
     if (!images.length) return;
     currentIndex = (currentIndex + direction + images.length) % images.length;
     document.getElementById('lightbox-img').src = images[currentIndex];
-  }}
+  }
 
-  document.addEventListener('keydown', function(e) {{
+  document.addEventListener('keydown', function(e) {
     const lb = document.getElementById('lightbox');
     if (lb.style.display !== 'block') return;
 
-    if (e.key === 'ArrowRight') {{
+    if (e.key === 'ArrowRight') {
       changeImage(1);
-    }} else if (e.key === 'ArrowLeft') {{
+    } else if (e.key === 'ArrowLeft') {
       changeImage(-1);
-    }} else if (e.key === ' ' || e.key === 'Escape') {{
+    } else if (e.key === ' ' || e.key === 'Escape') {
       closeLightbox();
-    }}
-  }});
+    }
+  });
 </script>
-""".strip()
-
-    return page_wrap(f"{name} · 摄影作品", "gallery", body)
-
-
-def main():
-    OUTPUT_INDEX.write_text(build_index(), encoding="utf-8")
-
-    for folder, name, motto in SERIES:
-        out = ROOT / f"gallery-{folder}.html"
-        out.write_text(build_series_page(folder, name, motto), encoding="utf-8")
-
-    print("✅ Gallery series pages generated:")
-    print(" - gallery.html")
-    for folder, _, _ in SERIES:
-        print(f" - gallery-{folder}.html")
-
-
-if __name__ == "__main__":
-    main()
+    <div class="footer">© RedRocks</div>
+  </main>
+  <script src="/nav.js" defer></script>
+</body>
+</html>
