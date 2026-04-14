@@ -680,6 +680,78 @@ h1{
   text-decoration:underline;
 }
 
+.read-tools{
+  position:fixed;
+  top:92px;
+  right:24px;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(33,38,35,.78);
+  backdrop-filter:blur(10px);
+  box-shadow:0 10px 24px rgba(0,0,0,.2);
+}
+
+.read-back{
+  color:var(--accent);
+  font-size:12px;
+  line-height:1;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.read-back:hover{
+  color:#d9caa2;
+  text-decoration:none;
+}
+
+.read-mode{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding-left:10px;
+  border-left:1px solid rgba(255,255,255,.08);
+}
+
+.mode-btn{
+  border:0;
+  background:transparent;
+  color:rgba(198,190,176,.72);
+  font-size:11px;
+  line-height:1;
+  padding:4px 6px;
+  border-radius:999px;
+  cursor:pointer;
+}
+
+.mode-btn.active{
+  color:var(--accent);
+  background:rgba(199,168,107,.12);
+}
+
+body.reading-soft .article{
+  color:rgba(224,216,202,0.82);
+}
+
+body.reading-soft .article .subtle{
+  color:rgba(185,177,161,0.64);
+}
+
+body.reading-soft .article pre{
+  background:rgba(255,255,255,.02);
+  border-color:rgba(255,255,255,.04);
+  color:rgba(224,216,202,0.82);
+}
+
+body.reading-soft .article blockquote{
+  color:rgba(191,183,170,0.78);
+  background:rgba(255,255,255,.015);
+}
+
 @media (max-width: 860px){
   main{
     width:min(100% - 28px, 760px);
@@ -715,6 +787,12 @@ h1{
   .cover{
     height:200px;
   }
+
+  .read-tools{
+    top:84px;
+    right:14px;
+    padding:8px 10px;
+  }
 }
 
 @media (max-width: 560px){
@@ -725,6 +803,12 @@ h1{
   .spine-card,
   .spine-inner{
     min-height:260px;
+  }
+
+  .read-tools{
+    left:14px;
+    right:auto;
+    max-width:calc(100% - 28px);
   }
 }
 """
@@ -827,6 +911,14 @@ def generate_article_pages(categories: list[str]):
             out_path = md_path.with_suffix(".html")  # keep beside md
 
             detail_body = f"""
+<div class="read-tools" aria-label="阅读工具">
+  <a class="read-back" href="/articles/{html.escape(category_slug(cat))}.html">← 返回栏目</a>
+  <div class="read-mode" aria-label="阅读模式">
+    <button class="mode-btn active" data-read-mode="standard" type="button">标准</button>
+    <button class="mode-btn" data-read-mode="soft" type="button">柔和</button>
+  </div>
+</div>
+
 <article class="article">
   <h1>{html.escape(title)}</h1>
   <div class="subtle">{html.escape(date_str)}</div>
@@ -837,6 +929,32 @@ def generate_article_pages(categories: list[str]):
     <a href="/articles.html">← 返回随笔首页</a>
   </div>
 </article>
+
+<script>
+  (function () {{
+    const storageKey = 'rr-reading-mode';
+    const body = document.body;
+    const buttons = document.querySelectorAll('[data-read-mode]');
+
+    function applyMode(mode) {{
+      body.classList.toggle('reading-soft', mode === 'soft');
+      buttons.forEach((btn) => {{
+        btn.classList.toggle('active', btn.dataset.readMode === mode);
+      }});
+    }}
+
+    const saved = localStorage.getItem(storageKey) || 'standard';
+    applyMode(saved);
+
+    buttons.forEach((btn) => {{
+      btn.addEventListener('click', () => {{
+        const mode = btn.dataset.readMode || 'standard';
+        localStorage.setItem(storageKey, mode);
+        applyMode(mode);
+      }});
+    }});
+  }})();
+</script>
 """.strip()
 
             write_text(
