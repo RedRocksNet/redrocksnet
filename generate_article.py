@@ -33,6 +33,14 @@ CATEGORY_ZH_EN = {
     "tap": "TAP宇宙观（TAP）",
 }
 
+CATEGORY_NOTES = {
+    "photography": "以影像与器材、观察与心境，进入摄影这一侧的书写。",
+    "buddhism": "从经文、修行与日常体会，进入佛法这一侧的书写。",
+    "misc": "那些不容易归类，却始终在心里盘旋的问题与文字。",
+    "travel": "行走、所见与途中思绪，留给旅行这一册。",
+    "tap": "关于时间、投影、结构与世界模型的长期思考。",
+}
+
 
 def category_display_name(dirname: str) -> str:
     """把随笔子目录名转换为要显示的‘中文（English）’。未知目录则原样返回。"""
@@ -43,6 +51,10 @@ def category_display_name(dirname: str) -> str:
 def category_slug(dirname: str) -> str:
     """Normalize category page filenames/URLs so links stay stable on case-sensitive hosts."""
     return (dirname or "").strip().lower()
+
+
+def category_note(dirname: str) -> str:
+    return CATEGORY_NOTES.get(category_slug(dirname), "从这一册进入对应的书写。")
 
 
 def _resolve_case_path(base_dir: Path, rel_path: str) -> Path | None:
@@ -430,6 +442,111 @@ h1{
   gap:18px;
 }
 
+.shelf-grid{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+  gap:16px;
+}
+
+.spine-card{
+  position:relative;
+  min-height:360px;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)),
+    rgba(47,53,49,0.92);
+  box-shadow:var(--shadow);
+  transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.spine-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--line2);
+  box-shadow:0 22px 42px rgba(0,0,0,0.34);
+}
+
+.spine-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.32)),
+    var(--spine-image, linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)));
+  background-size:cover;
+  background-position:center;
+  opacity:.32;
+}
+
+.spine-card::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:16px;
+  width:1px;
+  background:rgba(217,202,162,0.22);
+}
+
+.spine-inner{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:360px;
+  padding:18px 18px 18px 30px;
+}
+
+.spine-top{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.spine-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.spine-title{
+  margin:0;
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:26px;
+  line-height:1.05;
+  letter-spacing:-0.03em;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  max-height:190px;
+}
+
+.spine-note{
+  color:rgba(198,190,176,0.78);
+  font-size:12px;
+  line-height:1.65;
+}
+
+.spine-meta{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  color:rgba(198,190,176,0.82);
+  font-size:12px;
+}
+
+.spine-badge{
+  display:inline-flex;
+  align-self:flex-start;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.09);
+  background:rgba(17,20,18,0.26);
+}
+
 .card{
   background:
     radial-gradient(circle at top right, rgba(199,168,107,0.1), transparent 35%),
@@ -581,8 +698,33 @@ h1{
     grid-template-columns:1fr;
   }
 
+  .shelf-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:300px;
+  }
+
+  .spine-title{
+    font-size:23px;
+    max-height:160px;
+  }
+
   .cover{
     height:200px;
+  }
+}
+
+@media (max-width: 560px){
+  .shelf-grid{
+    grid-template-columns:1fr;
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:260px;
   }
 }
 """
@@ -812,21 +954,26 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
         if count:
             latest = category_articles[cat][0]["date"]
 
-        cover_html = ""
-        if cover:
-            cover_html = f'<div class="cover"><img src="{html.escape(cover)}" alt="cover"></div>'
-
         subtitle = f"{count} 篇"
         if latest:
             subtitle += f" · 最近：{latest}"
 
+        spine_style = ""
+        if cover:
+            spine_style = f' style="--spine-image:url(\'{html.escape(cover)}\')"'
+
         cards.append(
             f"""
-<a class="card" href="/articles/{html.escape(category_slug(cat))}.html">
-  {cover_html}
-  <div class="card-body">
-    <div class="card-title">{html.escape(category_display_name(cat))}</div>
-    <div class="subtle">{html.escape(subtitle)}</div>
+<a class="spine-card" href="/articles/{html.escape(category_slug(cat))}.html"{spine_style}>
+  <div class="spine-inner">
+    <div class="spine-top">
+      <div class="spine-kicker">Essays</div>
+      <div class="spine-title">{html.escape(category_display_name(cat))}</div>
+      <div class="spine-note">{html.escape(category_note(cat))}</div>
+    </div>
+    <div class="spine-meta">
+      <span class="spine-badge">{html.escape(subtitle)}</span>
+    </div>
   </div>
 </a>
 """.strip()
@@ -848,7 +995,7 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
 </section>
 
 <section class="section">
-  <div class="grid">
+  <div class="shelf-grid">
     {''.join(cards)}
   </div>
 </section>
