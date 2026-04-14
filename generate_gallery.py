@@ -574,9 +574,6 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
 </section>
 
 <section class="section">
-  <div class="section-head">
-    <h2 class="section-title">点击图片查看大图 · 左右方向键切换 · Esc 退出</h2>
-  </div>
   <div class="thumb-grid">
     {''.join(thumbs)}
   </div>
