@@ -304,7 +304,7 @@ body{
   line-height:1.75;
 }
 a{color:inherit;text-decoration:none}
-a:hover{text-decoration:underline}
+a:hover{text-decoration:none}
 
 main{
   width:min(1180px, calc(100% - 32px));
@@ -677,6 +677,12 @@ h1{
 }
 .backbar a:hover{
   color:var(--fg);
+  text-decoration:underline;
+}
+
+.article p a:hover,
+.article li a:hover,
+.article blockquote a:hover{
   text-decoration:underline;
 }
 
