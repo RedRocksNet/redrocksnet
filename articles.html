@@ -178,6 +178,111 @@ h1{
   gap:18px;
 }
 
+.shelf-grid{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+  gap:16px;
+}
+
+.spine-card{
+  position:relative;
+  min-height:360px;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)),
+    rgba(47,53,49,0.92);
+  box-shadow:var(--shadow);
+  transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.spine-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--line2);
+  box-shadow:0 22px 42px rgba(0,0,0,0.34);
+}
+
+.spine-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.32)),
+    var(--spine-image, linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)));
+  background-size:cover;
+  background-position:center;
+  opacity:.32;
+}
+
+.spine-card::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:16px;
+  width:1px;
+  background:rgba(217,202,162,0.22);
+}
+
+.spine-inner{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:360px;
+  padding:18px 18px 18px 30px;
+}
+
+.spine-top{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.spine-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.spine-title{
+  margin:0;
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:26px;
+  line-height:1.05;
+  letter-spacing:-0.03em;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  max-height:190px;
+}
+
+.spine-note{
+  color:rgba(198,190,176,0.78);
+  font-size:12px;
+  line-height:1.65;
+}
+
+.spine-meta{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  color:rgba(198,190,176,0.82);
+  font-size:12px;
+}
+
+.spine-badge{
+  display:inline-flex;
+  align-self:flex-start;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.09);
+  background:rgba(17,20,18,0.26);
+}
+
 .card{
   background:
     radial-gradient(circle at top right, rgba(199,168,107,0.1), transparent 35%),
@@ -329,8 +434,33 @@ h1{
     grid-template-columns:1fr;
   }
 
+  .shelf-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:300px;
+  }
+
+  .spine-title{
+    font-size:23px;
+    max-height:160px;
+  }
+
   .cover{
     height:200px;
+  }
+}
+
+@media (max-width: 560px){
+  .shelf-grid{
+    grid-template-columns:1fr;
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:260px;
   }
 }
 </style>
@@ -353,36 +483,61 @@ h1{
 </section>
 
 <section class="section">
-  <div class="grid">
-    <a class="card" href="/articles/buddhism.html">
-  <div class="cover"><img src="/articles/buddhism/cover.jpg" alt="cover"></div>
-  <div class="card-body">
-    <div class="card-title">佛法（Buddhism）</div>
-    <div class="subtle">17 篇 · 最近：2026-03-08</div>
+  <div class="shelf-grid">
+    <a class="spine-card" href="/articles/buddhism.html" style="--spine-image:url('/articles/buddhism/cover.jpg')">
+  <div class="spine-inner">
+    <div class="spine-top">
+      <div class="spine-kicker">Essays</div>
+      <div class="spine-title">佛法（Buddhism）</div>
+      <div class="spine-note">从经文、修行与日常体会，进入佛法这一侧的书写。</div>
+    </div>
+    <div class="spine-meta">
+      <span class="spine-badge">17 篇 · 最近：2026-03-08</span>
+    </div>
   </div>
-</a><a class="card" href="/articles/misc.html">
-  <div class="cover"><img src="/articles/misc/cover.jpg" alt="cover"></div>
-  <div class="card-body">
-    <div class="card-title">杂文（Misc）</div>
-    <div class="subtle">4 篇 · 最近：2026-04-11</div>
+</a><a class="spine-card" href="/articles/misc.html" style="--spine-image:url('/articles/misc/cover.jpg')">
+  <div class="spine-inner">
+    <div class="spine-top">
+      <div class="spine-kicker">Essays</div>
+      <div class="spine-title">杂文（Misc）</div>
+      <div class="spine-note">那些不容易归类，却始终在心里盘旋的问题与文字。</div>
+    </div>
+    <div class="spine-meta">
+      <span class="spine-badge">4 篇 · 最近：2026-04-11</span>
+    </div>
   </div>
-</a><a class="card" href="/articles/photography.html">
-  <div class="cover"><img src="/articles/photography/cover.jpg" alt="cover"></div>
-  <div class="card-body">
-    <div class="card-title">摄影（Photography）</div>
-    <div class="subtle">4 篇 · 最近：2026-03-10</div>
+</a><a class="spine-card" href="/articles/photography.html" style="--spine-image:url('/articles/photography/cover.jpg')">
+  <div class="spine-inner">
+    <div class="spine-top">
+      <div class="spine-kicker">Essays</div>
+      <div class="spine-title">摄影（Photography）</div>
+      <div class="spine-note">以影像与器材、观察与心境，进入摄影这一侧的书写。</div>
+    </div>
+    <div class="spine-meta">
+      <span class="spine-badge">4 篇 · 最近：2026-03-10</span>
+    </div>
   </div>
-</a><a class="card" href="/articles/tap.html">
-  <div class="cover"><img src="/articles/TAP/cover.jpg" alt="cover"></div>
-  <div class="card-body">
-    <div class="card-title">TAP宇宙观（TAP）</div>
-    <div class="subtle">4 篇 · 最近：2026-03-27</div>
+</a><a class="spine-card" href="/articles/tap.html" style="--spine-image:url('/articles/TAP/cover.jpg')">
+  <div class="spine-inner">
+    <div class="spine-top">
+      <div class="spine-kicker">Essays</div>
+      <div class="spine-title">TAP宇宙观（TAP）</div>
+      <div class="spine-note">关于时间、投影、结构与世界模型的长期思考。</div>
+    </div>
+    <div class="spine-meta">
+      <span class="spine-badge">4 篇 · 最近：2026-03-27</span>
+    </div>
   </div>
-</a><a class="card" href="/articles/travel.html">
-  <div class="cover"><img src="/articles/travel/cover.jpg" alt="cover"></div>
-  <div class="card-body">
-    <div class="card-title">旅行（Travel）</div>
-    <div class="subtle">0 篇</div>
+</a><a class="spine-card" href="/articles/travel.html" style="--spine-image:url('/articles/travel/cover.jpg')">
+  <div class="spine-inner">
+    <div class="spine-top">
+      <div class="spine-kicker">Essays</div>
+      <div class="spine-title">旅行（Travel）</div>
+      <div class="spine-note">行走、所见与途中思绪，留给旅行这一册。</div>
+    </div>
+    <div class="spine-meta">
+      <span class="spine-badge">0 篇</span>
+    </div>
   </div>
 </a>
   </div>

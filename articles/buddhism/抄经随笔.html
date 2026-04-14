@@ -178,6 +178,111 @@ h1{
   gap:18px;
 }
 
+.shelf-grid{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+  gap:16px;
+}
+
+.spine-card{
+  position:relative;
+  min-height:360px;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)),
+    rgba(47,53,49,0.92);
+  box-shadow:var(--shadow);
+  transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.spine-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--line2);
+  box-shadow:0 22px 42px rgba(0,0,0,0.34);
+}
+
+.spine-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.32)),
+    var(--spine-image, linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)));
+  background-size:cover;
+  background-position:center;
+  opacity:.32;
+}
+
+.spine-card::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:16px;
+  width:1px;
+  background:rgba(217,202,162,0.22);
+}
+
+.spine-inner{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:360px;
+  padding:18px 18px 18px 30px;
+}
+
+.spine-top{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.spine-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.spine-title{
+  margin:0;
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:26px;
+  line-height:1.05;
+  letter-spacing:-0.03em;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  max-height:190px;
+}
+
+.spine-note{
+  color:rgba(198,190,176,0.78);
+  font-size:12px;
+  line-height:1.65;
+}
+
+.spine-meta{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  color:rgba(198,190,176,0.82);
+  font-size:12px;
+}
+
+.spine-badge{
+  display:inline-flex;
+  align-self:flex-start;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.09);
+  background:rgba(17,20,18,0.26);
+}
+
 .card{
   background:
     radial-gradient(circle at top right, rgba(199,168,107,0.1), transparent 35%),
@@ -329,8 +434,33 @@ h1{
     grid-template-columns:1fr;
   }
 
+  .shelf-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:300px;
+  }
+
+  .spine-title{
+    font-size:23px;
+    max-height:160px;
+  }
+
   .cover{
     height:200px;
+  }
+}
+
+@media (max-width: 560px){
+  .shelf-grid{
+    grid-template-columns:1fr;
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:260px;
   }
 }
 </style>
