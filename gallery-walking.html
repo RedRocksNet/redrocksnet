@@ -154,12 +154,24 @@
     }
 
     .panel-card {
+      display: block;
       padding: 14px 16px;
       border-radius: 16px;
       border: 1px solid var(--line);
       background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
         var(--panel-strong);
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+    .panel-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(217, 202, 162, 0.24);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+        rgba(55, 61, 56, 0.92);
     }
 
     .panel-label {
@@ -175,15 +187,6 @@
       color: rgba(198, 190, 176, 0.8);
       font-size: 12px;
       line-height: 1.6;
-    }
-
-    .panel-copy a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .panel-copy a:hover {
-      color: #d9caa2;
     }
 
     .panel-quote {
@@ -449,10 +452,10 @@
   </div>
 
   <div class="hero-panel">
-    <div class="panel-card">
+    <a class="panel-card" href="gallery.html">
       <div class="panel-label">Back</div>
-      <p class="panel-copy"><a href="gallery.html">← 返回系列目录</a></p>
-    </div>
+      <p class="panel-copy">← 返回系列目录</p>
+    </a>
   </div>
 </section>
 
