@@ -308,6 +308,15 @@ h1{
   letter-spacing:-0.03em;
 }
 
+.hero-subtitle{
+  margin:10px 0 0;
+  color:rgba(198,190,176,0.72);
+  font-size:17px;
+  line-height:1.7;
+  font-weight:300;
+  letter-spacing:.01em;
+}
+
 .subtle{
   color:var(--muted);
   font-size:14px;
@@ -503,19 +512,26 @@ h1{
 }
 
 /* Article detail */
+.article{
+  color:rgba(236,229,216,0.9);
+}
 .article h1{margin-top:8px}
+.article .subtle{
+  color:rgba(185,177,161,0.72);
+}
 .article img{
   max-width:100%;
   height:auto;
   border-radius:12px;
-  border:1px solid var(--line);
+  border:1px solid rgba(255,255,255,.05);
 }
 .article pre{
-  background:#111;
-  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
   padding:14px;
   border-radius:12px;
   overflow:auto;
+  color:rgba(236,229,216,0.88);
 }
 .article code{
   font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono",
@@ -525,8 +541,8 @@ h1{
   margin:14px 0;
   padding:10px 14px;
   border-left:3px solid rgba(199,168,107,.4);
-  color:var(--muted);
-  background:rgba(255,255,255,.03);
+  color:rgba(198,190,176,0.86);
+  background:rgba(255,255,255,.02);
   border-radius:10px;
 }
 
@@ -731,16 +747,13 @@ def generate_category_index(cat: str, items: list[dict]):
 <section class="hero">
   <div class="hero-copy">
     <h1>{html.escape(cat_title)}</h1>
+    <p class="hero-subtitle">写作并不是结论，而是把经验通过不同视角慢慢放回结构中的过程。</p>
   </div>
   <div class="hero-panel">
     <a class="panel-card" href="/articles.html">
       <div class="panel-label">Back</div>
       <p class="panel-copy">← 返回随笔首页</p>
     </a>
-    <div class="panel-card">
-      <div class="panel-label">Index</div>
-      <p class="panel-copy">{len(items)} 篇{' · 最近：' + html.escape(latest) if latest else ''}</p>
-    </div>
   </div>
 </section>
 
@@ -755,17 +768,18 @@ def generate_category_index(cat: str, items: list[dict]):
 <section class="hero">
   <div class="hero-copy">
     <h1>{html.escape(cat_title)}</h1>
+    <p class="hero-subtitle">写作并不是结论，而是把经验通过不同视角慢慢放回结构中的过程。</p>
   </div>
   <div class="hero-panel">
     <a class="panel-card" href="/articles.html">
       <div class="panel-label">Back</div>
       <p class="panel-copy">← 返回随笔首页</p>
     </a>
-    <div class="panel-card">
-      <div class="panel-label">Status</div>
-      <p class="panel-copy">暂时还在沉淀中。</p>
-    </div>
   </div>
+</section>
+
+<section class="section">
+  <div class="subtle">暂时还在沉淀中。</div>
 </section>
 """.strip()
 
@@ -821,15 +835,13 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
     body = f"""
 <section class="hero">
   <div class="hero-copy">
-    <p class="hero-line">从佛法、杂文、摄影、旅行与 TAP，进入书写的不同侧面。</p>
+    <h1>随笔</h1>
+    <p class="hero-subtitle">写作并不是结论，而是把经验通过不同视角慢慢放回结构中的过程。</p>
   </div>
   <div class="hero-panel">
     <div class="panel-card">
       <div class="panel-label">Essays</div>
       <p class="panel-copy">{len(categories)} 个栏目 · {total} 篇</p>
-    </div>
-    <div class="panel-card">
-      <p class="panel-quote">写作并不是结论，而是把经验慢慢放回结构中的过程。</p>
     </div>
   </div>
 </section>
