@@ -223,6 +223,15 @@ def base_head(title: str) -> str:
       line-height: 1.6;
     }
 
+    .panel-copy a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .panel-copy a:hover {
+      color: #d9caa2;
+    }
+
     .panel-quote {
       margin: 0;
       font-family: var(--serif);
