@@ -41,6 +41,53 @@ CATEGORY_NOTES = {
     "tap": "关于时间、投影、结构与世界模型的长期思考。",
 }
 
+THEME_CURATION = [
+    {
+        "title": "家与安顿",
+        "summary": "关于家、秩序、亲情、来处，以及人在世界里如何找到可以安身的地方。",
+        "picks": [
+            ("misc", "房里有猪：关于家的胡思乱想"),
+            ("misc", "三金缕曲：风雪之义、知己之契、生死之情"),
+        ],
+    },
+    {
+        "title": "世界与文明",
+        "summary": "关于文明比较、历史逻辑、合法性来源，以及不同生存方式在世界中的冲突与并置。",
+        "picks": [
+            ("misc", "不同文明的合法性本体"),
+            ("misc", "贪婪：文明的暗影与火种"),
+            ("buddhism", "若无佛来：中国文明的另一种命运"),
+        ],
+    },
+    {
+        "title": "观看与摄影",
+        "summary": "关于摄影、器材、观察、影像与心境，文字在这里继续延伸照片没有说完的那部分。",
+        "picks": [
+            ("photography", "一个摄影师的独白"),
+            ("photography", "镜底心归：摄影里的自我心境修行"),
+            ("photography", "过期黑白胶卷使用笔记"),
+        ],
+    },
+    {
+        "title": "修行与佛法",
+        "summary": "关于经文、手书、修行体会与佛法理解，既谈经典，也谈日常之中的安顿与放下。",
+        "picks": [
+            ("buddhism", "抄经随笔"),
+            ("buddhism", "读经不执相：《大般涅槃经》客医喻"),
+            ("buddhism", "天龙八部：藏于佛殿、流于江湖，未被读懂的佛教文化符号"),
+        ],
+    },
+    {
+        "title": "时间与结构",
+        "summary": "关于 TAP、投影、维度、结构与世界模型，试着为经验寻找一种更稳定的框架。",
+        "picks": [
+            ("TAP", "穿越维度的低语：TAP理论与宇宙、哲学、空性的全景对话"),
+            ("TAP", "身体受限、意识扩张与高维观察：TAP 理论下的多维存在模型初探"),
+            ("TAP", "TAP理论里，投影界面的物理逻辑与《金刚经》第二十七品的结构同构性研究"),
+        ],
+    },
+]
+
 
 def category_display_name(dirname: str) -> str:
     """把随笔子目录名转换为要显示的‘中文（English）’。未知目录则原样返回。"""
@@ -55,6 +102,13 @@ def category_slug(dirname: str) -> str:
 
 def category_note(dirname: str) -> str:
     return CATEGORY_NOTES.get(category_slug(dirname), "从这一册进入对应的书写。")
+
+
+def find_curated_item(category_articles: dict[str, list[dict]], cat: str, title: str):
+    for it in category_articles.get(cat, []):
+        if it.get("title") == title:
+            return it
+    return None
 
 
 def _resolve_case_path(base_dir: Path, rel_path: str) -> Path | None:
@@ -436,10 +490,110 @@ h1{
   box-shadow:var(--shadow);
 }
 
+.section-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+
+.section-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.section-title{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(24px, 3.2vw, 38px);
+  line-height:1.08;
+  letter-spacing:-0.025em;
+}
+
+.section-note{
+  margin:10px 0 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+
 .grid{
   display:grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap:18px;
+}
+
+.theme-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:18px;
+}
+
+.theme-card{
+  padding:20px 20px 18px;
+  border-radius:20px;
+  border:1px solid var(--line);
+  background:
+    radial-gradient(circle at top right, rgba(199,168,107,0.08), transparent 35%),
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+    rgba(255,255,255,0.035);
+}
+
+.theme-title{
+  margin:0 0 8px;
+  color:#e8dfcf;
+  font-family:var(--serif);
+  font-size:24px;
+  line-height:1.12;
+  letter-spacing:-0.02em;
+}
+
+.theme-summary{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.75;
+}
+
+.theme-links{
+  margin-top:16px;
+  display:grid;
+  gap:10px;
+}
+
+.theme-link{
+  display:block;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.05);
+  background:rgba(255,255,255,0.025);
+  transition:transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.theme-link:hover{
+  transform:translateY(-2px);
+  border-color:var(--line2);
+  background:rgba(255,255,255,0.04);
+}
+
+.theme-link-label{
+  display:block;
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+
+.theme-link-title{
+  display:block;
+  color:#e5dccd;
+  font-size:16px;
+  line-height:1.45;
 }
 
 .shelf-grid{
@@ -776,6 +930,10 @@ body.reading-soft .article blockquote{
     grid-template-columns:1fr;
   }
 
+  .theme-grid{
+    grid-template-columns:1fr;
+  }
+
   .shelf-grid{
     grid-template-columns:repeat(2, minmax(0, 1fr));
   }
@@ -1103,6 +1261,34 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
 """.strip()
         )
 
+    themed = []
+    for theme in THEME_CURATION:
+        links = []
+        for cat, title in theme["picks"]:
+            item = find_curated_item(category_articles, cat, title)
+            if not item:
+                continue
+            links.append(
+                f"""
+<a class="theme-link" href="{html.escape(item['href'])}">
+  <span class="theme-link-label">{html.escape(category_display_name(cat))}</span>
+  <span class="theme-link-title">{html.escape(item['title'])}</span>
+</a>
+""".strip()
+            )
+
+        themed.append(
+            f"""
+<div class="theme-card">
+  <h3 class="theme-title">{html.escape(theme['title'])}</h3>
+  <p class="theme-summary">{html.escape(theme['summary'])}</p>
+  <div class="theme-links">
+    {''.join(links)}
+  </div>
+</div>
+""".strip()
+        )
+
     total = sum(len(category_articles.get(cat, [])) for cat in categories)
     body = f"""
 <section class="hero">
@@ -1119,6 +1305,25 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
 </section>
 
 <section class="section">
+  <div class="section-head">
+    <div>
+      <div class="section-kicker">Themes</div>
+      <h2 class="section-title">先按问题进入，再按栏目浏览。</h2>
+      <p class="section-note">随笔前台按主题策展，后台仍按目录归档。这样既保留结构，也让不同线索彼此照亮。</p>
+    </div>
+  </div>
+  <div class="theme-grid">
+    {''.join(themed)}
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <div class="section-kicker">Volumes</div>
+      <h2 class="section-title">按栏目浏览</h2>
+    </div>
+  </div>
   <div class="shelf-grid">
     {''.join(cards)}
   </div>
