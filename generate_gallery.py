@@ -12,7 +12,7 @@ OUTPUT_INDEX = ROOT / "gallery.html"
 SITE_TITLE = "RedRocks"
 
 SERIES = [
-    ("stillness", "静观", "世界不要求回应，只要求被看见。"),
+    ("stillness", "静观", "世界不要求回应"),
     ("walking",   "行走", "身体在路上，心在当下。"),
     ("human",     "人间", "世界不是风景，是众生。"),
     ("light",     "微光", "光不是照亮世界，而是照见自己。"),
@@ -186,8 +186,8 @@ def base_head(title: str) -> str:
 
     .hero-title span {
       display: inline;
-      color: rgba(185, 177, 161, 0.68);
-      font-size: 1em;
+      color: rgba(185, 177, 161, 0.62);
+      font-size: 0.5em;
       font-weight: 400;
       margin-left: 10px;
       letter-spacing: 0;
