@@ -269,12 +269,18 @@ def pick_category_cover(cat_dir: Path) -> str:
 def base_css() -> str:
     return """
 :root{
-  --bg:#0b0b0b;
-  --fg:#f2f2f2;
-  --muted:#b8b8b8;
+  --bg:#111412;
+  --fg:#f3eee4;
+  --muted:#b9b1a1;
+  --muted-2:rgba(198,190,176,0.8);
+  --accent:#c7a86b;
   --card:rgba(255,255,255,0.04);
   --line:rgba(255,255,255,0.06);
-  --line2:rgba(255,255,255,0.10);
+  --line2:rgba(217,202,162,0.22);
+  --panel:rgba(44,50,46,0.82);
+  --panel-strong:rgba(55,61,56,0.9);
+  --shadow:0 18px 40px rgba(0,0,0,0.28);
+  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua","Noto Serif SC","Songti SC","STSong",serif;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -289,16 +295,17 @@ a{color:inherit;text-decoration:none}
 a:hover{text-decoration:underline}
 
 main{
-  max-width:1100px;
+  width:min(1180px, calc(100% - 32px));
   margin:0 auto;
-  padding:92px 18px 56px; /* space for fixed nav */
+  padding:96px 0 64px; /* space for fixed nav */
 }
 
 h1{
-  margin:12px 0 10px;
-  font-size:34px;
-  letter-spacing:1px;
-  line-height:1.25;
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(30px, 4.8vw, 50px);
+  line-height:1.04;
+  letter-spacing:-0.03em;
 }
 
 .subtle{
@@ -307,8 +314,89 @@ h1{
   line-height:1.65;
 }
 
+.hero{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0, 1.22fr) minmax(240px, 0.78fr);
+  gap:18px;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:
+    linear-gradient(135deg, rgba(50,56,51,0.92), rgba(31,35,33,0.88)),
+    var(--panel);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:auto -14% -34% 30%;
+  height:320px;
+  background:radial-gradient(circle, rgba(199,168,107,0.12), transparent 70%);
+  pointer-events:none;
+}
+
+.hero-copy,
+.hero-panel{
+  position:relative;
+  z-index:1;
+}
+
+.hero-panel{
+  display:grid;
+  gap:14px;
+  align-content:start;
+}
+
+.hero-line{
+  margin:0;
+  color:var(--muted);
+  font-family:var(--serif);
+  font-size:22px;
+  line-height:1.42;
+  font-weight:400;
+  letter-spacing:-0.01em;
+}
+
+.panel-card{
+  display:block;
+  padding:14px 16px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+    var(--panel-strong);
+  text-decoration:none;
+  color:inherit;
+}
+
+.panel-label{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.panel-copy{
+  margin:0;
+  color:var(--muted-2);
+  font-size:12px;
+  line-height:1.6;
+}
+
+.panel-quote{
+  margin:0;
+  color:rgba(224,214,194,0.76);
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.3;
+}
+
 .intro-line{
-  margin:8px 0 0;
+  margin:0;
   color:var(--muted);
   font-size:18px;
   line-height:1.85;
@@ -316,28 +404,45 @@ h1{
   letter-spacing:.02em;
 }
 
+.section{
+  margin-top:24px;
+  padding:28px;
+  border-radius:26px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+    rgba(40,45,42,0.76);
+  box-shadow:var(--shadow);
+}
+
 .grid{
   display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap:14px;
-  margin-top:18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:18px;
 }
 
 .card{
-  background:var(--card);
+  background:
+    radial-gradient(circle at top right, rgba(199,168,107,0.1), transparent 35%),
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+    rgba(255,255,255,0.04);
   border:1px solid var(--line);
-  border-radius:14px;
+  border-radius:20px;
   overflow:hidden;
-  transition: transform .18s ease, border-color .18s ease;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
 }
 .card:hover{
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   border-color: var(--line2);
+  background:
+    radial-gradient(circle at top right, rgba(199,168,107,0.14), transparent 38%),
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+    rgba(255,255,255,0.055);
 }
 
 .cover{
   width:100%;
-  height:180px;
+  height:220px;
   background:#0b0b0b;
   display:flex;
   align-items:center;
@@ -352,13 +457,23 @@ h1{
 }
 
 .card-body{
-  padding:12px 14px 14px;
+  padding:16px 16px 18px;
 }
 
 .card-title{
-  font-size:18px;
-  margin:0 0 6px;
-  line-height:1.35;
+  font-family:var(--serif);
+  font-size:20px;
+  margin:0 0 8px;
+  line-height:1.24;
+  color:#e4dccd;
+}
+
+.card-body .subtle{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:4;
+  overflow:hidden;
+  color:var(--muted);
 }
 
 .meta{
@@ -372,10 +487,10 @@ h1{
 
 .badge{
   display:inline-block;
-  padding:2px 8px;
+  padding:3px 9px;
   border-radius:999px;
   border:1px solid var(--line);
-  color:var(--muted);
+  color:var(--muted-2);
   font-size:12px;
 }
 
@@ -409,7 +524,7 @@ h1{
 .article blockquote{
   margin:14px 0;
   padding:10px 14px;
-  border-left:3px solid rgba(255,255,255,.18);
+  border-left:3px solid rgba(199,168,107,.4);
   color:var(--muted);
   background:rgba(255,255,255,.03);
   border-radius:10px;
@@ -429,6 +544,29 @@ h1{
 .backbar a:hover{
   color:var(--fg);
   text-decoration:underline;
+}
+
+@media (max-width: 860px){
+  main{
+    width:min(100% - 28px, 760px);
+    padding:90px 0 56px;
+  }
+
+  .hero{
+    grid-template-columns:1fr;
+  }
+
+  .section{
+    padding:22px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .cover{
+    height:200px;
+  }
 }
 """
 
@@ -571,6 +709,7 @@ def generate_article_pages(categories: list[str]):
 
 def generate_category_index(cat: str, items: list[dict]):
     cat_title = category_display_name(cat)
+    latest = items[0]["date"] if items else ""
     if items:
         cards = []
         for it in items:
@@ -589,22 +728,45 @@ def generate_category_index(cat: str, items: list[dict]):
             )
 
         body = f"""
-<div class="intro-line">{html.escape(cat_title)}这一侧的书写，按最近更新排序。</div>
+<section class="hero">
+  <div class="hero-copy">
+    <h1>{html.escape(cat_title)}</h1>
+  </div>
+  <div class="hero-panel">
+    <a class="panel-card" href="/articles.html">
+      <div class="panel-label">Back</div>
+      <p class="panel-copy">← 返回随笔首页</p>
+    </a>
+    <div class="panel-card">
+      <div class="panel-label">Index</div>
+      <p class="panel-copy">{len(items)} 篇{' · 最近：' + html.escape(latest) if latest else ''}</p>
+    </div>
+  </div>
+</section>
 
-<div class="grid">
-  {''.join(cards)}
-</div>
-
-<div class="backbar">
-  <a href="/articles.html">← 返回随笔首页</a>
-</div>
+<section class="section">
+  <div class="grid">
+    {''.join(cards)}
+  </div>
+</section>
 """.strip()
     else:
         body = f"""
-<div class="intro-line">{html.escape(cat_title)}这一侧的书写，暂时还在沉淀中。</div>
-<div class="backbar">
-  <a href="/articles.html">← 返回随笔首页</a>
-</div>
+<section class="hero">
+  <div class="hero-copy">
+    <h1>{html.escape(cat_title)}</h1>
+  </div>
+  <div class="hero-panel">
+    <a class="panel-card" href="/articles.html">
+      <div class="panel-label">Back</div>
+      <p class="panel-copy">← 返回随笔首页</p>
+    </a>
+    <div class="panel-card">
+      <div class="panel-label">Status</div>
+      <p class="panel-copy">暂时还在沉淀中。</p>
+    </div>
+  </div>
+</section>
 """.strip()
 
     out_file = ARTICLES_DIR / f"{category_slug(cat)}.html"
@@ -655,15 +817,30 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
 """.strip()
         )
 
+    total = sum(len(category_articles.get(cat, [])) for cat in categories)
     body = f"""
-<div class="intro-line">从佛法、杂文、摄影、旅行与 TAP，进入书写的不同侧面。</div>
+<section class="hero">
+  <div class="hero-copy">
+    <p class="hero-line">从佛法、杂文、摄影、旅行与 TAP，进入书写的不同侧面。</p>
+  </div>
+  <div class="hero-panel">
+    <div class="panel-card">
+      <div class="panel-label">Essays</div>
+      <p class="panel-copy">{len(categories)} 个栏目 · {total} 篇</p>
+    </div>
+    <div class="panel-card">
+      <p class="panel-quote">写作并不是结论，而是把经验慢慢放回结构中的过程。</p>
+    </div>
+  </div>
+</section>
 
-<div class="grid">
-  {''.join(cards)}
-</div>
+<section class="section">
+  <div class="grid">
+    {''.join(cards)}
+  </div>
+</section>
 """.strip()
 
-    total = sum(len(category_articles.get(cat, [])) for cat in categories)
     desc = f"RedRocks 随笔首页，从佛法、杂文、摄影、旅行与 TAP 进入书写的不同侧面，共 {total} 篇。"
     write_text(
         INDEX_OUT,
