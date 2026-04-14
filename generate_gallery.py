@@ -185,11 +185,11 @@ def base_head(title: str) -> str:
     }
 
     .hero-title span {
-      display: block;
-      color: rgba(210, 202, 188, 0.72);
-      font-size: 0.54em;
+      display: inline;
+      color: rgba(185, 177, 161, 0.68);
+      font-size: 1em;
       font-weight: 400;
-      margin-top: 6px;
+      margin-left: 10px;
       letter-spacing: 0;
     }
 
@@ -562,9 +562,7 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
     body = f"""
 <section class="hero">
   <div class="hero-copy">
-    <div class="eyebrow">Series</div>
     <h1 class="hero-title">{html.escape(name)}<span>{html.escape(motto)}</span></h1>
-    <p class="hero-lead">这一组照片不是在说明一个题材，而是在保留一种观看时的内在状态。慢一点看，画面之外的气息会更清楚。</p>
   </div>
 
   <div class="hero-panel">
@@ -577,8 +575,7 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
 
 <section class="section">
   <div class="section-head">
-    <div class="section-kicker">Frames</div>
-    <h2 class="section-title">点击放大，继续观看。</h2>
+    <h2 class="section-title">点击图片查看大图 · 左右方向键切换 · Esc 退出</h2>
   </div>
   <div class="thumb-grid">
     {''.join(thumbs)}
@@ -600,10 +597,17 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
     currentIndex = images.indexOf(src);
     document.getElementById('lightbox').style.display = "block";
     document.getElementById('lightbox-img').src = src;
+    const el = document.documentElement;
+    if (el.requestFullscreen) {{
+      el.requestFullscreen().catch(() => {{}});
+    }}
   }}
 
   function closeLightbox() {{
     document.getElementById('lightbox').style.display = "none";
+    if (document.fullscreenElement && document.exitFullscreen) {{
+      document.exitFullscreen().catch(() => {{}});
+    }}
   }}
 
   function changeImage(direction) {{
