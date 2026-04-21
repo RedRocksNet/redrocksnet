@@ -461,7 +461,15 @@
 
 <section class="section">
   <div class="thumb-grid">
-    
+    <div class="thumb" onclick="openLightbox('images/polar/cover.jpeg')">
+  <div class="thumb-frame">
+    <img src="images/polar/cover.jpeg" alt="">
+  </div>
+</div><div class="thumb" onclick="openLightbox('images/polar/DSC_7929.jpg')">
+  <div class="thumb-frame">
+    <img src="images/polar/DSC_7929.jpg" alt="">
+  </div>
+</div>
   </div>
 </section>
 
@@ -473,7 +481,7 @@
 </div>
 
 <script>
-  let images = [];
+  let images = ["images/polar/cover.jpeg", "images/polar/DSC_7929.jpg"];
   let currentIndex = 0;
 
   function openLightbox(src) {

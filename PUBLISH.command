@@ -132,10 +132,29 @@ echo "-> Git commit & push..."
 git add .
 git status
 
+push_and_verify() {
+  git push
+  if ! git diff --quiet HEAD @{u}; then
+    echo "❌ Push verification failed: local HEAD and upstream are still different."
+    echo "   Please check network/authentication and run this publisher again."
+    exit 1
+  fi
+  echo "✅ Published successfully!"
+}
+
 if git diff --cached --quiet; then
-  echo "ℹ️ No changes to commit."
+  echo "ℹ️ No new changes to commit."
+  if git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1; then
+    if git rev-list --count @{u}..HEAD | grep -qv '^0$'; then
+      echo "-> Found local commits not yet pushed. Pushing now..."
+      push_and_verify
+    else
+      echo "✅ Already up to date with upstream."
+    fi
+  else
+    echo "⚠️ No upstream branch configured; skipping push verification."
+  fi
 else
   git commit -m "Publish update"
-  git push
-  echo "✅ Published successfully!"
+  push_and_verify
 fi
