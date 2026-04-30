@@ -526,6 +526,8 @@ def page_wrap(title: str, current: str, body_html: str) -> str:
 def build_index() -> str:
     cards = []
     for folder, name, motto in SERIES:
+        if folder == "inbox":
+            continue
         imgs = collect_root_images() if folder == "inbox" else list_images(IMAGES_ROOT / folder)
         href = f"gallery-{folder}.html"
 
