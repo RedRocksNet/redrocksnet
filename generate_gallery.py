@@ -12,6 +12,7 @@ OUTPUT_INDEX = ROOT / "gallery.html"
 SITE_TITLE = "RedRocks"
 
 SERIES = [
+    ("inbox",     "新图暂存", "尚未正式归类的新图，先发布，后整理。"),
     ("stillness", "静观", "世界不要求回应"),
     ("walking",   "行走", "身体在路上，心在当下。"),
     ("human",     "人间", "世界不是风景，是众生。"),
@@ -32,7 +33,21 @@ def list_images(folder: Path):
     return imgs
 
 
+def collect_root_images():
+    if not IMAGES_ROOT.exists() or not IMAGES_ROOT.is_dir():
+        return []
+    imgs = [p for p in IMAGES_ROOT.iterdir() if p.is_file() and p.suffix.lower() in IMG_EXTS]
+    imgs.sort(key=lambda p: p.name.lower())
+    return imgs
+
+
 def pick_cover(folder: str):
+    if folder == "inbox":
+        imgs = collect_root_images()
+        if imgs:
+            return f"images/{imgs[0].name}"
+        return ""
+
     series_dir = IMAGES_ROOT / folder
     for name in COVER_CANDIDATES:
         p = series_dir / name
@@ -511,7 +526,7 @@ def page_wrap(title: str, current: str, body_html: str) -> str:
 def build_index() -> str:
     cards = []
     for folder, name, motto in SERIES:
-        imgs = list_images(IMAGES_ROOT / folder)
+        imgs = collect_root_images() if folder == "inbox" else list_images(IMAGES_ROOT / folder)
         href = f"gallery-{folder}.html"
 
         cover_src = pick_cover(folder)
@@ -556,11 +571,11 @@ def build_index() -> str:
 
 
 def build_series_page(folder: str, name: str, motto: str) -> str:
-    imgs = list_images(IMAGES_ROOT / folder)
+    imgs = collect_root_images() if folder == "inbox" else list_images(IMAGES_ROOT / folder)
 
     thumbs = []
     for p in imgs:
-        src = f"images/{folder}/{p.name}"
+        src = f"images/{p.name}" if folder == "inbox" else f"images/{folder}/{p.name}"
         thumbs.append(f"""
 <div class="thumb" onclick="openLightbox('{html.escape(src)}')">
   <div class="thumb-frame">
@@ -569,7 +584,7 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
 </div>
 """.strip())
 
-    image_paths = [f"images/{folder}/{p.name}" for p in imgs]
+    image_paths = [f"images/{p.name}" if folder == "inbox" else f"images/{folder}/{p.name}" for p in imgs]
     js_array = json.dumps(image_paths, ensure_ascii=False)
 
     body = f"""
