@@ -1,5 +1,5 @@
 const minRevealMs = 300;
-const maxRevealMs = 1800;
+const maxRevealMs = 2200;
 const speedStepMin = -5;
 const speedStepMax = 5;
 const speedStepFactor = 0.12;
@@ -680,7 +680,7 @@ function getRevealDuration(chunk, charCount, durationMultiplier = 1) {
     return Math.max(90, Math.round(100 * durationMultiplier));
   }
   const length = Math.max(1, charCount);
-  const base = 300 + Math.min(900, length * 190);
+  const base = 300 + Math.min(900, length * 380);
   const speedMultiplier = getSpeedMultiplier();
   return Math.max(
     minRevealMs,
