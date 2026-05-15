@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>RedRocks Reading Hub | 慢阅读</title>
+    <link rel="stylesheet" href="./assets/style.css?v=20260515i" />
+  </head>
+  <body>
+    <main class="shell frame">
+      <section class="card reader" aria-label="佛经伴读慢阅读展示页">
+        <header class="topbar">
+          <div class="source" id="source">正在加载语料</div>
+          <div class="status" id="stageLabel">原文</div>
+        </header>
+
+        <section class="content" id="content" aria-live="polite">
+          <div class="stage original" id="original"></div>
+        </section>
+
+        <footer class="footer">
+          <div class="progress" aria-hidden="true"><span id="progressFill"></span></div>
+          <div class="controls" aria-label="阅读控制">
+            <div class="control-group">
+              <button class="nav-btn" id="prev" type="button" aria-label="上一条">⏮</button>
+            </div>
+            <div class="control-group center">
+              <button class="nav-btn" id="center" type="button" aria-label="暂停">⏯</button>
+            </div>
+            <div class="control-group right">
+              <button class="nav-btn" id="next" type="button" aria-label="下一条">⏭</button>
+            </div>
+          </div>
+        </footer>
+      </section>
+    </main>
+    <script src="./assets/app.js?v=20260515ad"></script>
+  </body>
+</html>
