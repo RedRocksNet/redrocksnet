@@ -14,7 +14,7 @@ const punctuationTokenRE = /^[，。；！？、：,.!?;:（）()《》「」『
 const sentencePunctuationRE = /[。！？!?；;]/;
 const softPunctuationRE = /[，、：,:]/;
 const quotePunctuationRE = /[“”"'‘’（）()《》「」『』【】\[\]]/;
-const blinkingTailPunctuationRE = /[、，。！？!?]/;
+const blinkingTailPunctuationRE = /[，。！？!?]/;
 const pairedOpenToClose = new Map([
   ['（', '）'],
   ['(', ')'],
@@ -700,7 +700,7 @@ function getChunkPause(chunk, duration) {
     return Math.max(180, Math.round(Math.max(260, duration * 0.45) * speedMultiplier));
   }
   if (/、/.test(tail)) {
-    return 10;
+    return 0;
   }
   if (/[，：,:；;]/.test(tail)) {
     return Math.max(28, Math.round(60 * speedMultiplier));
