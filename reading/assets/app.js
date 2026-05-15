@@ -93,6 +93,97 @@ function collapseShortPairedRuns(tokens) {
   return output;
 }
 
+function segmentTextUnits(text) {
+  const clean = String(text || '').trim();
+  if (!clean) return [];
+  if (chineseSegmenter) {
+    const units = [];
+    for (const item of chineseSegmenter.segment(clean)) {
+      const seg = String(item.segment || '').trim();
+      if (seg) units.push(seg);
+    }
+    return units;
+  }
+  return clean.match(/[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*|[^\sA-Za-z0-9]/g) || [];
+}
+
+function splitBalancedText(text, options = {}) {
+  const clean = String(text || '').trim();
+  if (!clean) return [];
+
+  const threshold = options.threshold ?? 18;
+  const minChunk = options.minChunk ?? 8;
+  const maxChunk = options.maxChunk ?? 24;
+  const units = segmentTextUnits(clean);
+  const totalLen = visibleChars(clean);
+
+  if (totalLen <= threshold || units.length <= 1) {
+    return [clean];
+  }
+
+  const unitData = units.map((unit) => ({
+    text: unit,
+    len: visibleChars(unit),
+  }));
+
+  function isSemanticBridge(token) {
+    return /^(的|了|在|把|被|和|与|及|并|而|但|然而|所以|因此|因为|如果|虽然|以及|或者|其中|同时|于是|就是|也|都|还|更|再|仍|又|且|就|却|而且|只是|不过)$/.test(
+      String(token || '').trim()
+    );
+  }
+
+  function splitRange(start, end) {
+    const slice = unitData.slice(start, end);
+    const sliceLen = slice.reduce((sum, item) => sum + item.len, 0);
+
+    if (sliceLen <= maxChunk || slice.length <= 1) {
+      return [slice.map((item) => item.text).join('')];
+    }
+
+    let bestIndex = -1;
+    let bestScore = Infinity;
+    let leftLen = 0;
+
+    for (let i = start + 1; i < end; i += 1) {
+      leftLen += unitData[i - 1].len;
+      const rightLen = sliceLen - leftLen;
+      let score = Math.abs(leftLen - rightLen);
+
+      if (leftLen < minChunk || rightLen < minChunk) {
+        score += 1000;
+      }
+
+      const prevText = unitData[i - 1].text;
+      const nextText = unitData[i].text;
+      if (pairedOpenToClose.has(prevText) || pairedCloseSet.has(nextText)) {
+        score += 120;
+      }
+
+      if (isSemanticBridge(prevText)) {
+        score -= 6;
+      }
+      if (isSemanticBridge(nextText)) {
+        score -= 3;
+      }
+
+      if (score < bestScore) {
+        bestScore = score;
+        bestIndex = i;
+      }
+    }
+
+    if (bestIndex <= start || bestIndex >= end) {
+      return [slice.map((item) => item.text).join('')];
+    }
+
+    const left = splitRange(start, bestIndex);
+    const right = splitRange(bestIndex, end);
+    return left.concat(right);
+  }
+
+  return splitRange(0, unitData.length).filter(Boolean);
+}
+
 const state = {
   entries: [],
   index: 0,
@@ -224,21 +315,42 @@ function splitIntoChunks(text) {
   function chunkSentenceTokens(sentenceTokens) {
     const sentenceChunks = [];
     let buffer = '';
-    let bufferLen = 0;
     let pendingPrefix = '';
 
-    function flushLocalBuffer(kind = 'content') {
+    function flushLocalBuffer(kind = 'content', tail = '') {
       const chunk = buffer.trim();
-      if (chunk) sentenceChunks.push({ text: chunk, kind });
+      if (!chunk) {
+        if (tail) {
+          if (sentenceChunks.length) {
+            sentenceChunks[sentenceChunks.length - 1].text += tail;
+          } else {
+            pendingPrefix += tail;
+          }
+        }
+        buffer = '';
+        return;
+      }
+
+      const pieces = splitBalancedText(chunk, {
+        threshold: targetChunkChars,
+        minChunk: 8,
+        maxChunk: maxChunkChars,
+      });
+
+      pieces.forEach((piece, index) => {
+        sentenceChunks.push({
+          text: index === pieces.length - 1 ? `${piece}${tail}` : piece,
+          kind: index === pieces.length - 1 ? kind : 'internal',
+        });
+      });
+
       buffer = '';
-      bufferLen = 0;
     }
 
     function appendToBuffer(text) {
       const value = String(text || '').trim();
       if (!value) return;
       buffer += value;
-      bufferLen += visibleChars(value);
     }
 
     for (let i = 0; i < sentenceTokens.length; i += 1) {
@@ -280,21 +392,7 @@ function splitIntoChunks(text) {
         pendingPrefix = '';
       }
 
-      if (bufferLen > 0 && bufferLen + visibleChars(text) > maxChunkChars) {
-        flushLocalBuffer('internal');
-      }
-
       appendToBuffer(text);
-
-      if (bufferLen >= maxChunkChars && nextIsContent) {
-        flushLocalBuffer('internal');
-        continue;
-      }
-
-      if (bufferLen >= targetChunkChars && nextIsContent && !isOpeningPunctuationToken(nextToken)) {
-        flushLocalBuffer('internal');
-        continue;
-      }
     }
 
     flushLocalBuffer('content');
