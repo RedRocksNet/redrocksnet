@@ -700,7 +700,7 @@ function getChunkPause(chunk, duration) {
     return Math.max(180, Math.round(Math.max(260, duration * 0.45) * speedMultiplier));
   }
   if (/、/.test(tail)) {
-    return 100;
+    return 10;
   }
   if (/[，：,:；;]/.test(tail)) {
     return Math.max(28, Math.round(60 * speedMultiplier));
