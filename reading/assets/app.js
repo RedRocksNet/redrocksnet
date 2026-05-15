@@ -693,14 +693,14 @@ function getChunkPause(chunk, duration) {
   const kind = getChunkKind(chunk);
   const tail = text.slice(-1);
   const speedMultiplier = getSpeedMultiplier();
+  if (/、/.test(tail)) {
+    return 100;
+  }
   if (kind === 'internal') {
     return 0;
   }
   if (/[。！？!?]/.test(tail)) {
     return Math.max(180, Math.round(Math.max(260, duration * 0.45) * speedMultiplier));
-  }
-  if (/、/.test(tail)) {
-    return 0;
   }
   if (/[，：,:；;]/.test(tail)) {
     return Math.max(28, Math.round(60 * speedMultiplier));
