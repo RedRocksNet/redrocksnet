@@ -327,6 +327,10 @@ select {
     gap: 12px;
   }
 
+  .topbar {
+    display: none;
+  }
+
   .source {
     font-size: 13px;
   }

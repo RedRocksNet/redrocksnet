@@ -37,6 +37,7 @@ const state = {
   autoScrollTimer: 0,
   lastScrollY: 0,
   userScrolled: false,
+  immersiveBound: false,
 };
 
 const el = {
@@ -285,6 +286,30 @@ function installScrollTracking() {
     },
     { passive: true }
   );
+}
+
+function maybeEnterFullscreen() {
+  if (!window.matchMedia('(max-width: 720px)').matches) return;
+  if (state.immersiveBound) return;
+  state.immersiveBound = true;
+
+  const attemptFullscreen = async () => {
+    try {
+      if (document.fullscreenElement || !document.documentElement.requestFullscreen) return;
+      await document.documentElement.requestFullscreen({ navigationUI: 'hide' });
+    } catch {
+      // Browsers may block fullscreen without a user gesture or on iOS Safari.
+    }
+  };
+
+  const onFirstGesture = () => {
+    attemptFullscreen();
+    document.removeEventListener('touchend', onFirstGesture);
+    document.removeEventListener('pointerdown', onFirstGesture);
+  };
+
+  document.addEventListener('touchend', onFirstGesture, { passive: true, once: true });
+  document.addEventListener('pointerdown', onFirstGesture, { passive: true, once: true });
 }
 
 function wait(ms, runId) {
@@ -577,6 +602,7 @@ async function loadCorpus() {
 async function init() {
   bindEvents();
   installScrollTracking();
+  maybeEnterFullscreen();
   updateSpeedUI();
   syncPauseUI();
   await loadCorpus();
