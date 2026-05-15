@@ -27,6 +27,72 @@ const pairedOpenToClose = new Map([
 ]);
 const pairedCloseSet = new Set(pairedOpenToClose.values());
 
+function visibleChars(text) {
+  return [...String(text || '').replace(/\s+/g, '')].length;
+}
+
+function getChunkText(chunk) {
+  if (chunk && typeof chunk === 'object' && 'text' in chunk) {
+    return String(chunk.text || '');
+  }
+  return String(chunk || '');
+}
+
+function getChunkKind(chunk) {
+  if (chunk && typeof chunk === 'object' && 'kind' in chunk) {
+    return String(chunk.kind || '');
+  }
+  return '';
+}
+
+function isOpeningPunctuationToken(token) {
+  return pairedOpenToClose.has(String(token || '').trim());
+}
+
+function collapseShortPairedRuns(tokens) {
+  const output = [];
+  for (let i = 0; i < tokens.length; i += 1) {
+    const token = String(tokens[i] || '').trim();
+    if (!token) continue;
+    if (!pairedOpenToClose.has(token)) {
+      output.push(token);
+      continue;
+    }
+
+    let depth = 1;
+    let j = i + 1;
+    while (j < tokens.length) {
+      const current = String(tokens[j] || '').trim();
+      if (!current) {
+        j += 1;
+        continue;
+      }
+      if (pairedOpenToClose.has(current)) {
+        depth += 1;
+      } else if (pairedCloseSet.has(current)) {
+        depth -= 1;
+        if (depth === 0) break;
+      }
+      j += 1;
+    }
+
+    if (depth === 0) {
+      const slice = tokens.slice(i, j + 1).map((item) => String(item || '').trim()).filter(Boolean);
+      const innerVisible = slice.slice(1, -1).reduce((sum, item) => sum + visibleChars(item), 0);
+      if (innerVisible <= 6) {
+        output.push(slice.join(''));
+      } else {
+        output.push(...slice);
+      }
+      i = j;
+      continue;
+    }
+
+    output.push(token);
+  }
+  return output;
+}
+
 const state = {
   entries: [],
   index: 0,
@@ -70,12 +136,12 @@ function splitIntoChunks(text) {
   const clean = String(text || '').replace(/\s+/g, ' ').trim();
   if (!clean) return [];
 
-  const shortChunkThreshold = 10;
-  const targetChunkChars = 12;
-  const maxChunkChars = 18;
+  const shortChunkThreshold = 18;
+  const targetChunkChars = 18;
+  const maxChunkChars = 28;
 
-  if ([...clean].length <= shortChunkThreshold) {
-    return [clean];
+  if (visibleChars(clean) <= shortChunkThreshold) {
+    return [{ text: clean, kind: 'content' }];
   }
 
   const chars = [...clean];
@@ -134,23 +200,13 @@ function splitIntoChunks(text) {
     i = j;
   }
 
-  function visibleLen(token) {
-    return [...String(token || '').replace(/\s+/g, '')].length;
-  }
+  const collapsedTokens = collapseShortPairedRuns(tokens);
 
   function isSentenceEndToken(token) {
     return /^[。！？!?]+$/.test(String(token || '').trim());
   }
 
-  function isSoftBreakToken(token) {
-    return /^[，、：,:；;]+$/.test(String(token || '').trim());
-  }
-
-  function isHardBreakToken(token) {
-    return /^[。！？!?]+$/.test(String(token || '').trim());
-  }
-
-  for (const token of tokens) {
+  for (const token of collapsedTokens) {
     if (!token) continue;
     const currentSentence = sentences.length ? sentences[sentences.length - 1] : null;
     if (!currentSentence || currentSentence.closed) {
@@ -171,9 +227,9 @@ function splitIntoChunks(text) {
     let bufferLen = 0;
     let pendingPrefix = '';
 
-    function flushLocalBuffer() {
+    function flushLocalBuffer(kind = 'content') {
       const chunk = buffer.trim();
-      if (chunk) sentenceChunks.push(chunk);
+      if (chunk) sentenceChunks.push({ text: chunk, kind });
       buffer = '';
       bufferLen = 0;
     }
@@ -182,7 +238,7 @@ function splitIntoChunks(text) {
       const value = String(text || '').trim();
       if (!value) return;
       buffer += value;
-      bufferLen += visibleLen(value);
+      bufferLen += visibleChars(value);
     }
 
     for (let i = 0; i < sentenceTokens.length; i += 1) {
@@ -192,37 +248,30 @@ function splitIntoChunks(text) {
       if (!text) continue;
       const nextToken = sentenceTokens[i + 1];
       const nextIsContent = nextToken ? !punctuationTokenRE.test(String(nextToken || '').trim()) : false;
-      const nextLen = nextToken ? visibleLen(nextToken) : 0;
 
       if (punctuationTokenRE.test(text)) {
+        if (isOpeningPunctuationToken(text)) {
+          if (buffer) {
+            appendToBuffer(text);
+          } else {
+            pendingPrefix += text;
+          }
+          continue;
+        }
+
+        if (pendingPrefix) {
+          appendToBuffer(pendingPrefix);
+          pendingPrefix = '';
+        }
+
         if (buffer) {
           appendToBuffer(text);
+          flushLocalBuffer('content');
         } else if (sentenceChunks.length) {
-          sentenceChunks[sentenceChunks.length - 1] += text;
+          sentenceChunks[sentenceChunks.length - 1].text += text;
         } else {
           pendingPrefix += text;
         }
-
-        if (isHardBreakToken(text)) {
-          flushLocalBuffer();
-          continue;
-        }
-
-        if (isSoftBreakToken(text) && bufferLen >= targetChunkChars) {
-          flushLocalBuffer();
-          continue;
-        }
-
-        if (bufferLen >= maxChunkChars) {
-          flushLocalBuffer();
-          continue;
-        }
-
-        if (bufferLen >= targetChunkChars && (!nextIsContent || nextLen <= 2)) {
-          flushLocalBuffer();
-          continue;
-        }
-
         continue;
       }
 
@@ -231,25 +280,25 @@ function splitIntoChunks(text) {
         pendingPrefix = '';
       }
 
-      if (bufferLen > 0 && bufferLen + visibleLen(text) > maxChunkChars) {
-        flushLocalBuffer();
+      if (bufferLen > 0 && bufferLen + visibleChars(text) > maxChunkChars) {
+        flushLocalBuffer('internal');
       }
 
       appendToBuffer(text);
 
-      if (bufferLen >= maxChunkChars) {
-        flushLocalBuffer();
+      if (bufferLen >= maxChunkChars && nextIsContent) {
+        flushLocalBuffer('internal');
         continue;
       }
 
-      if (bufferLen >= targetChunkChars && (!nextIsContent || nextLen <= 2)) {
-        flushLocalBuffer();
+      if (bufferLen >= targetChunkChars && nextIsContent && !isOpeningPunctuationToken(nextToken)) {
+        flushLocalBuffer('internal');
         continue;
       }
     }
 
-    flushLocalBuffer();
-    if (pendingPrefix) sentenceChunks.push(pendingPrefix);
+    flushLocalBuffer('content');
+    if (pendingPrefix) sentenceChunks.push({ text: pendingPrefix, kind: 'content' });
     return mergePairedChunks(sentenceChunks.filter(Boolean));
   }
 
@@ -264,36 +313,32 @@ function mergePairedChunks(chunks) {
   const merged = [];
   let pendingPrefix = '';
 
-  function isOpen(token) {
-    return pairedOpenToClose.has(token);
-  }
-
-  function isChunkPunctuation(token) {
-    return punctuationTokenRE.test(String(token || '').trim());
-  }
-
-  for (const token of chunks) {
-    const text = String(token || '').trim();
+  for (const item of chunks) {
+    const text = getChunkText(item).trim();
     if (!text) continue;
+    const kind = getChunkKind(item) || 'content';
 
-    if (isChunkPunctuation(text)) {
-      if (isOpen(text)) {
+    if (punctuationTokenRE.test(text)) {
+      if (pairedOpenToClose.has(text)) {
         pendingPrefix += text;
         continue;
       }
       if (merged.length) {
-        merged[merged.length - 1] += text;
+        merged[merged.length - 1].text += text;
       } else {
         pendingPrefix += text;
       }
       continue;
     }
 
-    merged.push(`${pendingPrefix}${text}`);
+    merged.push({
+      text: `${pendingPrefix}${text}`,
+      kind,
+    });
     pendingPrefix = '';
   }
 
-  return merged.filter(Boolean);
+  return merged.filter((item) => getChunkText(item).trim());
 }
 
 function clearTimers() {
@@ -486,14 +531,16 @@ function clearBlinkingPunctuation(container) {
 }
 
 function appendChunk(container, chunk, speedClass = 'soft', durationMultiplier = 1) {
+  const text = getChunkText(chunk);
+  const kind = getChunkKind(chunk);
   const span = document.createElement('span');
-  span.className = isPunctuationChunk(chunk) ? 'chunk punctuation' : `chunk reveal ${speedClass}`;
-  const charCount = [...String(chunk || '').replace(/\s+/g, '')].length || 1;
-  const duration = getRevealDuration(chunk, charCount, durationMultiplier);
-  const { body, tail, suffix } = splitBlinkingTail(chunk);
+  span.className = isPunctuationChunk(text) ? 'chunk punctuation' : `chunk reveal ${speedClass}`;
+  const charCount = visibleChars(text) || 1;
+  const duration = getRevealDuration({ text, kind }, charCount, durationMultiplier);
+  const { body, tail, suffix } = splitBlinkingTail(text);
 
-  if (isPunctuationChunk(chunk)) {
-    span.textContent = chunk;
+  if (isPunctuationChunk(text)) {
+    span.textContent = text;
   } else if (tail) {
     span.append(document.createTextNode(body));
     const tailSpan = document.createElement('span');
@@ -505,7 +552,7 @@ function appendChunk(container, chunk, speedClass = 'soft', durationMultiplier =
     }
     span.style.setProperty('--reveal-duration', `${duration}ms`);
   } else {
-    span.textContent = chunk;
+    span.textContent = text;
     span.style.setProperty('--reveal-duration', `${duration}ms`);
   }
   container.appendChild(span);
@@ -514,7 +561,7 @@ function appendChunk(container, chunk, speedClass = 'soft', durationMultiplier =
 }
 
 function splitBlinkingTail(chunk) {
-  const text = String(chunk || '');
+  const text = getChunkText(chunk);
   const match = text.match(/^(.*?)([、，。！？!?]+)([”"’'）)\]】》」』]*?)$/);
   if (!match) {
     return { body: text, tail: '', suffix: '' };
@@ -530,7 +577,8 @@ function splitBlinkingTail(chunk) {
 }
 
 function getRevealDuration(chunk, charCount, durationMultiplier = 1) {
-  if (isPunctuationChunk(chunk)) {
+  const text = getChunkText(chunk);
+  if (isPunctuationChunk(text)) {
     return Math.max(90, Math.round(100 * durationMultiplier));
   }
   const length = Math.max(1, charCount);
@@ -543,8 +591,13 @@ function getRevealDuration(chunk, charCount, durationMultiplier = 1) {
 }
 
 function getChunkPause(chunk, duration) {
-  const tail = String(chunk || '').trim().slice(-1);
+  const text = getChunkText(chunk).trim();
+  const kind = getChunkKind(chunk);
+  const tail = text.slice(-1);
   const speedMultiplier = getSpeedMultiplier();
+  if (kind === 'internal') {
+    return Math.max(8, Math.round(12 * speedMultiplier));
+  }
   if (/[。！？!?]/.test(tail)) {
     return Math.max(180, Math.round(Math.max(260, duration * 0.45) * speedMultiplier));
   }
@@ -592,9 +645,9 @@ async function revealChunks(container, chunks, runId, speedClass = 'soft', progr
 }
 
 function isPunctuationChunk(chunk) {
-  return /^[，。；！？、：,.!?;:（）()《》「」『』【】\[\]“”"'‘’—…]+$/.test(String(chunk || '').trim());
+  const text = getChunkText(chunk);
+  return /^[，。；！？、：,.!?;:（）()《》「」『』【】\[\]“”"'‘’—…]+$/.test(String(text || '').trim());
 }
-
 async function startEntry(index) {
   if (index < 0 || index >= state.entries.length) return;
   state.runId += 1;
