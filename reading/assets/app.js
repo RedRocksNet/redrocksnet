@@ -142,6 +142,14 @@ function splitIntoChunks(text) {
     return /^[。！？!?]+$/.test(String(token || '').trim());
   }
 
+  function isSoftBreakToken(token) {
+    return /^[，、：,:；;]+$/.test(String(token || '').trim());
+  }
+
+  function isHardBreakToken(token) {
+    return /^[。！？!?]+$/.test(String(token || '').trim());
+  }
+
   for (const token of tokens) {
     if (!token) continue;
     const currentSentence = sentences.length ? sentences[sentences.length - 1] : null;
@@ -160,36 +168,84 @@ function splitIntoChunks(text) {
   function chunkSentenceTokens(sentenceTokens) {
     const sentenceChunks = [];
     let buffer = '';
+    let bufferLen = 0;
     let pendingPrefix = '';
 
     function flushLocalBuffer() {
       const chunk = buffer.trim();
       if (chunk) sentenceChunks.push(chunk);
       buffer = '';
+      bufferLen = 0;
     }
 
-    for (const token of sentenceTokens) {
+    function appendToBuffer(text) {
+      const value = String(text || '').trim();
+      if (!value) return;
+      buffer += value;
+      bufferLen += visibleLen(value);
+    }
+
+    for (let i = 0; i < sentenceTokens.length; i += 1) {
+      const token = sentenceTokens[i];
       if (!token) continue;
       const text = String(token || '').trim();
       if (!text) continue;
+      const nextToken = sentenceTokens[i + 1];
+      const nextIsContent = nextToken ? !punctuationTokenRE.test(String(nextToken || '').trim()) : false;
+      const nextLen = nextToken ? visibleLen(nextToken) : 0;
 
       if (punctuationTokenRE.test(text)) {
         if (buffer) {
-          buffer += text;
-          flushLocalBuffer();
+          appendToBuffer(text);
         } else if (sentenceChunks.length) {
           sentenceChunks[sentenceChunks.length - 1] += text;
         } else {
           pendingPrefix += text;
         }
+
+        if (isHardBreakToken(text)) {
+          flushLocalBuffer();
+          continue;
+        }
+
+        if (isSoftBreakToken(text) && bufferLen >= targetChunkChars) {
+          flushLocalBuffer();
+          continue;
+        }
+
+        if (bufferLen >= maxChunkChars) {
+          flushLocalBuffer();
+          continue;
+        }
+
+        if (bufferLen >= targetChunkChars && (!nextIsContent || nextLen <= 2)) {
+          flushLocalBuffer();
+          continue;
+        }
+
         continue;
       }
 
       if (pendingPrefix) {
-        buffer += pendingPrefix;
+        appendToBuffer(pendingPrefix);
         pendingPrefix = '';
       }
-      buffer += text;
+
+      if (bufferLen > 0 && bufferLen + visibleLen(text) > maxChunkChars) {
+        flushLocalBuffer();
+      }
+
+      appendToBuffer(text);
+
+      if (bufferLen >= maxChunkChars) {
+        flushLocalBuffer();
+        continue;
+      }
+
+      if (bufferLen >= targetChunkChars && (!nextIsContent || nextLen <= 2)) {
+        flushLocalBuffer();
+        continue;
+      }
     }
 
     flushLocalBuffer();
