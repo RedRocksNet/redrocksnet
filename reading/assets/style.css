@@ -366,9 +366,9 @@ select {
   }
 
   .controls {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    justify-items: stretch;
+    gap: 8px;
   }
 
   .control-group,
@@ -377,8 +377,8 @@ select {
   }
 
   .nav-btn {
-    font-size: 21px;
-    padding: 10px 11px;
+    font-size: 19px;
+    padding: 10px 10px;
   }
 
   .mode-btn {
