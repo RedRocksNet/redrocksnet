@@ -511,7 +511,7 @@ async function revealChunks(container, chunks, runId, speedClass = 'soft', progr
     const chunk = chunks[i];
     const isFinalChunk = i === chunks.length - 1;
     clearBlinkingPunctuation(container);
-    const duration = appendChunk(container, chunk, speedClass, openingSentence ? 3 : 1);
+    const duration = appendChunk(container, chunk, speedClass, openingSentence ? 4 : 1);
     const lastVisible = container.lastElementChild;
     if (lastVisible && !isFinalChunk) {
       const tail = lastVisible.querySelector('.tail-punctuation');
