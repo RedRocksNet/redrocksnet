@@ -231,9 +231,10 @@ function splitIntoChunks(text) {
   const clean = String(text || '').replace(/\s+/g, ' ').trim();
   if (!clean) return [];
 
-  const shortChunkThreshold = 18;
-  const targetChunkChars = 18;
-  const maxChunkChars = 28;
+  const compactViewport = window.matchMedia('(max-width: 720px)').matches;
+  const shortChunkThreshold = compactViewport ? 10 : 18;
+  const targetChunkChars = compactViewport ? 10 : 18;
+  const maxChunkChars = compactViewport ? 12 : 28;
 
   if (visibleChars(clean) <= shortChunkThreshold) {
     return [{ text: clean, kind: 'content' }];
@@ -337,7 +338,7 @@ function splitIntoChunks(text) {
 
       const pieces = splitBalancedText(chunk, {
         threshold: targetChunkChars,
-        minChunk: 8,
+        minChunk: compactViewport ? 4 : 8,
         maxChunk: maxChunkChars,
       });
 
@@ -649,6 +650,7 @@ function appendChunk(container, chunk, speedClass = 'soft', durationMultiplier =
     core.className = `chunk-core ${speedClass}`;
     core.style.setProperty('--reveal-duration', `${revealDuration}ms`);
     core.style.setProperty('--fade-duration', `${fadeDuration}ms`);
+    core.style.setProperty('--reveal-width', '9999px');
     core.append(document.createTextNode(body));
     const tailSpan = document.createElement('span');
     tailSpan.className = 'tail-punctuation';
@@ -663,6 +665,7 @@ function appendChunk(container, chunk, speedClass = 'soft', durationMultiplier =
     core.className = `chunk-core ${speedClass}`;
     core.style.setProperty('--reveal-duration', `${revealDuration}ms`);
     core.style.setProperty('--fade-duration', `${fadeDuration}ms`);
+    core.style.setProperty('--reveal-width', '9999px');
     core.textContent = text;
     span.appendChild(core);
   }
