@@ -1,5 +1,7 @@
 const minRevealMs = 300;
 const maxRevealMs = 2600;
+const minFadeMs = 10000;
+const maxFadeMs = 16000;
 const speedStepMin = -5;
 const speedStepMax = 5;
 const speedStepFactor = 0.12;
@@ -572,7 +574,7 @@ function syncPauseUI() {
   el.center.classList.toggle('active', state.paused);
   el.center.textContent = '⏯';
   el.center.setAttribute('aria-label', state.paused ? '继续' : '暂停');
-  document.querySelectorAll('.reveal, .tail-punctuation, .chunk.punctuation.blink').forEach((node) => {
+  document.querySelectorAll('.chunk.fade-shell, .chunk-core, .tail-punctuation, .chunk.punctuation.blink').forEach((node) => {
     node.style.animationPlayState = state.paused ? 'paused' : 'running';
   });
 }
@@ -632,30 +634,39 @@ function appendChunk(container, chunk, speedClass = 'soft', durationMultiplier =
   const text = getChunkText(chunk);
   const kind = getChunkKind(chunk);
   const span = document.createElement('span');
-  span.className = isPunctuationChunk(text) ? 'chunk punctuation' : `chunk reveal ${speedClass}`;
+  span.className = isPunctuationChunk(text) ? 'chunk punctuation' : `chunk fade-shell ${speedClass}`;
   const charCount = visibleChars(text) || 1;
-  const duration = getRevealDuration({ text, kind }, charCount, durationMultiplier);
+  const revealDuration = getRevealDuration({ text, kind }, charCount, durationMultiplier);
+  const fadeDuration = getFadeDuration({ text, kind }, charCount, durationMultiplier);
   const { body, tail, suffix } = splitBlinkingTail(text);
 
   if (isPunctuationChunk(text)) {
     span.textContent = text;
   } else if (tail) {
-    span.append(document.createTextNode(body));
+    const core = document.createElement('span');
+    core.className = `chunk-core ${speedClass}`;
+    core.style.setProperty('--reveal-duration', `${revealDuration}ms`);
+    core.style.setProperty('--fade-duration', `${fadeDuration}ms`);
+    core.append(document.createTextNode(body));
     const tailSpan = document.createElement('span');
     tailSpan.className = 'tail-punctuation';
     tailSpan.textContent = tail;
-    span.appendChild(tailSpan);
+    core.appendChild(tailSpan);
     if (suffix) {
-      span.appendChild(document.createTextNode(suffix));
+      core.appendChild(document.createTextNode(suffix));
     }
-    span.style.setProperty('--reveal-duration', `${duration}ms`);
+    span.appendChild(core);
   } else {
-    span.textContent = text;
-    span.style.setProperty('--reveal-duration', `${duration}ms`);
+    const core = document.createElement('span');
+    core.className = `chunk-core ${speedClass}`;
+    core.style.setProperty('--reveal-duration', `${revealDuration}ms`);
+    core.style.setProperty('--fade-duration', `${fadeDuration}ms`);
+    core.textContent = text;
+    span.appendChild(core);
   }
   container.appendChild(span);
   scheduleAutoScroll();
-  return duration;
+  return revealDuration;
 }
 
 function splitBlinkingTail(chunk) {
@@ -685,6 +696,19 @@ function getRevealDuration(chunk, charCount, durationMultiplier = 1) {
   return Math.max(
     minRevealMs,
     Math.min(maxRevealMs, Math.round(base * speedMultiplier * durationMultiplier * 200))
+  );
+}
+
+function getFadeDuration(chunk, charCount, durationMultiplier = 1) {
+  const text = getChunkText(chunk);
+  if (isPunctuationChunk(text)) {
+    return Math.max(220, Math.round(300 * durationMultiplier));
+  }
+  const length = Math.max(1, charCount);
+  const base = 8000 + Math.min(5000, length * 120);
+  return Math.max(
+    minFadeMs,
+    Math.min(maxFadeMs, Math.round(base * durationMultiplier))
   );
 }
 
