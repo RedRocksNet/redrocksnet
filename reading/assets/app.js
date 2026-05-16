@@ -714,6 +714,7 @@ function getChunkPause(chunk, duration) {
   const kind = getChunkKind(chunk);
   const tail = text.slice(-1);
   const speedMultiplier = getSpeedMultiplier();
+  const length = Math.max(1, visibleChars(text));
   if (/、/.test(tail)) {
     return 100;
   }
@@ -721,13 +722,13 @@ function getChunkPause(chunk, duration) {
     return 0;
   }
   if (/[。！？!?]/.test(tail)) {
-    return Math.max(180, Math.round(Math.max(260, duration * 0.45) * speedMultiplier));
+    return Math.max(120, Math.round(length * 90 * speedMultiplier));
   }
   if (/[，：,:；;]/.test(tail)) {
-    return Math.max(28, Math.round(60 * speedMultiplier));
+    return Math.max(48, Math.round(length * 28 * speedMultiplier));
   }
   if (quotePunctuationRE.test(tail)) {
-    return Math.max(20, Math.round(40 * speedMultiplier));
+    return Math.max(32, Math.round(length * 18 * speedMultiplier));
   }
   return 0;
 }
