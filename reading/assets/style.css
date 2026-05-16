@@ -18,8 +18,8 @@ html,
 body {
   margin: 0;
   min-height: 100%;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+  -webkit-text-size-adjust: auto;
+  text-size-adjust: auto;
 }
 
 body {
@@ -166,7 +166,7 @@ select {
   white-space: pre-wrap;
   word-break: normal;
   overflow-wrap: break-word;
-  line-break: strict;
+  line-break: auto;
 }
 
 .original {
@@ -357,8 +357,25 @@ select {
 }
 
 @media (max-width: 720px) {
+  body::before,
+  body::after {
+    opacity: 0;
+  }
+
   .shell {
     padding: 0;
+  }
+
+  .card {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 252, 0.92), rgba(255, 251, 244, 0.98)),
+      var(--panel);
+    backdrop-filter: none;
+  }
+
+  .card::before {
+    opacity: 0.14;
+    filter: saturate(0.74) contrast(1.03);
   }
 
   .reader {
@@ -384,7 +401,7 @@ select {
   .content {
     padding: 12px 10px 14px;
     border-radius: 18px;
-    background: rgba(255, 251, 244, 0.18);
+    background: rgba(255, 251, 244, 0.92);
     backdrop-filter: none;
   }
 
@@ -399,25 +416,25 @@ select {
   }
 
   .original {
-    font-size: clamp(24px, 6.4vw, 30px);
+    font-size: clamp(22px, 5.2vw, 27px);
     line-height: 1.85;
   }
 
   .light {
-    font-size: clamp(16px, 4.2vw, 20px);
+    font-size: clamp(15px, 4vw, 18px);
     line-height: 1.75;
     margin-top: 18px;
   }
 
   .deep {
-    font-size: clamp(18px, 4.6vw, 22px);
+    font-size: clamp(17px, 4.2vw, 20px);
     line-height: 1.85;
     margin-top: 18px;
   }
 
   .footer {
     backdrop-filter: none;
-    background: linear-gradient(180deg, rgba(255, 251, 244, 0.62), rgba(255, 251, 244, 0.84));
+    background: linear-gradient(180deg, rgba(255, 251, 244, 0.9), rgba(255, 251, 244, 0.98));
   }
 
   .topbar,
