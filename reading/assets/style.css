@@ -361,7 +361,7 @@ select {
 @media (max-width: 720px) {
   body::before,
   body::after {
-    opacity: 0;
+    content: none;
   }
 
   .shell {
@@ -376,8 +376,7 @@ select {
   }
 
   .card::before {
-    opacity: 0.14;
-    filter: saturate(0.74) contrast(1.03);
+    content: none;
   }
 
   .reader {
@@ -403,7 +402,7 @@ select {
   .content {
     padding: 12px 10px 14px;
     border-radius: 18px;
-    background: rgba(255, 251, 244, 0.92);
+    background: rgba(255, 251, 244, 0.99);
     backdrop-filter: none;
   }
 
@@ -444,7 +443,7 @@ select {
 
   .footer {
     backdrop-filter: none;
-    background: linear-gradient(180deg, rgba(255, 251, 244, 0.9), rgba(255, 251, 244, 0.98));
+    background: linear-gradient(180deg, rgba(255, 251, 244, 0.98), rgba(255, 251, 244, 1));
   }
 
   .topbar,
