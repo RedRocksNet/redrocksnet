@@ -402,7 +402,15 @@ function splitIntoChunks(text) {
 
     flushLocalBuffer('content');
     if (pendingPrefix) sentenceChunks.push({ text: pendingPrefix, kind: 'content' });
-    return mergePairedChunks(sentenceChunks.filter(Boolean));
+
+    const mergedChunks = mergePairedChunks(sentenceChunks.filter(Boolean));
+    const sentenceChars = mergedChunks.reduce((sum, item) => sum + visibleChars(getChunkText(item)), 0);
+    const sentenceChunkCount = mergedChunks.length || 1;
+    return mergedChunks.map((item) => ({
+      ...item,
+      sentenceChars,
+      sentenceChunkCount,
+    }));
   }
 
   for (const sentence of sentences) {
@@ -638,9 +646,9 @@ function appendChunk(container, chunk, speedClass = 'soft', durationMultiplier =
   const kind = getChunkKind(chunk);
   const span = document.createElement('span');
   span.className = isPunctuationChunk(text) ? 'chunk punctuation' : `chunk fade-shell ${speedClass}`;
-  const charCount = visibleChars(text) || 1;
-  const revealDuration = getRevealDuration({ text, kind }, charCount, durationMultiplier);
-  const fadeDuration = getFadeDuration({ text, kind }, charCount, durationMultiplier);
+  const sentenceChars = Math.max(1, Number(chunk?.sentenceChars || visibleChars(text) || 1));
+  const revealDuration = getRevealDuration({ text, kind }, sentenceChars, durationMultiplier);
+  const fadeDuration = getFadeDuration({ text, kind }, sentenceChars, durationMultiplier);
   const { body, tail, suffix } = splitBlinkingTail(text);
 
   if (isPunctuationChunk(text)) {
