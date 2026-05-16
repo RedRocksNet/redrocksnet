@@ -650,7 +650,6 @@ function appendChunk(container, chunk, speedClass = 'soft', durationMultiplier =
     core.className = `chunk-core ${speedClass}`;
     core.style.setProperty('--reveal-duration', `${revealDuration}ms`);
     core.style.setProperty('--fade-duration', `${fadeDuration}ms`);
-    core.style.setProperty('--reveal-width', '9999px');
     core.append(document.createTextNode(body));
     const tailSpan = document.createElement('span');
     tailSpan.className = 'tail-punctuation';
@@ -665,7 +664,6 @@ function appendChunk(container, chunk, speedClass = 'soft', durationMultiplier =
     core.className = `chunk-core ${speedClass}`;
     core.style.setProperty('--reveal-duration', `${revealDuration}ms`);
     core.style.setProperty('--fade-duration', `${fadeDuration}ms`);
-    core.style.setProperty('--reveal-width', '9999px');
     core.textContent = text;
     span.appendChild(core);
   }
