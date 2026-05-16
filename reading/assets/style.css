@@ -166,9 +166,8 @@ select {
   white-space: pre-wrap;
   word-break: normal;
   overflow-wrap: normal;
-  line-break: loose;
-  text-align: justify;
-  text-justify: inter-ideograph;
+  line-break: auto;
+  text-align: left;
 }
 
 .original {
@@ -407,11 +406,10 @@ select {
   }
 
   .stage {
-    word-break: keep-all;
+    word-break: normal;
     overflow-wrap: normal;
-    line-break: loose;
-    text-align: justify;
-    text-justify: inter-ideograph;
+    line-break: auto;
+    text-align: left;
   }
 
   .chunk.fade-shell {
