@@ -657,7 +657,7 @@ function appendChunk(container, chunk, speedClass = 'soft', durationMultiplier =
     span.textContent = text;
   } else if (tail) {
     const core = document.createElement('span');
-    core.className = `chunk-core ${speedClass}`;
+    core.className = `chunk-core pending ${speedClass}`;
     core.style.setProperty('--reveal-duration', `${revealDuration}ms`);
     core.style.setProperty('--fade-duration', `${fadeDuration}ms`);
     core.append(document.createTextNode(body));
@@ -671,13 +671,25 @@ function appendChunk(container, chunk, speedClass = 'soft', durationMultiplier =
     span.appendChild(core);
   } else {
     const core = document.createElement('span');
-    core.className = `chunk-core ${speedClass}`;
+    core.className = `chunk-core pending ${speedClass}`;
     core.style.setProperty('--reveal-duration', `${revealDuration}ms`);
     core.style.setProperty('--fade-duration', `${fadeDuration}ms`);
     core.textContent = text;
     span.appendChild(core);
   }
   container.appendChild(span);
+  if (!isPunctuationChunk(text)) {
+    const core = span.querySelector('.chunk-core');
+    if (core) {
+      const isMultiLine = core.getClientRects().length > 1;
+      if (isMultiLine) {
+        core.classList.add('wrap-safe');
+      }
+      window.requestAnimationFrame(() => {
+        core.classList.remove('pending');
+      });
+    }
+  }
   scheduleAutoScroll();
   return revealDuration;
 }
