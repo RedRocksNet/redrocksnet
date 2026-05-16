@@ -18,6 +18,8 @@ html,
 body {
   margin: 0;
   min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -162,7 +164,9 @@ select {
 
 .stage {
   white-space: pre-wrap;
-  word-break: break-word;
+  word-break: normal;
+  overflow-wrap: break-word;
+  line-break: strict;
 }
 
 .original {
@@ -380,6 +384,8 @@ select {
   .content {
     padding: 12px 10px 14px;
     border-radius: 18px;
+    background: rgba(255, 251, 244, 0.18);
+    backdrop-filter: none;
   }
 
   .chunk.fade-shell {
@@ -407,6 +413,11 @@ select {
     font-size: clamp(18px, 4.6vw, 22px);
     line-height: 1.85;
     margin-top: 18px;
+  }
+
+  .footer {
+    backdrop-filter: none;
+    background: linear-gradient(180deg, rgba(255, 251, 244, 0.62), rgba(255, 251, 244, 0.84));
   }
 
   .topbar,
