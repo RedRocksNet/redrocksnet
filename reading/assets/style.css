@@ -167,6 +167,8 @@ select {
   word-break: normal;
   overflow-wrap: normal;
   line-break: loose;
+  text-align: justify;
+  text-justify: inter-ideograph;
 }
 
 .original {
@@ -409,6 +411,8 @@ select {
     word-break: keep-all;
     overflow-wrap: normal;
     line-break: loose;
+    text-align: justify;
+    text-justify: inter-ideograph;
   }
 
   .chunk.fade-shell {
