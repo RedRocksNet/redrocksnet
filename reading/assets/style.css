@@ -202,10 +202,12 @@ select {
 
 .chunk-core {
   position: relative;
-  display: inline;
-  clip-path: inset(0 100% 0 0);
+  display: inline-block;
+  overflow: hidden;
+  white-space: normal;
+  max-width: 0;
   animation: textReveal var(--reveal-duration, 1000ms) cubic-bezier(0.18, 1, 0.32, 1) forwards;
-  will-change: clip-path;
+  will-change: max-width;
   z-index: 1;
 }
 
@@ -315,11 +317,11 @@ select {
 
 @keyframes textReveal {
   0% {
-    clip-path: inset(0 100% 0 0);
+    max-width: 0;
   }
 
   to {
-    clip-path: inset(0 0 0 0);
+    max-width: var(--reveal-width, 9999px);
   }
 }
 
