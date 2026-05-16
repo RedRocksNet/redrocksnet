@@ -1,7 +1,6 @@
 const minRevealMs = 300;
 const maxRevealMs = 2600;
-const minFadeMs = 10000;
-const maxFadeMs = 16000;
+const fadeDurationMs = 10000;
 const navigationDelayMs = 3000;
 const speedStepMin = -5;
 const speedStepMax = 5;
@@ -711,12 +710,7 @@ function getFadeDuration(chunk, charCount, durationMultiplier = 1) {
   if (isPunctuationChunk(text)) {
     return Math.max(220, Math.round(300 * durationMultiplier));
   }
-  const length = Math.max(1, charCount);
-  const base = 8000 + Math.min(5000, length * 120);
-  return Math.max(
-    minFadeMs,
-    Math.min(maxFadeMs, Math.round(base * durationMultiplier))
-  );
+  return Math.max(1000, Math.round(fadeDurationMs * durationMultiplier));
 }
 
 function getChunkPause(chunk, duration) {
