@@ -1,6 +1,6 @@
 const minRevealMs = 300;
 const maxRevealMs = 2600;
-const fadeDurationMs = 5000;
+const fadeDurationMs = window.matchMedia('(max-width: 720px)').matches ? 3000 : 5000;
 const navigationDelayMs = 3000;
 const speedStepMin = -5;
 const speedStepMax = 5;

@@ -190,18 +190,23 @@ select {
 }
 
 .chunk.fade-shell {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
   opacity: 0;
-  transform: translateY(8px);
-  filter: blur(1px);
-  animation: fadeUp max(5000ms, var(--fade-duration, 5000ms)) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform: translateY(4px) scale(0.994);
+  filter: blur(1.6px) saturate(0.95) contrast(0.98);
+  animation: fadeUp var(--fade-duration, 5000ms) cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: opacity, transform, filter;
 }
 
 .chunk-core {
+  position: relative;
   display: inline-block;
   clip-path: inset(0 100% 0 0);
   animation: textReveal var(--reveal-duration, 1000ms) cubic-bezier(0.18, 1, 0.32, 1) forwards;
   will-change: clip-path;
+  z-index: 1;
 }
 
 .tail-punctuation,
@@ -308,8 +313,14 @@ select {
 @keyframes fadeUp {
   0% {
     opacity: 0;
-    transform: translateY(8px);
-    filter: blur(1px);
+    transform: translateY(4px) scale(0.994);
+    filter: blur(1.6px) saturate(0.95) contrast(0.98);
+  }
+
+  48% {
+    opacity: 0.55;
+    transform: translateY(2px) scale(0.998);
+    filter: blur(0.8px) saturate(0.98) contrast(0.99);
   }
 
   to {
@@ -371,6 +382,11 @@ select {
     border-radius: 18px;
   }
 
+  .chunk.fade-shell {
+    transform: translateY(5px) scale(0.995);
+    filter: blur(1.2px) saturate(0.97) contrast(0.99);
+  }
+
   .chunk-core {
     transform: translateY(10px);
     filter: blur(1.1px);
@@ -418,5 +434,12 @@ select {
   .mode-btn {
     font-size: 12px;
     padding: 9px 10px;
+  }
+}
+
+@media (min-width: 721px) {
+  .chunk.fade-shell {
+    transform: translateY(4px) scale(0.994);
+    filter: blur(1.8px) saturate(0.93) contrast(0.97);
   }
 }
