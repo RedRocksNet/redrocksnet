@@ -193,7 +193,7 @@ select {
   opacity: 0;
   transform: translateY(8px);
   filter: blur(1px);
-  animation: fadeUp max(10000ms, var(--fade-duration, 10000ms)) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeUp max(5000ms, var(--fade-duration, 5000ms)) cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: opacity, transform, filter;
 }
 

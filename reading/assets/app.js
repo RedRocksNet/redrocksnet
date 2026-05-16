@@ -1,6 +1,6 @@
 const minRevealMs = 300;
 const maxRevealMs = 2600;
-const fadeDurationMs = 10000;
+const fadeDurationMs = 5000;
 const navigationDelayMs = 3000;
 const speedStepMin = -5;
 const speedStepMax = 5;
