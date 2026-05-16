@@ -684,7 +684,7 @@ function getRevealDuration(chunk, charCount, durationMultiplier = 1) {
   const speedMultiplier = getSpeedMultiplier();
   return Math.max(
     minRevealMs,
-    Math.min(maxRevealMs, Math.round(base * speedMultiplier * durationMultiplier * 50))
+    Math.min(maxRevealMs, Math.round(base * speedMultiplier * durationMultiplier * 100))
   );
 }
 
