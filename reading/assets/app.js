@@ -2,6 +2,7 @@ const minRevealMs = 300;
 const maxRevealMs = 2600;
 const minFadeMs = 10000;
 const maxFadeMs = 16000;
+const navigationDelayMs = 3000;
 const speedStepMin = -5;
 const speedStepMax = 5;
 const speedStepFactor = 0.12;
@@ -192,6 +193,8 @@ const state = {
   speedStep: 0,
   paused: false,
   originalProgress: 0,
+  navigationReady: false,
+  navigationTimer: 0,
   runId: 0,
   autoScrollTimer: 0,
   lastScrollY: 0,
@@ -446,6 +449,10 @@ function clearTimers() {
     window.clearTimeout(id);
   }
   state.timers = [];
+  if (state.navigationTimer) {
+    window.clearTimeout(state.navigationTimer);
+    state.navigationTimer = 0;
+  }
 }
 
 function stopAutoScroll() {
@@ -597,8 +604,8 @@ function updateMeta() {
   if (el.stageHint) {
     if (state.originalProgress <= 0) {
       el.stageHint.textContent = '原文自动渐显';
-    } else if (state.originalProgress < 0.7) {
-      el.stageHint.textContent = `已读 ${Math.round(state.originalProgress * 100)}%，读到七成后可前后切换`;
+    } else if (!state.navigationReady) {
+      el.stageHint.textContent = '3秒后可前后切换';
     } else if (state.originalProgress < 1) {
       el.stageHint.textContent = '可以前后切换';
     } else {
@@ -612,7 +619,7 @@ function updateProgress() {
 }
 
 function setNavigationState() {
-  const canNavigate = state.originalProgress >= 0.7;
+  const canNavigate = state.navigationReady;
   const canGoPrev = canNavigate && state.index > 0;
   const canGoNext = canNavigate && state.index < state.entries.length - 1;
   el.prev.disabled = !canGoPrev;
@@ -778,10 +785,19 @@ async function startEntry(index) {
   stopAutoScroll();
   state.index = index;
   state.originalProgress = 0;
+  state.navigationReady = false;
   resetContainers();
   updateMeta();
   updateProgress();
   setNavigationState();
+
+  state.navigationTimer = window.setTimeout(() => {
+    if (runId !== state.runId) return;
+    state.navigationReady = true;
+    state.navigationTimer = 0;
+    updateMeta();
+    setNavigationState();
+  }, navigationDelayMs);
 
   const entry = currentEntry();
   const originalChunks = splitIntoChunks(entry.original || '');
@@ -794,12 +810,12 @@ async function startEntry(index) {
 }
 
 function canAdvance() {
-  return state.originalProgress >= 0.7 && state.index < state.entries.length - 1;
+  return state.navigationReady && state.index < state.entries.length - 1;
 }
 
 function bindEvents() {
   el.prev.addEventListener('click', async () => {
-    if (state.index <= 0 || state.originalProgress < 0.7) return;
+    if (state.index <= 0 || !state.navigationReady) return;
     await startEntry(state.index - 1);
   });
 
