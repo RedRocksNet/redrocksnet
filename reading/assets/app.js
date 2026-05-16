@@ -1,6 +1,6 @@
 const minRevealMs = 300;
 const maxRevealMs = 2600;
-const fadeDurationMs = window.matchMedia('(max-width: 720px)').matches ? 1500 : 5000;
+const fadeDurationMs = window.matchMedia('(max-width: 720px)').matches ? 1000 : 5000;
 const navigationDelayMs = 3000;
 const speedStepMin = -5;
 const speedStepMax = 5;
@@ -16,7 +16,7 @@ const punctuationTokenRE = /^[，。；！？、：,.!?;:（）()《》「」『
 const sentencePunctuationRE = /[。！？!?；;]/;
 const softPunctuationRE = /[，、：,:]/;
 const quotePunctuationRE = /[“”"'‘’（）()《》「」『』【】\[\]]/;
-const blinkingTailPunctuationRE = /[，。！？!?]/;
+const blinkingTailPunctuationRE = /$^/;
 const pairedOpenToClose = new Map([
   ['（', '）'],
   ['(', ')'],
@@ -580,7 +580,7 @@ function syncPauseUI() {
   el.center.classList.toggle('active', state.paused);
   el.center.textContent = '⏯';
   el.center.setAttribute('aria-label', state.paused ? '继续' : '暂停');
-  document.querySelectorAll('.chunk.fade-shell, .chunk-core, .tail-punctuation, .chunk.punctuation.blink').forEach((node) => {
+  document.querySelectorAll('.chunk.fade-shell, .chunk-core').forEach((node) => {
     node.style.animationPlayState = state.paused ? 'paused' : 'running';
   });
 }
@@ -630,10 +630,6 @@ function resetContainers() {
   if (el.content) {
     el.content.scrollTop = 0;
   }
-}
-
-function clearBlinkingPunctuation(container) {
-  container.querySelectorAll('.blink').forEach((node) => node.classList.remove('blink'));
 }
 
 function appendChunk(container, chunk, speedClass = 'soft', durationMultiplier = 1) {
@@ -741,18 +737,7 @@ async function revealChunks(container, chunks, runId, speedClass = 'soft', progr
   for (let i = 0; i < chunks.length; i += 1) {
     if (runId !== state.runId) return false;
     const chunk = chunks[i];
-    const isFinalChunk = i === chunks.length - 1;
-    clearBlinkingPunctuation(container);
     const duration = appendChunk(container, chunk, speedClass, openingSentence ? 4 : 1);
-    const lastVisible = container.lastElementChild;
-    if (lastVisible && !isFinalChunk) {
-      const tail = lastVisible.querySelector('.tail-punctuation');
-      if (tail) {
-        tail.classList.add('blink');
-      } else if (isPunctuationChunk(chunk) && blinkingTailPunctuationRE.test(String(chunk || '').trim().slice(-1))) {
-        lastVisible.classList.add('blink');
-      }
-    }
     if (progressMode === 'original') {
       state.originalProgress = (i + 1) / chunks.length;
       updateMeta();

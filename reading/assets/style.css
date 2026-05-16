@@ -209,17 +209,6 @@ select {
   z-index: 1;
 }
 
-.tail-punctuation,
-.chunk.punctuation.blink {
-  display: inline-block;
-  transform-origin: center;
-}
-
-.tail-punctuation.blink,
-.chunk.punctuation.blink {
-  animation: punctuationBlink 125ms linear infinite;
-}
-
 .footer {
   flex-shrink: 0;
   padding-top: 2px;
@@ -331,18 +320,6 @@ select {
 
   to {
     clip-path: inset(0 0 0 0);
-  }
-}
-
-@keyframes punctuationBlink {
-  0%,
-  79.999% {
-    opacity: 1;
-  }
-
-  80%,
-  100% {
-    opacity: 0.32;
   }
 }
 
