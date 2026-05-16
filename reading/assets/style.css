@@ -165,8 +165,8 @@ select {
 .stage {
   white-space: pre-wrap;
   word-break: normal;
-  overflow-wrap: break-word;
-  line-break: auto;
+  overflow-wrap: normal;
+  line-break: loose;
 }
 
 .original {
@@ -405,6 +405,12 @@ select {
     backdrop-filter: none;
   }
 
+  .stage {
+    word-break: keep-all;
+    overflow-wrap: normal;
+    line-break: loose;
+  }
+
   .chunk.fade-shell {
     transform: translateY(5px) scale(0.995);
     filter: blur(1.2px) saturate(0.97) contrast(0.99);
@@ -416,18 +422,18 @@ select {
   }
 
   .original {
-    font-size: clamp(22px, 5.2vw, 27px);
+    font-size: clamp(21px, 4.9vw, 26px);
     line-height: 1.85;
   }
 
   .light {
-    font-size: clamp(15px, 4vw, 18px);
+    font-size: clamp(14px, 3.8vw, 17px);
     line-height: 1.75;
     margin-top: 18px;
   }
 
   .deep {
-    font-size: clamp(17px, 4.2vw, 20px);
+    font-size: clamp(16px, 4vw, 19px);
     line-height: 1.85;
     margin-top: 18px;
   }
