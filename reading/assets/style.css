@@ -189,12 +189,19 @@ select {
   display: inline;
 }
 
-.reveal {
+.chunk.fade-shell {
   opacity: 0;
   transform: translateY(8px);
   filter: blur(1px);
-  animation: fadeUp max(10000ms, var(--reveal-duration, 1000ms)) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeUp max(10000ms, var(--fade-duration, 10000ms)) cubic-bezier(0.16, 1, 0.3, 1) forwards;
   will-change: opacity, transform, filter;
+}
+
+.chunk-core {
+  display: inline-block;
+  clip-path: inset(0 100% 0 0);
+  animation: textReveal var(--reveal-duration, 1000ms) cubic-bezier(0.18, 1, 0.32, 1) forwards;
+  will-change: clip-path;
 }
 
 .tail-punctuation,
@@ -312,6 +319,16 @@ select {
   }
 }
 
+@keyframes textReveal {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
 @keyframes punctuationBlink {
   0%,
   79.999% {
@@ -354,7 +371,7 @@ select {
     border-radius: 18px;
   }
 
-  .reveal {
+  .chunk-core {
     transform: translateY(10px);
     filter: blur(1.1px);
   }
