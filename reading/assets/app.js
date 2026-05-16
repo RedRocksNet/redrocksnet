@@ -746,35 +746,20 @@ function getChunkPause(chunk, duration) {
 
 async function revealChunks(container, chunks, runId, speedClass = 'soft', progressMode = null) {
   let openingSentence = true;
-  for (let i = 0; i < chunks.length; ) {
+  for (let i = 0; i < chunks.length; i += 1) {
     if (runId !== state.runId) return false;
     const chunk = chunks[i];
-    const sentenceIndex = Number(chunk?.sentenceIndex ?? i);
-    const sentenceChunks = [];
-    let j = i;
-    while (j < chunks.length) {
-      const candidate = chunks[j];
-      const candidateIndex = Number(candidate?.sentenceIndex ?? j);
-      if (candidateIndex !== sentenceIndex) break;
-      sentenceChunks.push(candidate);
-      j += 1;
-    }
-    const durationMultiplier = openingSentence ? 4 : 1;
-    const durations = sentenceChunks.map((sentenceChunk) =>
-      appendChunk(container, sentenceChunk, speedClass, durationMultiplier),
-    );
+    const duration = appendChunk(container, chunk, speedClass, openingSentence ? 4 : 1);
     if (progressMode === 'original') {
-      state.originalProgress = j / chunks.length;
+      state.originalProgress = (i + 1) / chunks.length;
       updateMeta();
       updateProgress();
       setNavigationState();
     }
-    const waitDuration = Math.max(...durations, 0);
-    await wait(waitDuration + getChunkPause(sentenceChunks[sentenceChunks.length - 1], waitDuration), runId);
+    await wait(duration + getChunkPause(chunk, duration), runId);
     if (openingSentence) {
       openingSentence = false;
     }
-    i = j;
   }
   return runId === state.runId;
 }
