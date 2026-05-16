@@ -317,7 +317,7 @@ function splitIntoChunks(text) {
 
   const chunks = [];
 
-  function chunkSentenceTokens(sentenceTokens) {
+  function chunkSentenceTokens(sentenceTokens, sentenceIndex) {
     const sentenceChunks = [];
     let buffer = '';
     let pendingPrefix = '';
@@ -410,11 +410,13 @@ function splitIntoChunks(text) {
       ...item,
       sentenceChars,
       sentenceChunkCount,
+      sentenceIndex,
     }));
   }
 
-  for (const sentence of sentences) {
-    chunks.push(...chunkSentenceTokens(sentence.tokens));
+  for (let sentenceIndex = 0; sentenceIndex < sentences.length; sentenceIndex += 1) {
+    const sentence = sentences[sentenceIndex];
+    chunks.push(...chunkSentenceTokens(sentence.tokens, sentenceIndex));
   }
 
   return chunks.filter(Boolean);
@@ -744,20 +746,35 @@ function getChunkPause(chunk, duration) {
 
 async function revealChunks(container, chunks, runId, speedClass = 'soft', progressMode = null) {
   let openingSentence = true;
-  for (let i = 0; i < chunks.length; i += 1) {
+  for (let i = 0; i < chunks.length; ) {
     if (runId !== state.runId) return false;
     const chunk = chunks[i];
-    const duration = appendChunk(container, chunk, speedClass, openingSentence ? 4 : 1);
+    const sentenceIndex = Number(chunk?.sentenceIndex ?? i);
+    const sentenceChunks = [];
+    let j = i;
+    while (j < chunks.length) {
+      const candidate = chunks[j];
+      const candidateIndex = Number(candidate?.sentenceIndex ?? j);
+      if (candidateIndex !== sentenceIndex) break;
+      sentenceChunks.push(candidate);
+      j += 1;
+    }
+    const durationMultiplier = openingSentence ? 4 : 1;
+    const durations = sentenceChunks.map((sentenceChunk) =>
+      appendChunk(container, sentenceChunk, speedClass, durationMultiplier),
+    );
     if (progressMode === 'original') {
-      state.originalProgress = (i + 1) / chunks.length;
+      state.originalProgress = j / chunks.length;
       updateMeta();
       updateProgress();
       setNavigationState();
     }
-    await wait(duration + getChunkPause(chunk, duration), runId);
+    const waitDuration = Math.max(...durations, 0);
+    await wait(waitDuration + getChunkPause(sentenceChunks[sentenceChunks.length - 1], waitDuration), runId);
     if (openingSentence) {
       openingSentence = false;
     }
+    i = j;
   }
   return runId === state.runId;
 }
