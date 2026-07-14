@@ -54,6 +54,16 @@
     "#111412",
   ];
 
+  const SYNC_STATE_LABELS = {
+    synced: "已同步",
+    "missing-public": "缺发布页",
+    "missing-source": "缺本地正文",
+    "metadata-only": "仅元数据",
+    "draft-synced": "草稿已生成",
+    "draft-local-only": "仅本地草稿",
+    "draft-public-only": "仅网页副本",
+  };
+
   const WECHAT_CONTENT_SELECTORS = [
     "#img-content .rich_media_content",
     "#img-content",
@@ -144,6 +154,43 @@
     });
   }
 
+  function syncStateLabel(item) {
+    return SYNC_STATE_LABELS[item?.sync_state] || "待检查";
+  }
+
+  function syncStateTone(item) {
+    switch (item?.sync_state) {
+      case "synced":
+      case "draft-synced":
+        return "ok";
+      case "missing-public":
+      case "missing-source":
+      case "metadata-only":
+      case "draft-public-only":
+      case "draft-local-only":
+        return "warn";
+      default:
+        return "neutral";
+    }
+  }
+
+  function renderConsistencySummary() {
+    const total = state.articles.length;
+    const issues = state.articles.filter((item) => ["missing-public", "missing-source", "metadata-only"].includes(item.sync_state)).length;
+    const synced = state.articles.filter((item) => item.sync_state === "synced" || item.sync_state === "draft-synced").length;
+    const drafts = state.articles.filter((item) => item.sync_state?.startsWith("draft")).length;
+    const lines = [
+      `总计 ${total} 篇`,
+      `同步 ${synced} 篇`,
+      `草稿 ${drafts} 篇`,
+      issues ? `${issues} 项待核对` : "本地-网络对应正常",
+    ];
+    const el = document.getElementById("consistencySummary");
+    if (el) {
+      el.innerHTML = lines.map((line, index) => `<span class="consistency-pill ${index === 3 && issues ? "danger" : ""}">${escapeHtml(line)}</span>`).join("");
+    }
+  }
+
   function fillThemes() {
     els.themeSelect.innerHTML = "";
     state.themes.forEach((theme) => {
@@ -155,52 +202,93 @@
   }
 
   function renderArticleList() {
-    const sorted = [...state.articles].sort((a, b) => (b.updated_date || "").localeCompare(a.updated_date || ""));
-    els.articleList.innerHTML = "";
+    const sorted = [...state.articles].sort((a, b) => (b.updated_date || "").localeCompare(a.updated_date || "") || (a.title || "").localeCompare(b.title || ""));
+    const groups = new Map();
+    state.categories.forEach((cat) => groups.set(cat.id, { category: cat, items: [] }));
+    const uncategorized = { category: { id: "", name: "未分类", directory: "" }, items: [] };
     sorted.forEach((item) => {
-      const card = document.createElement("div");
-      card.className = "article-item";
-
-      const body = document.createElement("button");
-      body.type = "button";
-      body.className = "article-item-main";
-      body.innerHTML = `<strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.category_name)} · ${escapeHtml(item.updated_date || "")}</span>`;
-      body.addEventListener("click", () => editArticle(item));
-
-      const actions = document.createElement("div");
-      actions.className = "article-item-actions";
-
-      const openBtn = document.createElement("button");
-      openBtn.type = "button";
-      openBtn.className = "article-action-btn";
-      openBtn.textContent = "打开";
-      openBtn.addEventListener("click", (ev) => {
-        ev.stopPropagation();
-        openPublishedArticle(item);
-      });
-
-      const editBtn = document.createElement("button");
-      editBtn.type = "button";
-      editBtn.className = "article-action-btn";
-      editBtn.textContent = "编辑";
-      editBtn.addEventListener("click", (ev) => {
-        ev.stopPropagation();
-        editArticle(item);
-      });
-
-      const deleteBtn = document.createElement("button");
-      deleteBtn.type = "button";
-      deleteBtn.className = "article-action-btn article-action-danger";
-      deleteBtn.textContent = "删除";
-      deleteBtn.addEventListener("click", (ev) => {
-        ev.stopPropagation();
-        deleteArticle(item);
-      });
-
-      actions.append(openBtn, editBtn, deleteBtn);
-      card.append(body, actions);
-      els.articleList.appendChild(card);
+      const bucket = groups.get(item.category_id);
+      if (bucket) {
+        bucket.items.push(item);
+      } else {
+        uncategorized.items.push(item);
+      }
     });
+
+    els.articleList.innerHTML = "";
+    const renderGroup = (group) => {
+      if (!group.items.length) return;
+      const section = document.createElement("section");
+      section.className = "article-group";
+
+      const head = document.createElement("div");
+      head.className = "article-group-head";
+      head.innerHTML = `
+        <div>
+          <strong>${escapeHtml(group.category.name)}</strong>
+          <span>${escapeHtml(group.category.directory || "未分类")}</span>
+        </div>
+        <span class="article-group-count">${group.items.length}</span>
+      `;
+      section.appendChild(head);
+
+      group.items.forEach((item) => {
+        const card = document.createElement("div");
+        card.className = "article-item";
+
+        const body = document.createElement("button");
+        body.type = "button";
+        body.className = "article-item-main";
+        body.innerHTML = `
+          <strong>${escapeHtml(item.title)}</strong>
+          <div class="article-item-meta">
+            <span>${escapeHtml(item.updated_date || "")}</span>
+            <span class="article-sync ${syncStateTone(item)}">${escapeHtml(syncStateLabel(item))}</span>
+          </div>
+        `;
+        body.addEventListener("click", () => editArticle(item));
+
+        const actions = document.createElement("div");
+        actions.className = "article-item-actions";
+
+        const openBtn = document.createElement("button");
+        openBtn.type = "button";
+        openBtn.className = "article-action-btn";
+        openBtn.textContent = "打开";
+        openBtn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          openPublishedArticle(item);
+        });
+
+        const editBtn = document.createElement("button");
+        editBtn.type = "button";
+        editBtn.className = "article-action-btn";
+        editBtn.textContent = "编辑";
+        editBtn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          editArticle(item);
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.type = "button";
+        deleteBtn.className = "article-action-btn article-action-danger";
+        deleteBtn.textContent = "删除";
+        deleteBtn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          deleteArticle(item);
+        });
+
+        actions.append(openBtn, editBtn, deleteBtn);
+        card.append(body, actions);
+        section.appendChild(card);
+      });
+
+      els.articleList.appendChild(section);
+    };
+
+    state.categories.forEach((cat) => renderGroup(groups.get(cat.id)));
+    renderGroup(uncategorized);
+    renderConsistencySummary();
   }
 
   async function reloadArticles() {
@@ -333,12 +421,13 @@
   }
 
   function openPublishedArticle(article) {
-    const url =
-      article.local_html_url ||
-      article.canonical_url ||
-      new URL(`/articles/${encodeURIComponent(article.category_directory)}/${encodeURIComponent(article.slug)}.html`, state.siteBaseUrl).href;
+    const url = article.public_html_exists && article.local_html_url
+      ? article.local_html_url
+      : article.canonical_url ||
+        new URL(`/articles/${encodeURIComponent(article.category_directory)}/${encodeURIComponent(article.slug)}.html`, state.siteBaseUrl).href;
+    if (!article.public_html_exists) setStatus(`文章页尚未生成：${article.title}`, "error");
+    else setStatus(`已打开文章：${article.title}`);
     window.open(url, "_blank", "noopener");
-    setStatus(`已打开文章：${article.title}`);
   }
 
   function makeTitleSlug(title, publishedDate) {
