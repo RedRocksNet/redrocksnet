@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "site_name": "redrocks.net",
+  "site_base_url": "https://www.redrocks.net",
+  "host": "127.0.0.1",
+  "port": 8765,
+  "author_default": "RedRocks",
+  "article_root": "articles",
+  "article_index": "articles.html",
+  "article_generator": "generate_article.py",
+  "publish_command": "PUBLISH.command"
+}
+

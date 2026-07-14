@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RedRocks Publisher</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">RedRocks Publisher</div>
+        <h1>本地文章发布工作台</h1>
+      </div>
+      <div class="actions">
+        <button id="saveDraftBtn" class="btn">保存草稿</button>
+        <button id="previewBtn" class="btn btn-soft">网站预览</button>
+        <button id="publishBtn" class="btn btn-accent">预览并发布</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <section class="panel">
+          <div class="panel-head">
+            <h2>文章</h2>
+            <button id="newArticleBtn" class="link-btn">新建</button>
+          </div>
+          <div id="articleList" class="list"></div>
+        </section>
+        <section class="panel">
+          <h2>分类</h2>
+          <div id="categoryList" class="chips"></div>
+        </section>
+      </aside>
+
+      <section class="editor-panel">
+        <div class="modebar">
+          <button data-mode="edit" class="mode active">编辑</button>
+          <button data-mode="desktop" class="mode">桌面预览</button>
+          <button data-mode="mobile" class="mode">手机预览</button>
+          <button data-mode="html" class="mode">HTML</button>
+        </div>
+
+        <div id="statusLine" class="status">载入中…</div>
+        <div id="publishResult" class="publish-result hidden"></div>
+
+        <div class="toolbar" id="toolbar">
+          <button data-cmd="formatBlock" data-value="p">正文</button>
+          <button data-cmd="formatBlock" data-value="h1">一级标题</button>
+          <button data-cmd="formatBlock" data-value="h2">二级标题</button>
+          <button data-cmd="bold">加粗</button>
+          <button data-cmd="italic">斜体</button>
+          <button data-cmd="formatBlock" data-value="blockquote">引用</button>
+          <button data-cmd="insertUnorderedList">无序列表</button>
+          <button data-cmd="insertOrderedList">有序列表</button>
+          <button data-cmd="justifyCenter">居中</button>
+          <button data-cmd="justifyLeft">左对齐</button>
+          <button data-cmd="insertHorizontalRule">分隔线</button>
+          <label class="file-btn">插入图片<input id="imageInput" type="file" accept="image/*"></label>
+          <label class="file-btn">导入文件<input id="fileInput" type="file" accept=".txt,.md,.docx"></label>
+          <button id="openColorPanelBtn" type="button">字体色彩</button>
+          <button data-cmd="createLink">插入链接</button>
+          <button data-cmd="undo">撤销</button>
+          <button data-cmd="redo">重做</button>
+          <button data-cmd="removeFormat">清除格式</button>
+        </div>
+
+        <div id="colorPanel" class="color-panel hidden" aria-label="字体色彩选择器">
+          <div class="color-panel-title">字体色彩</div>
+          <div class="color-panel-body">
+            <div class="color-swatches" id="colorSwatches"></div>
+            <label class="color-chooser">
+              <span>自定义颜色</span>
+              <input id="textColorInput" type="color" value="#f3eee4">
+            </label>
+            <div class="color-preview-row">
+              <span class="color-preview-dot" id="colorPreviewDot"></span>
+              <span id="colorPreviewLabel" class="color-preview-label">#f3eee4</span>
+            </div>
+            <div class="color-panel-actions">
+              <button id="colorCancelBtn" type="button" class="btn btn-soft">取消</button>
+              <button id="colorApplyBtn" type="button" class="btn btn-accent">确定</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-grid">
+          <div class="canvas">
+            <div id="editor" class="editor" contenteditable="true" spellcheck="false"></div>
+            <iframe id="previewFrame" class="preview hidden" title="preview"></iframe>
+            <textarea id="htmlView" class="html-view hidden" readonly></textarea>
+          </div>
+
+          <form class="meta" id="metaForm">
+            <label>中文标题 <input name="title" required></label>
+            <label>英文标题 <input name="english_title"></label>
+            <label>副标题 <input name="subtitle"></label>
+            <label>摘要 <textarea name="summary" rows="4"></textarea></label>
+            <label>作者署名 <input name="author"></label>
+            <label>发布日期 <input name="published_date" type="date"></label>
+            <label>分类 <select name="category_id" id="categorySelect"></select></label>
+            <label>前台主题 <select name="themes" id="themeSelect" multiple></select></label>
+            <label>标签 <input name="tags" placeholder="用逗号分隔"></label>
+            <label>URL slug <input name="slug"></label>
+            <label>封面图片 <input name="cover_image_path" placeholder="/absolute/path/to/image.jpg"></label>
+            <label class="check"><input name="featured" type="checkbox">精选文章</label>
+            <label>状态
+              <select name="status">
+                <option value="draft">草稿</option>
+                <option value="ready">待发布</option>
+                <option value="published">已发布</option>
+                <option value="modified">已修改未发布</option>
+              </select>
+            </label>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script id="bootstrap-data" type="application/json">__BOOTSTRAP__</script>
+  <script src="/app.js"></script>
+</body>
+</html>

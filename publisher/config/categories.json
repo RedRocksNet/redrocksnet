@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "categories": [
+    {
+      "id": "photography",
+      "name": "Photography",
+      "directory": "photography",
+      "enabled": true
+    },
+    {
+      "id": "buddhism",
+      "name": "Buddhism",
+      "directory": "buddhism",
+      "enabled": true
+    },
+    {
+      "id": "misc",
+      "name": "Misc",
+      "directory": "misc",
+      "enabled": true
+    },
+    {
+      "id": "travel",
+      "name": "Travel",
+      "directory": "travel",
+      "enabled": true
+    },
+    {
+      "id": "tap",
+      "name": "TAP",
+      "directory": "TAP",
+      "enabled": true
+    }
+  ]
+}
+

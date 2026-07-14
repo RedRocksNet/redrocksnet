@@ -4,3 +4,10 @@
 INBOX_ARTICLES/
 INBOX_IMAGES/
 # gitignore active
+.publisher-data/
+publisher/.venv/
+publisher/node_modules/
+publisher/frontend/node_modules/
+publisher/uploads-temp/
+publisher/logs/
+__pycache__/
