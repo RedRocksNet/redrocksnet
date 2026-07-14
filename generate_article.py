@@ -4,6 +4,7 @@
 import re
 import sys
 import html
+import json
 import urllib.parse
 from pathlib import Path
 from datetime import datetime
@@ -276,6 +277,16 @@ def excerpt_from_md(md_text: str, max_len: int = 140) -> str:
     if len(plain) <= max_len:
         return plain
     return plain[: max_len - 1].rstrip() + "…"
+
+
+def load_article_metadata(md_path: Path) -> dict:
+    meta_path = md_path.with_suffix(".publisher.json")
+    if not meta_path.exists():
+        return {}
+    try:
+        return json.loads(read_text(meta_path))
+    except Exception:
+        return {}
 
 
 def absolute_url(path: str) -> str:
@@ -757,6 +768,12 @@ h1{
   color:var(--muted);
 }
 
+.card-body .subtle.subtle-empty{
+  -webkit-line-clamp:1;
+  min-height:1.35em;
+  opacity:0.38;
+}
+
 .meta{
   display:flex;
   gap:10px;
@@ -792,10 +809,14 @@ h1{
   color:rgba(185,177,161,0.72);
 }
 .article img{
+  display:block;
   max-width:100%;
+  width:auto;
   height:auto;
+  margin:18px auto;
   border-radius:12px;
   border:1px solid rgba(255,255,255,.05);
+  box-shadow:0 10px 24px rgba(0,0,0,.18);
 }
 .article pre{
   background:rgba(255,255,255,.03);
@@ -1062,11 +1083,12 @@ def generate_article_pages(categories: list[str]):
         for md_path in md_files:
             md_text = read_text(md_path)
             stem = md_path.stem
+            meta = load_article_metadata(md_path)
 
             title = extract_title(md_text, fallback=stem)
             mtime = md_path.stat().st_mtime
             date_str = fmt_date(mtime)
-            summary = excerpt_from_md(md_text, max_len=140)
+            summary = (meta.get("summary") or "").strip()
 
             md_body = strip_first_h1(md_text)
             content_html = render_markdown(md_body)
@@ -1154,12 +1176,18 @@ def generate_category_index(cat: str, items: list[dict]):
     if items:
         cards = []
         for it in items:
+            excerpt = (it.get("excerpt") or "").strip()
+            excerpt_html = (
+                f'<div class="subtle">{html.escape(excerpt)}</div>'
+                if excerpt
+                else '<div class="subtle subtle-empty" aria-hidden="true">&nbsp;</div>'
+            )
             cards.append(
                 f"""
 <a class="card" href="{html.escape(it["href"])}">
   <div class="card-body">
     <div class="card-title">{html.escape(it["title"])}</div>
-    <div class="subtle">{html.escape(it.get("excerpt",""))}</div>
+    {excerpt_html}
     <div class="meta">
       <span class="badge">{html.escape(it["date"])}</span>
     </div>

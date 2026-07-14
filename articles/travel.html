@@ -439,6 +439,12 @@ h1{
   color:var(--muted);
 }
 
+.card-body .subtle.subtle-empty{
+  -webkit-line-clamp:1;
+  min-height:1.35em;
+  opacity:0.38;
+}
+
 .meta{
   display:flex;
   gap:10px;
@@ -474,10 +480,14 @@ h1{
   color:rgba(185,177,161,0.72);
 }
 .article img{
+  display:block;
   max-width:100%;
+  width:auto;
   height:auto;
+  margin:18px auto;
   border-radius:12px;
   border:1px solid rgba(255,255,255,.05);
+  box-shadow:0 10px 24px rgba(0,0,0,.18);
 }
 .article pre{
   background:rgba(255,255,255,.03);
