@@ -64,6 +64,26 @@ def article_candidates(root: Path, category_dir: Path) -> list[Path]:
     return result
 
 
+def article_metadata_candidates(category_dir: Path) -> list[Path]:
+    if not category_dir.exists():
+        return []
+    return sorted(
+        path
+        for path in category_dir.iterdir()
+        if path.is_file() and not path.name.startswith(".") and path.name.endswith(".publisher.json")
+    )
+
+
+def metadata_slug(metadata_path: Path | None) -> str:
+    if not metadata_path:
+        return ""
+    name = metadata_path.name
+    suffix = ".publisher.json"
+    if name.endswith(suffix):
+        return name[: -len(suffix)]
+    return metadata_path.stem
+
+
 def infer_source_file(category_dir: Path, stem: str) -> Path | None:
     md = category_dir / f"{stem}.md"
     html_path = category_dir / f"{stem}.html"
@@ -119,6 +139,78 @@ def html_to_text(text: str) -> str:
     return cleaned
 
 
+def article_sync_state(status: str, source_exists: bool, public_html_exists: bool, metadata_exists: bool) -> str:
+    if metadata_exists and not source_exists and not public_html_exists:
+        return "metadata-only"
+    if status == "published":
+        if source_exists and public_html_exists:
+            return "synced"
+        if source_exists and not public_html_exists:
+            return "missing-public"
+        if public_html_exists and not source_exists:
+            return "missing-source"
+        return "metadata-only"
+    if source_exists and public_html_exists:
+        return "draft-synced"
+    if source_exists and not public_html_exists:
+        return "draft-local-only"
+    if public_html_exists and not source_exists:
+        return "draft-public-only"
+    return "metadata-only"
+
+
+def build_article_record(
+    root: Path,
+    cat: dict[str, Any],
+    source_path: Path | None,
+    metadata_path: Path | None,
+) -> dict[str, Any]:
+    source = load_article_source(source_path) if source_path else None
+    meta = {}
+    if source_path:
+        meta = load_metadata(source_path) or {}
+    elif metadata_path and metadata_path.exists():
+        meta = read_json(metadata_path, {}) or {}
+    fallback_slug = source_path.stem if source_path else metadata_slug(metadata_path)
+    slug = meta.get("slug") or fallback_slug
+    paths = article_paths(root, cat["id"], slug or fallback_slug)
+    source_exists = bool(source_path and source_path.exists())
+    metadata_exists = bool(metadata_path and metadata_path.exists())
+    public_html_path = source_path.with_suffix(".html") if source_path else paths["html"]
+    public_html_exists = public_html_path.exists()
+    article_id = meta.get("article_id") or f"ephemeral:{cat['id']}:{slug or fallback_slug or 'unknown'}"
+    title = meta.get("title") or (source["title"] if source else (slug or fallback_slug))
+    summary = meta.get("summary") or ""
+    status = meta.get("status") or ("published" if public_html_exists and source_exists else "draft")
+    record_path = source_path or metadata_path or paths["markdown"]
+    sync_state = article_sync_state(status, source_exists, public_html_exists, metadata_exists)
+    canonical_url = meta.get("canonical_url") or f"{load_site_config(root).site_base_url}/articles/{cat['directory']}/{(slug or paths['html'].stem)}.html"
+    local_html_url = public_html_path.resolve().as_uri() if public_html_exists else None
+    return {
+        "article_id": article_id,
+        "title": title,
+        "summary": summary,
+        "category_id": cat["id"],
+        "category_name": cat["name"],
+        "category_directory": cat["directory"],
+        "path": str(record_path.relative_to(root)),
+        "source_path": str(source_path.relative_to(root)) if source_path else meta.get("source_path"),
+        "source_format": meta.get("source_format") or (source["format"] if source else "metadata"),
+        "status": status,
+        "slug": slug or paths["html"].stem,
+        "local_html_url": local_html_url,
+        "canonical_url": canonical_url,
+        "updated_date": meta.get("updated_date") or today_iso(),
+        "published_date": meta.get("published_date") or today_iso(),
+        "has_metadata": bool(meta),
+        "metadata_path": str(metadata_path.relative_to(root)) if metadata_path else None,
+        "source_exists": source_exists,
+        "public_html_exists": public_html_exists,
+        "metadata_exists": metadata_exists,
+        "sync_state": sync_state,
+    }
+
+
 def scan_articles(root: Path) -> list[dict[str, Any]]:
     cats = load_categories(root).get("categories", [])
     results: list[dict[str, Any]] = []
@@ -126,32 +218,15 @@ def scan_articles(root: Path) -> list[dict[str, Any]]:
         cat_dir = root / "articles" / cat["directory"]
         if not cat_dir.exists():
             continue
+        seen_stems: set[str] = set()
         for path in article_candidates(root, cat_dir):
-            source = load_article_source(path)
-            meta = load_metadata(path) or {}
-            article_id = meta.get("article_id") or f"ephemeral:{cat['id']}:{path.stem}"
-            title = meta.get("title") or source["title"]
-            summary = meta.get("summary") or ""
-            results.append(
-                {
-                    "article_id": article_id,
-                    "title": title,
-                    "summary": summary,
-                    "category_id": cat["id"],
-                    "category_name": cat["name"],
-                    "category_directory": cat["directory"],
-                    "path": str(path.relative_to(root)),
-                    "source_format": meta.get("source_format") or source["format"],
-                    "status": meta.get("status") or ("published" if path.suffix.lower() == ".html" else "draft"),
-                    "slug": meta.get("slug") or path.stem,
-                    "local_html_url": path.with_suffix(".html").resolve().as_uri(),
-                    "canonical_url": meta.get("canonical_url") or f"{load_site_config(root).site_base_url}/articles/{cat['directory']}/{(meta.get('slug') or path.stem)}.html",
-                    "updated_date": meta.get("updated_date") or today_iso(),
-                    "published_date": meta.get("published_date") or today_iso(),
-                    "has_metadata": bool(meta),
-                }
-            )
-    results.sort(key=lambda item: (item["updated_date"], item["title"]), reverse=True)
+            seen_stems.add(path.stem)
+            results.append(build_article_record(root, cat, path, path.with_suffix(".publisher.json")))
+        for meta_path in article_metadata_candidates(cat_dir):
+            if metadata_slug(meta_path) in seen_stems:
+                continue
+            results.append(build_article_record(root, cat, None, meta_path))
+    results.sort(key=lambda item: (item["category_name"], item["updated_date"], item["title"]), reverse=True)
     return results
 
 
@@ -180,6 +255,12 @@ def load_article_detail(root: Path, article_id: str) -> dict | None:
     cat = category_by_id(root, found["category_id"])
     source_path = infer_source_file(root / "articles" / cat["directory"], found["slug"])
     if not source_path:
+        meta_path = Path(found["metadata_path"]) if found.get("metadata_path") else root / "articles" / cat["directory"] / f"{found['slug']}.publisher.json"
+        if not meta_path.is_absolute():
+            meta_path = root / meta_path
+        if meta_path.exists():
+            found["metadata"] = read_json(meta_path, {}) or {}
+            found["metadata_path"] = str(meta_path.relative_to(root))
         return found
     source = load_article_source(source_path)
     meta = load_metadata(source_path) or {}
@@ -187,7 +268,8 @@ def load_article_detail(root: Path, article_id: str) -> dict | None:
     found["plain_text"] = source["plain_text"]
     found["raw_text"] = source["text"]
     found["source_path"] = str(source_path.relative_to(root))
-    found["local_html_url"] = source_path.with_suffix(".html").resolve().as_uri()
+    html_path = source_path.with_suffix(".html")
+    found["local_html_url"] = html_path.resolve().as_uri() if html_path.exists() else None
     found["metadata"] = meta
     return found
 
