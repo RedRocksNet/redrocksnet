@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="RedRocks 随笔首页，从佛法、杂文、摄影、旅行与 TAP 进入书写的不同侧面，共 30 篇。" />
+  <meta name="description" content="RedRocks 随笔首页，以书脊式入口浏览摄影、杂文、佛法、旅行与 TAP，共 30 篇。" />
   <link rel="canonical" href="https://www.redrocks.net/articles.html" />
   <meta property="og:site_name" content="RedRocks" />
   <meta property="og:title" content="随笔 · RedRocks" />
-  <meta property="og:description" content="RedRocks 随笔首页，从佛法、杂文、摄影、旅行与 TAP 进入书写的不同侧面，共 30 篇。" />
+  <meta property="og:description" content="RedRocks 随笔首页，以书脊式入口浏览摄影、杂文、佛法、旅行与 TAP，共 30 篇。" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.redrocks.net/articles.html" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="随笔 · RedRocks" />
-  <meta name="twitter:description" content="RedRocks 随笔首页，从佛法、杂文、摄影、旅行与 TAP 进入书写的不同侧面，共 30 篇。" />
+  <meta name="twitter:description" content="RedRocks 随笔首页，以书脊式入口浏览摄影、杂文、佛法、旅行与 TAP，共 30 篇。" />
   <title>随笔 · RedRocks</title>
   <link rel="stylesheet" href="/nav.css">
   <style>
@@ -107,20 +107,11 @@ h1{
   align-content:start;
 }
 
-.hero-line{
-  margin:0;
-  color:var(--muted);
-  font-family:var(--serif);
-  font-size:22px;
-  line-height:1.42;
-  font-weight:400;
-  letter-spacing:-0.01em;
-}
-
 .panel-card{
   display:block;
-  padding:14px 16px;
-  border-radius:16px;
+  min-height:100%;
+  padding:18px 18px 16px;
+  border-radius:20px;
   border:1px solid var(--line);
   background:
     linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
@@ -134,22 +125,22 @@ h1{
   font-size:11px;
   letter-spacing:0.2em;
   text-transform:uppercase;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 
 .panel-copy{
   margin:0;
   color:var(--muted-2);
-  font-size:12px;
-  line-height:1.6;
+  font-size:13px;
+  line-height:1.75;
 }
 
 .panel-quote{
-  margin:0;
-  color:rgba(224,214,194,0.76);
+  margin:12px 0 0;
+  color:rgba(224,214,194,0.82);
   font-family:var(--serif);
   font-size:18px;
-  line-height:1.3;
+  line-height:1.35;
 }
 
 .intro-line{
@@ -207,75 +198,6 @@ h1{
   display:grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap:18px;
-}
-
-.theme-grid{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(0, 1fr));
-  gap:18px;
-}
-
-.theme-card{
-  padding:20px 20px 18px;
-  border-radius:20px;
-  border:1px solid var(--line);
-  background:
-    radial-gradient(circle at top right, rgba(199,168,107,0.08), transparent 35%),
-    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
-    rgba(255,255,255,0.035);
-}
-
-.theme-title{
-  margin:0 0 8px;
-  color:#e8dfcf;
-  font-family:var(--serif);
-  font-size:24px;
-  line-height:1.12;
-  letter-spacing:-0.02em;
-}
-
-.theme-summary{
-  margin:0;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.75;
-}
-
-.theme-links{
-  margin-top:16px;
-  display:grid;
-  gap:10px;
-}
-
-.theme-link{
-  display:block;
-  padding:12px 14px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,0.05);
-  background:rgba(255,255,255,0.025);
-  transition:transform .18s ease, border-color .18s ease, background .18s ease;
-}
-
-.theme-link:hover{
-  transform:translateY(-2px);
-  border-color:var(--line2);
-  background:rgba(255,255,255,0.04);
-}
-
-.theme-link-label{
-  display:block;
-  color:var(--accent);
-  font-size:11px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  margin-bottom:6px;
-}
-
-.theme-link-title{
-  display:block;
-  color:#e5dccd;
-  font-size:16px;
-  line-height:1.45;
 }
 
 .shelf-grid{
@@ -622,10 +544,6 @@ body.reading-soft .article blockquote{
     grid-template-columns:1fr;
   }
 
-  .theme-grid{
-    grid-template-columns:1fr;
-  }
-
   .shelf-grid{
     grid-template-columns:repeat(2, minmax(0, 1fr));
   }
@@ -652,13 +570,101 @@ body.reading-soft .article blockquote{
 }
 
 @media (max-width: 560px){
+  main{
+    width:min(100% - 16px, 760px);
+    padding:64px 0 12px;
+  }
+
+  .hero{
+    padding:12px;
+    gap:10px;
+    border-radius:20px;
+  }
+
+  .hero-copy{
+    min-width:0;
+  }
+
+  .hero-subtitle{
+    font-size:14px;
+    line-height:1.5;
+    margin-top:6px;
+  }
+
+  .panel-card{
+    padding:12px;
+    border-radius:14px;
+  }
+
+  .panel-copy{
+    font-size:11px;
+  }
+
+  .panel-quote{
+    display:none;
+  }
+
+  .section{
+    margin-top:10px;
+    padding:12px;
+    border-radius:18px;
+  }
+
+  .section-head{
+    margin-bottom:10px;
+  }
+
+  .section-title{
+    font-size:20px;
+  }
+
+  .section-note{
+    margin-top:6px;
+    font-size:11px;
+    line-height:1.45;
+  }
+
   .shelf-grid{
-    grid-template-columns:1fr;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:8px;
   }
 
   .spine-card,
   .spine-inner{
-    min-height:260px;
+    min-height:132px;
+  }
+
+  .spine-card{
+    border-radius:16px;
+  }
+
+  .spine-inner{
+    padding:10px 10px 10px 16px;
+  }
+
+  .spine-top{
+    gap:6px;
+  }
+
+  .spine-title{
+    font-size:17px;
+    line-height:1.08;
+    writing-mode:horizontal-tb;
+    text-orientation:initial;
+    max-height:none;
+  }
+
+  .spine-note{
+    display:none;
+  }
+
+  .spine-meta{
+    gap:5px;
+  }
+
+  .spine-badge{
+    padding:2px 8px;
+    font-size:11px;
   }
 
   .read-tools{
@@ -682,92 +688,8 @@ body.reading-soft .article blockquote{
     <div class="panel-card">
       <div class="panel-label">Essays</div>
       <p class="panel-copy">5 个栏目 · 30 篇</p>
+      <p class="panel-quote">像翻开书脊一样进入，不再摆出多套入口。</p>
     </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-head">
-    <div>
-      <div class="section-kicker">Themes</div>
-      <h2 class="section-title">先按问题进入，再按栏目浏览。</h2>
-      <p class="section-note">随笔前台按主题策展，后台仍按目录归档。这样既保留结构，也让不同线索彼此照亮。</p>
-    </div>
-  </div>
-  <div class="theme-grid">
-    <div class="theme-card">
-  <h3 class="theme-title">家与安顿</h3>
-  <p class="theme-summary">关于家、秩序、亲情、来处，以及人在世界里如何找到可以安身的地方。</p>
-  <div class="theme-links">
-    <a class="theme-link" href="/articles/misc/房里有猪：关于家的胡思乱想.html">
-  <span class="theme-link-label">杂文（Misc）</span>
-  <span class="theme-link-title">房里有猪：关于家的胡思乱想</span>
-</a><a class="theme-link" href="/articles/misc/三金缕曲：风雪之义、知己之契、生死之情.html">
-  <span class="theme-link-label">杂文（Misc）</span>
-  <span class="theme-link-title">三金缕曲：风雪之义、知己之契、生死之情</span>
-</a>
-  </div>
-</div><div class="theme-card">
-  <h3 class="theme-title">世界与文明</h3>
-  <p class="theme-summary">关于文明比较、历史逻辑、合法性来源，以及不同生存方式在世界中的冲突与并置。</p>
-  <div class="theme-links">
-    <a class="theme-link" href="/articles/misc/不同文明的合法性本体.html">
-  <span class="theme-link-label">杂文（Misc）</span>
-  <span class="theme-link-title">不同文明的合法性本体</span>
-</a><a class="theme-link" href="/articles/misc/贪婪：文明的暗影与火种.html">
-  <span class="theme-link-label">杂文（Misc）</span>
-  <span class="theme-link-title">贪婪：文明的暗影与火种</span>
-</a><a class="theme-link" href="/articles/buddhism/若无佛来：中国文明的另一种命运.html">
-  <span class="theme-link-label">佛法（Buddhism）</span>
-  <span class="theme-link-title">若无佛来：中国文明的另一种命运</span>
-</a>
-  </div>
-</div><div class="theme-card">
-  <h3 class="theme-title">观看与摄影</h3>
-  <p class="theme-summary">关于摄影、器材、观察、影像与心境，文字在这里继续延伸照片没有说完的那部分。</p>
-  <div class="theme-links">
-    <a class="theme-link" href="/articles/photography/一个摄影师的独白.html">
-  <span class="theme-link-label">摄影（Photography）</span>
-  <span class="theme-link-title">一个摄影师的独白</span>
-</a><a class="theme-link" href="/articles/photography/镜底心归：摄影里的自我心境修行.html">
-  <span class="theme-link-label">摄影（Photography）</span>
-  <span class="theme-link-title">镜底心归：摄影里的自我心境修行</span>
-</a><a class="theme-link" href="/articles/photography/过期黑白胶卷使用笔记.html">
-  <span class="theme-link-label">摄影（Photography）</span>
-  <span class="theme-link-title">过期黑白胶卷使用笔记</span>
-</a>
-  </div>
-</div><div class="theme-card">
-  <h3 class="theme-title">修行与佛法</h3>
-  <p class="theme-summary">关于经文、手书、修行体会与佛法理解，既谈经典，也谈日常之中的安顿与放下。</p>
-  <div class="theme-links">
-    <a class="theme-link" href="/articles/buddhism/抄经随笔.html">
-  <span class="theme-link-label">佛法（Buddhism）</span>
-  <span class="theme-link-title">抄经随笔</span>
-</a><a class="theme-link" href="/articles/buddhism/读经不执相：《大般涅槃经》客医喻.html">
-  <span class="theme-link-label">佛法（Buddhism）</span>
-  <span class="theme-link-title">读经不执相：《大般涅槃经》客医喻</span>
-</a><a class="theme-link" href="/articles/buddhism/天龙八部：藏于佛殿、流于江湖，未被读懂的佛教文化符号.html">
-  <span class="theme-link-label">佛法（Buddhism）</span>
-  <span class="theme-link-title">天龙八部：藏于佛殿、流于江湖，未被读懂的佛教文化符号</span>
-</a>
-  </div>
-</div><div class="theme-card">
-  <h3 class="theme-title">时间与结构</h3>
-  <p class="theme-summary">关于 TAP、投影、维度、结构与世界模型，试着为经验寻找一种更稳定的框架。</p>
-  <div class="theme-links">
-    <a class="theme-link" href="/articles/TAP/穿越维度的低语：TAP理论与宇宙、哲学、空性的全景对话.html">
-  <span class="theme-link-label">TAP宇宙观（TAP）</span>
-  <span class="theme-link-title">穿越维度的低语：TAP理论与宇宙、哲学、空性的全景对话</span>
-</a><a class="theme-link" href="/articles/TAP/身体受限、意识扩张与高维观察：TAP 理论下的多维存在模型初探.html">
-  <span class="theme-link-label">TAP宇宙观（TAP）</span>
-  <span class="theme-link-title">身体受限、意识扩张与高维观察：TAP 理论下的多维存在模型初探</span>
-</a><a class="theme-link" href="/articles/TAP/TAP理论里，投影界面的物理逻辑与《金刚经》第二十七品的结构同构性研究.html">
-  <span class="theme-link-label">TAP宇宙观（TAP）</span>
-  <span class="theme-link-title">TAP理论里，投影界面的物理逻辑与《金刚经》第二十七品的结构同构性研究</span>
-</a>
-  </div>
-</div>
   </div>
 </section>
 
@@ -775,7 +697,8 @@ body.reading-soft .article blockquote{
   <div class="section-head">
     <div>
       <div class="section-kicker">Volumes</div>
-      <h2 class="section-title">按栏目浏览</h2>
+      <h2 class="section-title">按书脊进入栏目。</h2>
+      <p class="section-note">这一页只保留统一的书背式入口模块，避免再出现多套入口逻辑。</p>
     </div>
   </div>
   <div class="shelf-grid">
