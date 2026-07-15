@@ -1480,7 +1480,6 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
         <span class="panel-link-title" id="latest-article-title">{latest_title}</span>
         <span class="panel-link-meta" id="latest-article-meta">{html.escape(latest_meta)}</span>
       </a>
-      <p class="panel-quote">像翻开书脊一样进入，不再摆出多套入口。</p>
     </div>
   </div>
 </section>
