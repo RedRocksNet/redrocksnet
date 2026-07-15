@@ -232,11 +232,16 @@ class PublisherHandler(SimpleHTTPRequestHandler):
 
     def _serve_index(self):
         text = (ROOT / "publisher" / "frontend" / "index.html").read_text(encoding="utf-8")
+        app_ver = int((ROOT / "publisher" / "frontend" / "app.js").stat().st_mtime)
+        css_ver = int((ROOT / "publisher" / "frontend" / "styles.css").stat().st_mtime)
+        text = text.replace('/styles.css"', f'/styles.css?v={css_ver}"')
+        text = text.replace('/app.js"', f'/app.js?v={app_ver}"')
         body = text.replace("__BOOTSTRAP__", json.dumps(bootstrap_payload(ROOT), ensure_ascii=False))
         data = body.encode("utf-8")
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(data)))
+        self.send_header("Cache-Control", "no-store")
         self.end_headers()
         self.wfile.write(data)
 
@@ -289,6 +294,8 @@ class PublisherHandler(SimpleHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(data)))
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("Vary", "Accept-Encoding")
         self.end_headers()
         self.wfile.write(data)
 

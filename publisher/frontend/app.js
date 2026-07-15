@@ -367,6 +367,15 @@
     return String(text || "").replace(/\s+/g, " ").trim();
   }
 
+  function sanitizeSummary(summary, title = "") {
+    const text = normalizeWhitespace(summary);
+    if (!text) return "";
+    if (/[<>]/.test(text)) return "";
+    if (title && text.startsWith(normalizeWhitespace(title))) return "";
+    if (text.length > 220) return "";
+    return text;
+  }
+
   function extractTitleTextFromNode(node) {
     if (!node) return "";
     const parts = [];
@@ -553,7 +562,7 @@
         const cleanedHtml = cleaned.html || rawHtml;
         const adoptedTitle = shouldAdoptImportedTitle(payload.title, cleaned.title) ? cleaned.title : payload.title;
         const resolvedArticleId = payload.article_id || article.article_id;
-        const resolvedSummary = payload.summary || article.summary || "";
+        const resolvedSummary = sanitizeSummary(payload.summary || article.summary || "", adoptedTitle || payload.title || article.title || "");
         state.activeDraft = {
           article_id: resolvedArticleId,
           title: adoptedTitle,
@@ -621,7 +630,7 @@
       title: form.title.value.trim(),
       english_title: form.english_title.value.trim(),
       subtitle: form.subtitle.value.trim(),
-      summary: form.summary.value.trim(),
+      summary: sanitizeSummary(form.summary.value, form.title.value),
       author: form.author.value.trim() || "RedRocks",
       published_date: form.published_date.value,
       category_id: form.category_id.value,

@@ -33,6 +33,19 @@ def html_to_markdown(html_text: str) -> str:
     return cleaned.strip() + "\n"
 
 
+def sanitize_summary(summary: str, title: str = "") -> str:
+    text = re.sub(r"\s+", " ", (summary or "").strip())
+    if not text:
+      return ""
+    if "<" in text or ">" in text:
+      return ""
+    if title and text.startswith(re.sub(r"\s+", " ", title.strip())):
+      return ""
+    if len(text) > 220:
+      return ""
+    return text
+
+
 def prepare_publish(root: Path, payload: dict) -> dict:
     categories = load_categories(root).get("categories", [])
     validate_title(payload.get("title", ""))
@@ -150,7 +163,7 @@ def save_article_and_publish(root: Path, payload: dict, git_push: bool = True) -
         "title": title,
         "english_title": payload.get("english_title", ""),
         "subtitle": payload.get("subtitle", ""),
-        "summary": payload.get("summary") or "",
+        "summary": sanitize_summary(payload.get("summary") or "", title),
         "author": payload.get("author") or site.author_default,
         "published_date": payload.get("published_date") or payload.get("updated_date") or payload.get("draft_date") or "",
         "updated_date": payload.get("updated_date") or payload.get("published_date") or "",
