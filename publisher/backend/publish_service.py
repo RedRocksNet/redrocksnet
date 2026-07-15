@@ -92,6 +92,7 @@ def save_article_and_publish(root: Path, payload: dict, git_push: bool = True) -
         str(article_paths["html"].relative_to(root)),
         str(article_paths["meta"].relative_to(root)),
         "articles.html",
+        "articles/latest.json",
         f"articles/{category['directory']}.html",
         "articles/",
         "generate_article.py",
@@ -115,6 +116,7 @@ def save_article_and_publish(root: Path, payload: dict, git_push: bool = True) -
         article_paths["html"],
         article_paths["meta"],
         root / "articles.html",
+        root / "articles" / "latest.json",
         root / "articles" / f"{category['directory']}.html",
     ]
     backup_dir = Path(tempfile.mkdtemp(prefix="publisher-backup-", dir=str(root / ".publisher-data" / "temp")))

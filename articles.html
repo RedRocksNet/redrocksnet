@@ -172,6 +172,12 @@ h1{
   letter-spacing:0.08em;
 }
 
+.panel-fallback{
+  margin:0;
+  color:var(--muted-2);
+  font-size:12px;
+}
+
 .panel-quote{
   margin:12px 0 0;
   color:rgba(224,214,194,0.82);
@@ -647,28 +653,14 @@ body.reading-soft .article blockquote{
     border-radius:18px;
   }
 
-  .section-head{
-    margin-bottom:10px;
-  }
-
-  .section-title{
-    font-size:20px;
-  }
-
-  .section-note{
-    margin-top:6px;
-    font-size:11px;
-    line-height:1.45;
-  }
-
   .shelf-grid{
-    grid-template-columns:repeat(2, minmax(0, 1fr));
-    gap:8px;
+    grid-template-columns:1fr;
+    gap:10px;
   }
 
   .spine-card,
   .spine-inner{
-    min-height:132px;
+    min-height:126px;
   }
 
   .spine-card{
@@ -724,9 +716,15 @@ body.reading-soft .article blockquote{
   <div class="hero-panel">
     <div class="panel-card">
       <div class="panel-label">Latest</div>
-      <a class="panel-link" href="/articles/photography/20260714-新知识理解与智慧.html">
-        <span class="panel-link-title">新知识、理解与智慧——从一个玩笑开始</span>
-        <span class="panel-link-meta">摄影 · 2026-07-14</span>
+      <a
+        class="panel-link"
+        id="latest-article-link"
+        href="/articles/photography/20260714-新知识理解与智慧.html"
+        data-fallback-title="新知识、理解与智慧——从一个玩笑开始"
+        data-fallback-meta="摄影 · 2026-07-14"
+      >
+        <span class="panel-link-title" id="latest-article-title">新知识、理解与智慧——从一个玩笑开始</span>
+        <span class="panel-link-meta" id="latest-article-meta">摄影 · 2026-07-14</span>
       </a>
       <p class="panel-quote">像翻开书脊一样进入，不再摆出多套入口。</p>
     </div>
@@ -734,13 +732,6 @@ body.reading-soft .article blockquote{
 </section>
 
 <section class="section">
-  <div class="section-head">
-    <div>
-      <div class="section-kicker">Volumes</div>
-      <h2 class="section-title">按书脊进入栏目。</h2>
-      <p class="section-note">这一页只保留统一的书背式入口模块，避免再出现多套入口逻辑。</p>
-    </div>
-  </div>
   <div class="shelf-grid">
     <a class="spine-card" href="/articles/buddhism.html" style="--spine-image:url('/articles/buddhism/cover.jpg')">
   <div class="spine-inner">
@@ -804,5 +795,31 @@ body.reading-soft .article blockquote{
   </main>
 
   <script src="/nav.js" defer></script>
+  <script>
+    (async () => {
+      const link = document.getElementById('latest-article-link');
+      const titleEl = document.getElementById('latest-article-title');
+      const metaEl = document.getElementById('latest-article-meta');
+      if (!link || !titleEl || !metaEl) return;
+
+      const fallbackTitle = link.dataset.fallbackTitle || titleEl.textContent || '';
+      const fallbackMeta = link.dataset.fallbackMeta || metaEl.textContent || '';
+
+      try {
+        const response = await fetch('/articles/latest.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error(`latest.json ${response.status}`);
+        const data = await response.json();
+        if (!data || !data.href || !data.title) throw new Error('invalid latest payload');
+
+        link.href = data.href;
+        titleEl.textContent = data.title;
+        metaEl.textContent = [data.category, data.date].filter(Boolean).join(' · ');
+        link.setAttribute('aria-label', `最新文章：${data.title}`);
+      } catch (err) {
+        titleEl.textContent = fallbackTitle;
+        metaEl.textContent = fallbackMeta;
+      }
+    })();
+  </script>
 </body>
 </html>

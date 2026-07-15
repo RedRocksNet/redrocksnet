@@ -18,6 +18,7 @@ except ImportError:
 ROOT = Path(__file__).resolve().parent
 ARTICLES_DIR = ROOT / "articles"          # articles/<category>/*.md
 INDEX_OUT = ROOT / "articles.html"        # 随笔首页（栏目卡片）
+LATEST_OUT = ARTICLES_DIR / "latest.json" # 随笔首页顶部的最新文章入口
 SITE_TITLE = "RedRocks"
 SITE_URL = "https://www.redrocks.net"
 
@@ -110,6 +111,24 @@ def find_curated_item(category_articles: dict[str, list[dict]], cat: str, title:
         if it.get("title") == title:
             return it
     return None
+
+
+def find_latest_article(category_articles: dict[str, list[dict]]):
+    latest_item = None
+    latest_cat = ""
+    latest_mtime = -1.0
+
+    for cat, items in category_articles.items():
+        if not items:
+            continue
+        candidate = items[0]
+        mtime = float(candidate.get("mtime") or 0.0)
+        if mtime > latest_mtime:
+            latest_mtime = mtime
+            latest_item = candidate
+            latest_cat = cat
+
+    return latest_cat, latest_item
 
 
 def _resolve_case_path(base_dir: Path, rel_path: str) -> Path | None:
@@ -471,6 +490,43 @@ h1{
   color:var(--muted-2);
   font-size:12px;
   line-height:1.6;
+}
+
+.panel-link{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:14px 15px 13px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+    rgba(17,20,18,0.32);
+  color:inherit;
+  text-decoration:none;
+  transition:transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.panel-link:hover{
+  transform:translateY(-1px);
+  border-color:var(--line2);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0)),
+    rgba(17,20,18,0.38);
+}
+
+.panel-link-title{
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.35;
+  letter-spacing:-0.02em;
+}
+
+.panel-link-meta{
+  color:var(--muted-2);
+  font-size:12px;
+  letter-spacing:0.08em;
 }
 
 .panel-quote{
@@ -951,10 +1007,6 @@ body.reading-soft .article blockquote{
     grid-template-columns:1fr;
   }
 
-  .theme-grid{
-    grid-template-columns:1fr;
-  }
-
   .shelf-grid{
     grid-template-columns:repeat(2, minmax(0, 1fr));
   }
@@ -981,13 +1033,95 @@ body.reading-soft .article blockquote{
 }
 
 @media (max-width: 560px){
+  main{
+    width:min(100% - 18px, 760px);
+    padding:78px 0 18px;
+  }
+
+  .hero{
+    padding:14px;
+    gap:12px;
+    border-radius:22px;
+  }
+
+  .hero-copy{
+    min-width:0;
+  }
+
+  .hero-subtitle{
+    font-size:15px;
+    line-height:1.6;
+    margin-top:8px;
+  }
+
+  .panel-card{
+    padding:14px;
+    border-radius:16px;
+  }
+
+  .panel-copy{
+    font-size:12px;
+  }
+
+  .panel-link{
+    padding:13px 14px 12px;
+  }
+
+  .panel-link-title{
+    font-size:17px;
+  }
+
+  .panel-quote{
+    display:none;
+  }
+
+  .section{
+    margin-top:14px;
+    padding:14px;
+    border-radius:20px;
+  }
+
   .shelf-grid{
     grid-template-columns:1fr;
+    gap:10px;
   }
 
   .spine-card,
   .spine-inner{
-    min-height:260px;
+    min-height:126px;
+  }
+
+  .spine-card{
+    border-radius:18px;
+  }
+
+  .spine-inner{
+    padding:12px 12px 12px 16px;
+  }
+
+  .spine-top{
+    gap:6px;
+  }
+
+  .spine-title{
+    font-size:17px;
+    line-height:1.08;
+    writing-mode:horizontal-tb;
+    text-orientation:initial;
+    max-height:none;
+  }
+
+  .spine-note{
+    display:none;
+  }
+
+  .spine-meta{
+    gap:6px;
+  }
+
+  .spine-badge{
+    padding:2px 8px;
+    font-size:11px;
   }
 
   .read-tools{
@@ -1252,6 +1386,35 @@ def generate_category_index(cat: str, items: list[dict]):
     print(f"✅ 生成栏目页：{out_file}")
 
 
+def generate_latest_article_feed(category_articles: dict[str, list[dict]]):
+    latest_item = None
+    latest_cat = ""
+    latest_mtime = -1.0
+
+    for cat, items in category_articles.items():
+        if not items:
+            continue
+        candidate = items[0]
+        mtime = float(candidate.get("mtime") or 0.0)
+        if mtime > latest_mtime:
+            latest_mtime = mtime
+            latest_item = candidate
+            latest_cat = cat
+
+    payload = {
+        "title": latest_item["title"] if latest_item else "",
+        "href": latest_item["href"] if latest_item else "/articles.html",
+        "date": latest_item["date"] if latest_item else "",
+        "category": category_display_name(latest_cat) if latest_item else "",
+        "category_slug": category_slug(latest_cat) if latest_item else "",
+    }
+    write_text(
+        LATEST_OUT,
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+    )
+    print(f"✅ 生成最新文章索引：{LATEST_OUT}")
+
+
 def generate_main_index(categories: list[str], category_articles: dict[str, list[dict]]):
     cards = []
     for cat in categories:
@@ -1287,37 +1450,17 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
   </div>
 </a>
 """.strip()
-        )
-
-    themed = []
-    for theme in THEME_CURATION:
-        links = []
-        for cat, title in theme["picks"]:
-            item = find_curated_item(category_articles, cat, title)
-            if not item:
-                continue
-            links.append(
-                f"""
-<a class="theme-link" href="{html.escape(item['href'])}">
-  <span class="theme-link-label">{html.escape(category_display_name(cat))}</span>
-  <span class="theme-link-title">{html.escape(item['title'])}</span>
-</a>
-""".strip()
             )
 
-        themed.append(
-            f"""
-<div class="theme-card">
-  <h3 class="theme-title">{html.escape(theme['title'])}</h3>
-  <p class="theme-summary">{html.escape(theme['summary'])}</p>
-  <div class="theme-links">
-    {''.join(links)}
-  </div>
-</div>
-""".strip()
-        )
-
     total = sum(len(category_articles.get(cat, [])) for cat in categories)
+    latest_cat, latest_item = find_latest_article(category_articles)
+    latest_href = html.escape(latest_item["href"]) if latest_item else "/articles.html"
+    latest_title = html.escape(latest_item["title"]) if latest_item else "最新文章"
+    latest_meta_parts = []
+    if latest_item:
+        latest_meta_parts = [category_display_name(latest_cat), latest_item["date"]]
+    latest_meta = " · ".join(part for part in latest_meta_parts if part)
+
     body = f"""
 <section class="hero">
   <div class="hero-copy">
@@ -1326,39 +1469,57 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
   </div>
   <div class="hero-panel">
     <div class="panel-card">
-      <div class="panel-label">Essays</div>
-      <p class="panel-copy">{len(categories)} 个栏目 · {total} 篇</p>
+      <div class="panel-label">Latest</div>
+      <a
+        class="panel-link"
+        id="latest-article-link"
+        href="{latest_href}"
+        data-fallback-title="{latest_title}"
+        data-fallback-meta="{html.escape(latest_meta)}"
+      >
+        <span class="panel-link-title" id="latest-article-title">{latest_title}</span>
+        <span class="panel-link-meta" id="latest-article-meta">{html.escape(latest_meta)}</span>
+      </a>
+      <p class="panel-quote">像翻开书脊一样进入，不再摆出多套入口。</p>
     </div>
   </div>
 </section>
 
 <section class="section">
-  <div class="section-head">
-    <div>
-      <div class="section-kicker">Themes</div>
-      <h2 class="section-title">先按问题进入，再按栏目浏览。</h2>
-      <p class="section-note">随笔前台按主题策展，后台仍按目录归档。这样既保留结构，也让不同线索彼此照亮。</p>
-    </div>
-  </div>
-  <div class="theme-grid">
-    {''.join(themed)}
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-head">
-    <div>
-      <div class="section-kicker">Volumes</div>
-      <h2 class="section-title">按栏目浏览</h2>
-    </div>
-  </div>
   <div class="shelf-grid">
     {''.join(cards)}
   </div>
 </section>
+
+<script>
+  (async () => {{
+    const link = document.getElementById('latest-article-link');
+    const titleEl = document.getElementById('latest-article-title');
+    const metaEl = document.getElementById('latest-article-meta');
+    if (!link || !titleEl || !metaEl) return;
+
+    const fallbackTitle = link.dataset.fallbackTitle || titleEl.textContent || '';
+    const fallbackMeta = link.dataset.fallbackMeta || metaEl.textContent || '';
+
+    try {{
+      const response = await fetch('/articles/latest.json', {{ cache: 'no-store' }});
+      if (!response.ok) throw new Error(`latest.json ${{response.status}}`);
+      const data = await response.json();
+      if (!data || !data.href || !data.title) throw new Error('invalid latest payload');
+
+      link.href = data.href;
+      titleEl.textContent = data.title;
+      metaEl.textContent = [data.category, data.date].filter(Boolean).join(' · ');
+      link.setAttribute('aria-label', `最新文章：${{data.title}}`);
+    }} catch (err) {{
+      titleEl.textContent = fallbackTitle;
+      metaEl.textContent = fallbackMeta;
+    }}
+  }})();
+</script>
 """.strip()
 
-    desc = f"RedRocks 随笔首页，从佛法、杂文、摄影、旅行与 TAP 进入书写的不同侧面，共 {total} 篇。"
+    desc = f"RedRocks 随笔首页，以书脊式入口浏览摄影、杂文、佛法、旅行与 TAP，共 {total} 篇。"
     write_text(
         INDEX_OUT,
         wrap_page(
@@ -1388,6 +1549,7 @@ def main():
     for cat, items in category_articles.items():
         generate_category_index(cat, items)
 
+    generate_latest_article_feed(category_articles)
     generate_main_index(categories, category_articles)
 
 
