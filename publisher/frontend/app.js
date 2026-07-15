@@ -147,6 +147,7 @@
           els.categorySelect.value = cat.id;
           if (state.activeDraft) state.activeDraft.category_id = cat.id;
           renderCategoryList();
+          renderArticleList();
           markDirty();
         }
       });
@@ -202,6 +203,7 @@
   }
 
   function renderArticleList() {
+    const selectedCategoryId = getSelectedCategoryId();
     const sorted = [...state.articles].sort((a, b) => (b.updated_date || "").localeCompare(a.updated_date || "") || (a.title || "").localeCompare(b.title || ""));
     const groups = new Map();
     state.categories.forEach((cat) => groups.set(cat.id, { category: cat, items: [] }));
@@ -286,8 +288,12 @@
       els.articleList.appendChild(section);
     };
 
-    state.categories.forEach((cat) => renderGroup(groups.get(cat.id)));
-    renderGroup(uncategorized);
+    if (selectedCategoryId && groups.has(selectedCategoryId)) {
+      renderGroup(groups.get(selectedCategoryId));
+    } else {
+      state.categories.forEach((cat) => renderGroup(groups.get(cat.id)));
+      renderGroup(uncategorized);
+    }
     renderConsistencySummary();
   }
 
@@ -977,6 +983,7 @@
     els.categorySelect.addEventListener("change", () => {
       if (state.activeDraft) state.activeDraft.category_id = els.categorySelect.value;
       renderCategoryList();
+      renderArticleList();
       markDirty();
     });
     els.themeSelect.addEventListener("change", markDirty);
