@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="摄影（Photography） 栏目文章列表，共 5 篇，按最近更新时间排序。" />
+  <meta name="description" content="摄影（Photography） 栏目文章列表，共 6 篇，按最近更新时间排序。" />
   <link rel="canonical" href="https://www.redrocks.net/articles/photography.html" />
   <meta property="og:site_name" content="RedRocks" />
   <meta property="og:title" content="摄影（Photography） · 随笔 · RedRocks" />
-  <meta property="og:description" content="摄影（Photography） 栏目文章列表，共 5 篇，按最近更新时间排序。" />
+  <meta property="og:description" content="摄影（Photography） 栏目文章列表，共 6 篇，按最近更新时间排序。" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.redrocks.net/articles/photography.html" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="摄影（Photography） · 随笔 · RedRocks" />
-  <meta name="twitter:description" content="摄影（Photography） 栏目文章列表，共 5 篇，按最近更新时间排序。" />
+  <meta name="twitter:description" content="摄影（Photography） 栏目文章列表，共 6 篇，按最近更新时间排序。" />
   <title>摄影（Photography） · 随笔 · RedRocks</title>
   <link rel="stylesheet" href="/nav.css">
   <style>
@@ -144,6 +144,43 @@ h1{
   line-height:1.6;
 }
 
+.panel-link{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:14px 15px 13px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+    rgba(17,20,18,0.32);
+  color:inherit;
+  text-decoration:none;
+  transition:transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.panel-link:hover{
+  transform:translateY(-1px);
+  border-color:var(--line2);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0)),
+    rgba(17,20,18,0.38);
+}
+
+.panel-link-title{
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.35;
+  letter-spacing:-0.02em;
+}
+
+.panel-link-meta{
+  color:var(--muted-2);
+  font-size:12px;
+  letter-spacing:0.08em;
+}
+
 .panel-quote{
   margin:0;
   color:rgba(224,214,194,0.76);
@@ -207,75 +244,6 @@ h1{
   display:grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap:18px;
-}
-
-.theme-grid{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(0, 1fr));
-  gap:18px;
-}
-
-.theme-card{
-  padding:20px 20px 18px;
-  border-radius:20px;
-  border:1px solid var(--line);
-  background:
-    radial-gradient(circle at top right, rgba(199,168,107,0.08), transparent 35%),
-    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
-    rgba(255,255,255,0.035);
-}
-
-.theme-title{
-  margin:0 0 8px;
-  color:#e8dfcf;
-  font-family:var(--serif);
-  font-size:24px;
-  line-height:1.12;
-  letter-spacing:-0.02em;
-}
-
-.theme-summary{
-  margin:0;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.75;
-}
-
-.theme-links{
-  margin-top:16px;
-  display:grid;
-  gap:10px;
-}
-
-.theme-link{
-  display:block;
-  padding:12px 14px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,0.05);
-  background:rgba(255,255,255,0.025);
-  transition:transform .18s ease, border-color .18s ease, background .18s ease;
-}
-
-.theme-link:hover{
-  transform:translateY(-2px);
-  border-color:var(--line2);
-  background:rgba(255,255,255,0.04);
-}
-
-.theme-link-label{
-  display:block;
-  color:var(--accent);
-  font-size:11px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  margin-bottom:6px;
-}
-
-.theme-link-title{
-  display:block;
-  color:#e5dccd;
-  font-size:16px;
-  line-height:1.45;
 }
 
 .shelf-grid{
@@ -622,10 +590,6 @@ body.reading-soft .article blockquote{
     grid-template-columns:1fr;
   }
 
-  .theme-grid{
-    grid-template-columns:1fr;
-  }
-
   .shelf-grid{
     grid-template-columns:repeat(2, minmax(0, 1fr));
   }
@@ -652,13 +616,95 @@ body.reading-soft .article blockquote{
 }
 
 @media (max-width: 560px){
+  main{
+    width:min(100% - 18px, 760px);
+    padding:78px 0 18px;
+  }
+
+  .hero{
+    padding:14px;
+    gap:12px;
+    border-radius:22px;
+  }
+
+  .hero-copy{
+    min-width:0;
+  }
+
+  .hero-subtitle{
+    font-size:15px;
+    line-height:1.6;
+    margin-top:8px;
+  }
+
+  .panel-card{
+    padding:14px;
+    border-radius:16px;
+  }
+
+  .panel-copy{
+    font-size:12px;
+  }
+
+  .panel-link{
+    padding:13px 14px 12px;
+  }
+
+  .panel-link-title{
+    font-size:17px;
+  }
+
+  .panel-quote{
+    display:none;
+  }
+
+  .section{
+    margin-top:14px;
+    padding:14px;
+    border-radius:20px;
+  }
+
   .shelf-grid{
     grid-template-columns:1fr;
+    gap:10px;
   }
 
   .spine-card,
   .spine-inner{
-    min-height:260px;
+    min-height:126px;
+  }
+
+  .spine-card{
+    border-radius:18px;
+  }
+
+  .spine-inner{
+    padding:12px 12px 12px 16px;
+  }
+
+  .spine-top{
+    gap:6px;
+  }
+
+  .spine-title{
+    font-size:17px;
+    line-height:1.08;
+    writing-mode:horizontal-tb;
+    text-orientation:initial;
+    max-height:none;
+  }
+
+  .spine-note{
+    display:none;
+  }
+
+  .spine-meta{
+    gap:6px;
+  }
+
+  .spine-badge{
+    padding:2px 8px;
+    font-size:11px;
   }
 
   .read-tools{
@@ -688,7 +734,15 @@ body.reading-soft .article blockquote{
 
 <section class="section">
   <div class="grid">
-    <a class="card" href="/articles/photography/20260714-新知识理解与智慧.html">
+    <a class="card" href="/articles/photography/20260714-知识理解与智慧从.html">
+  <div class="card-body">
+    <div class="card-title">知识、理解与智慧——从一个玩笑开始</div>
+    <div class="subtle">DNA 并没有把一个成年人&quot;装&quot;进去，而只是提供了一套生成生命的规则：什么时候开始分裂，什么时候停止，怎样彼此通信，怎样形成组织，怎样协调生长。真正复杂的，并不是 DNA 本身，而是整个生命在与环境持续互动中不断展开的过程。</div>
+    <div class="meta">
+      <span class="badge">2026-07-14</span>
+    </div>
+  </div>
+</a><a class="card" href="/articles/photography/20260714-新知识理解与智慧.html">
   <div class="card-body">
     <div class="card-title">知识、理解与智慧——从一个玩笑开始</div>
     <div class="subtle">知识、理解与智慧——从一个玩笑开始 &lt;h1 class=&quot;rich_media_title &quot; id=&quot;activity-name&quot; style=&quot;-webkit-tap-highlight-color: rgba(0, 0, 0, 0); margin: 0px 0px 14px; padding: 0px; ou…</div>
