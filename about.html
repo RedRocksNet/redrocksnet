@@ -83,7 +83,7 @@
     .hero {
       position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 1.12fr) minmax(260px, 0.88fr);
+      grid-template-columns: minmax(0, 1fr);
       gap: 22px;
       padding: 22px;
       border: 1px solid var(--line);
@@ -153,55 +153,12 @@
       line-height: 1.9;
     }
 
-    .hero-panel {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      gap: 16px;
-      align-content: start;
-    }
-
-    .panel-card {
-      padding: 20px;
-      border-radius: 22px;
-      border: 1px solid var(--line);
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
-        var(--panel-strong);
-    }
-
-    .panel-label {
-      color: var(--accent);
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-
-    .panel-copy {
-      margin: 0;
-      color: #d1c9ba;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    .panel-quote {
-      margin: 0;
-      font-family: var(--serif);
-      font-size: 24px;
-      line-height: 1.35;
-      color: #f0e7d7;
-    }
-
     .content-grid {
-      display: grid;
-      grid-template-columns: 240px minmax(0, 1fr);
-      gap: 24px;
+      display: block;
       margin-top: 28px;
       align-items: start;
     }
 
-    .toc,
     .article {
       border: 1px solid var(--line);
       border-radius: 24px;
@@ -209,37 +166,6 @@
         linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0)),
         var(--panel);
       box-shadow: var(--shadow);
-    }
-
-    .toc {
-      position: sticky;
-      top: 94px;
-      padding: 20px 18px;
-    }
-
-    .toc-title {
-      margin: 0 0 16px;
-      color: var(--accent);
-      font-size: 11px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-    }
-
-    .toc a {
-      display: block;
-      padding: 9px 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-      transition: color 0.2s ease, transform 0.2s ease;
-    }
-
-    .toc a:hover {
-      color: var(--text);
-      transform: translateX(2px);
-    }
-
-    .article {
       padding: 30px 30px 36px;
     }
 
@@ -309,13 +235,12 @@
     }
 
     @media (max-width: 900px) {
-      .hero,
-      .content-grid {
+      .hero {
         grid-template-columns: 1fr;
       }
 
-      .toc {
-        position: static;
+      .content-grid {
+        grid-template-columns: 1fr;
       }
 
       .article {
@@ -344,8 +269,7 @@
         line-height: 1.88;
       }
 
-      .pull-quote,
-      .panel-quote {
+      .pull-quote {
         font-size: 21px;
       }
     }
@@ -362,30 +286,9 @@
         <p class="hero-lead">我一直觉得，一个人真正持续在做的事情，表面上彼此不同，深处却往往都在回答同一个问题。对我来说，这个问题也许是：人在世界之中，如何观看，如何理解，如何安顿，又如何为那些难以言说的经验建立结构。</p>
       </div>
 
-      <div class="hero-panel">
-        <div class="panel-card">
-          <div class="panel-label">Current Axis</div>
-          <p class="panel-copy">摄影偏向直觉，随笔偏向表达，佛经手书偏向安顿，TAP 偏向框架。它们形式不同，却都指向同一个内核。</p>
-        </div>
-        <div class="panel-card">
-          <div class="panel-label">一句话</div>
-          <p class="panel-quote">不是并列的栏目，而是同一个问题的不同入口。</p>
-        </div>
-      </div>
     </section>
 
     <section class="content-grid">
-      <aside class="toc">
-        <h2 class="toc-title">Sections</h2>
-        <a href="#origin">来处</a>
-        <a href="#training">训练</a>
-        <a href="#turn">转向</a>
-        <a href="#seeing">观看</a>
-        <a href="#journey">行走</a>
-        <a href="#settling">安顿</a>
-        <a href="#website">这个网站</a>
-      </aside>
-
       <article class="article">
         <section class="section" id="origin">
           <div class="section-label">Origin</div>
