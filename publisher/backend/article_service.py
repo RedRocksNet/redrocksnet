@@ -139,6 +139,17 @@ def html_to_text(text: str) -> str:
     return cleaned
 
 
+def sanitize_summary_text(text: str) -> str:
+    cleaned = re.sub(r"\s+", " ", (text or "").strip())
+    if not cleaned:
+        return ""
+    if "<" in cleaned or ">" in cleaned:
+        return ""
+    if len(cleaned) > 220:
+        return ""
+    return cleaned
+
+
 def article_sync_state(status: str, source_exists: bool, public_html_exists: bool, metadata_exists: bool) -> str:
     if metadata_exists and not source_exists and not public_html_exists:
         return "metadata-only"
@@ -180,7 +191,7 @@ def build_article_record(
     public_html_exists = public_html_path.exists()
     article_id = meta.get("article_id") or f"ephemeral:{cat['id']}:{slug or fallback_slug or 'unknown'}"
     title = meta.get("title") or (source["title"] if source else (slug or fallback_slug))
-    summary = meta.get("summary") or ""
+    summary = sanitize_summary_text(meta.get("summary") or "")
     status = meta.get("status") or ("published" if public_html_exists and source_exists else "draft")
     record_path = source_path or metadata_path or paths["markdown"]
     sync_state = article_sync_state(status, source_exists, public_html_exists, metadata_exists)
@@ -253,7 +264,14 @@ def load_article_detail(root: Path, article_id: str) -> dict | None:
     if not found:
         return None
     cat = category_by_id(root, found["category_id"])
-    source_path = infer_source_file(root / "articles" / cat["directory"], found["slug"])
+    source_path = None
+    source_path_value = found.get("source_path")
+    if source_path_value:
+        candidate = root / source_path_value
+        if candidate.exists():
+            source_path = candidate
+    if not source_path:
+        source_path = infer_source_file(root / "articles" / cat["directory"], found["slug"])
     if not source_path:
         meta_path = Path(found["metadata_path"]) if found.get("metadata_path") else root / "articles" / cat["directory"] / f"{found['slug']}.publisher.json"
         if not meta_path.is_absolute():
@@ -271,6 +289,8 @@ def load_article_detail(root: Path, article_id: str) -> dict | None:
     html_path = source_path.with_suffix(".html")
     found["local_html_url"] = html_path.resolve().as_uri() if html_path.exists() else None
     found["metadata"] = meta
+    if "summary" in found:
+        found["summary"] = sanitize_summary_text(found.get("summary") or "")
     return found
 
 
