@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="RedRocks 随笔首页，以书脊式入口浏览摄影、杂文、佛法、旅行与 TAP，共 30 篇。" />
+  <meta name="description" content="RedRocks 随笔首页，以书脊式入口浏览摄影、杂文、佛法、旅行与 TAP，共 31 篇。" />
   <link rel="canonical" href="https://www.redrocks.net/articles.html" />
   <meta property="og:site_name" content="RedRocks" />
   <meta property="og:title" content="随笔 · RedRocks" />
-  <meta property="og:description" content="RedRocks 随笔首页，以书脊式入口浏览摄影、杂文、佛法、旅行与 TAP，共 30 篇。" />
+  <meta property="og:description" content="RedRocks 随笔首页，以书脊式入口浏览摄影、杂文、佛法、旅行与 TAP，共 31 篇。" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.redrocks.net/articles.html" />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="随笔 · RedRocks" />
-  <meta name="twitter:description" content="RedRocks 随笔首页，以书脊式入口浏览摄影、杂文、佛法、旅行与 TAP，共 30 篇。" />
+  <meta name="twitter:description" content="RedRocks 随笔首页，以书脊式入口浏览摄影、杂文、佛法、旅行与 TAP，共 31 篇。" />
   <title>随笔 · RedRocks</title>
   <link rel="stylesheet" href="/nav.css">
   <style>
@@ -107,11 +107,20 @@ h1{
   align-content:start;
 }
 
+.hero-line{
+  margin:0;
+  color:var(--muted);
+  font-family:var(--serif);
+  font-size:22px;
+  line-height:1.42;
+  font-weight:400;
+  letter-spacing:-0.01em;
+}
+
 .panel-card{
   display:block;
-  min-height:100%;
-  padding:18px 18px 16px;
-  border-radius:20px;
+  padding:14px 16px;
+  border-radius:16px;
   border:1px solid var(--line);
   background:
     linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
@@ -125,14 +134,14 @@ h1{
   font-size:11px;
   letter-spacing:0.2em;
   text-transform:uppercase;
-  margin-bottom:12px;
+  margin-bottom:10px;
 }
 
 .panel-copy{
   margin:0;
   color:var(--muted-2);
-  font-size:13px;
-  line-height:1.75;
+  font-size:12px;
+  line-height:1.6;
 }
 
 .panel-link{
@@ -172,18 +181,12 @@ h1{
   letter-spacing:0.08em;
 }
 
-.panel-fallback{
-  margin:0;
-  color:var(--muted-2);
-  font-size:12px;
-}
-
 .panel-quote{
-  margin:12px 0 0;
-  color:rgba(224,214,194,0.82);
+  margin:0;
+  color:rgba(224,214,194,0.76);
   font-family:var(--serif);
   font-size:18px;
-  line-height:1.35;
+  line-height:1.3;
 }
 
 .intro-line{
@@ -614,14 +617,14 @@ body.reading-soft .article blockquote{
 
 @media (max-width: 560px){
   main{
-    width:min(100% - 16px, 760px);
-    padding:64px 0 12px;
+    width:min(100% - 18px, 760px);
+    padding:78px 0 18px;
   }
 
   .hero{
-    padding:12px;
-    gap:10px;
-    border-radius:20px;
+    padding:14px;
+    gap:12px;
+    border-radius:22px;
   }
 
   .hero-copy{
@@ -629,18 +632,26 @@ body.reading-soft .article blockquote{
   }
 
   .hero-subtitle{
-    font-size:14px;
-    line-height:1.5;
-    margin-top:6px;
+    font-size:15px;
+    line-height:1.6;
+    margin-top:8px;
   }
 
   .panel-card{
-    padding:12px;
-    border-radius:14px;
+    padding:14px;
+    border-radius:16px;
   }
 
   .panel-copy{
-    font-size:11px;
+    font-size:12px;
+  }
+
+  .panel-link{
+    padding:13px 14px 12px;
+  }
+
+  .panel-link-title{
+    font-size:17px;
   }
 
   .panel-quote{
@@ -648,9 +659,9 @@ body.reading-soft .article blockquote{
   }
 
   .section{
-    margin-top:10px;
-    padding:12px;
-    border-radius:18px;
+    margin-top:14px;
+    padding:14px;
+    border-radius:20px;
   }
 
   .shelf-grid{
@@ -664,11 +675,11 @@ body.reading-soft .article blockquote{
   }
 
   .spine-card{
-    border-radius:16px;
+    border-radius:18px;
   }
 
   .spine-inner{
-    padding:10px 10px 10px 16px;
+    padding:12px 12px 12px 16px;
   }
 
   .spine-top{
@@ -688,7 +699,7 @@ body.reading-soft .article blockquote{
   }
 
   .spine-meta{
-    gap:5px;
+    gap:6px;
   }
 
   .spine-badge{
@@ -719,12 +730,12 @@ body.reading-soft .article blockquote{
       <a
         class="panel-link"
         id="latest-article-link"
-        href="/articles/photography/20260714-新知识理解与智慧.html"
-        data-fallback-title="新知识、理解与智慧——从一个玩笑开始"
-        data-fallback-meta="摄影 · 2026-07-14"
+        href="/articles/photography/20260714-知识理解与智慧从.html"
+        data-fallback-title="知识、理解与智慧——从一个玩笑开始"
+        data-fallback-meta="摄影（Photography） · 2026-07-14"
       >
-        <span class="panel-link-title" id="latest-article-title">新知识、理解与智慧——从一个玩笑开始</span>
-        <span class="panel-link-meta" id="latest-article-meta">摄影 · 2026-07-14</span>
+        <span class="panel-link-title" id="latest-article-title">知识、理解与智慧——从一个玩笑开始</span>
+        <span class="panel-link-meta" id="latest-article-meta">摄影（Photography） · 2026-07-14</span>
       </a>
     </div>
   </div>
@@ -762,7 +773,7 @@ body.reading-soft .article blockquote{
       <div class="spine-note">以影像与器材、观察与心境，进入摄影这一侧的书写。</div>
     </div>
     <div class="spine-meta">
-      <span class="spine-badge">5 篇 · 最近：2026-07-14</span>
+      <span class="spine-badge">6 篇 · 最近：2026-07-14</span>
     </div>
   </div>
 </a><a class="spine-card" href="/articles/tap.html" style="--spine-image:url('/articles/TAP/cover.jpg')">
@@ -790,35 +801,36 @@ body.reading-soft .article blockquote{
 </a>
   </div>
 </section>
+
+<script>
+  (async () => {
+    const link = document.getElementById('latest-article-link');
+    const titleEl = document.getElementById('latest-article-title');
+    const metaEl = document.getElementById('latest-article-meta');
+    if (!link || !titleEl || !metaEl) return;
+
+    const fallbackTitle = link.dataset.fallbackTitle || titleEl.textContent || '';
+    const fallbackMeta = link.dataset.fallbackMeta || metaEl.textContent || '';
+
+    try {
+      const response = await fetch('/articles/latest.json', { cache: 'no-store' });
+      if (!response.ok) throw new Error(`latest.json ${response.status}`);
+      const data = await response.json();
+      if (!data || !data.href || !data.title) throw new Error('invalid latest payload');
+
+      link.href = data.href;
+      titleEl.textContent = data.title;
+      metaEl.textContent = [data.category, data.date].filter(Boolean).join(' · ');
+      link.setAttribute('aria-label', `最新文章：${data.title}`);
+    } catch (err) {
+      titleEl.textContent = fallbackTitle;
+      metaEl.textContent = fallbackMeta;
+    }
+  })();
+</script>
     <div class="footer">© 2026 RedRocks</div>
   </main>
 
   <script src="/nav.js" defer></script>
-  <script>
-    (async () => {
-      const link = document.getElementById('latest-article-link');
-      const titleEl = document.getElementById('latest-article-title');
-      const metaEl = document.getElementById('latest-article-meta');
-      if (!link || !titleEl || !metaEl) return;
-
-      const fallbackTitle = link.dataset.fallbackTitle || titleEl.textContent || '';
-      const fallbackMeta = link.dataset.fallbackMeta || metaEl.textContent || '';
-
-      try {
-        const response = await fetch('/articles/latest.json', { cache: 'no-store' });
-        if (!response.ok) throw new Error(`latest.json ${response.status}`);
-        const data = await response.json();
-        if (!data || !data.href || !data.title) throw new Error('invalid latest payload');
-
-        link.href = data.href;
-        titleEl.textContent = data.title;
-        metaEl.textContent = [data.category, data.date].filter(Boolean).join(' · ');
-        link.setAttribute('aria-label', `最新文章：${data.title}`);
-      } catch (err) {
-        titleEl.textContent = fallbackTitle;
-        metaEl.textContent = fallbackMeta;
-      }
-    })();
-  </script>
 </body>
 </html>
