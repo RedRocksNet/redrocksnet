@@ -202,7 +202,18 @@ h2{margin:0 0 12px;font-size:14px;letter-spacing:.12em;text-transform:uppercase;
   padding:1px 6px;
   border-radius:999px;
 }
-.toolbar{padding:12px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.02);margin-bottom:14px}
+.toolbar{
+  position:sticky;
+  top:12px;
+  z-index:20;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:rgba(28,33,30,.96);
+  backdrop-filter:blur(16px);
+  box-shadow:0 14px 28px rgba(0,0,0,.2);
+  margin-bottom:14px;
+}
 .toolbar button,.file-btn{font-size:12px;padding:8px 10px;border-radius:999px}
 .file-btn input{display:none}
 .color-panel{

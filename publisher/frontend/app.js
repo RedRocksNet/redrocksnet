@@ -5,6 +5,7 @@
     articles: bootstrap.articles || [],
     categories: bootstrap.categories || [],
     themes: bootstrap.themes || [],
+    activeListCategoryId: bootstrap.categories?.[0]?.id || "",
     activeDraft: null,
     activeMode: "edit",
     dirty: false,
@@ -129,7 +130,7 @@
   }
 
   function getSelectedCategoryId() {
-    return els.categorySelect.value || state.activeDraft?.category_id || state.categories[0]?.id || "";
+    return state.activeListCategoryId || state.categories[0]?.id || "";
   }
 
   function renderCategoryList() {
@@ -143,12 +144,10 @@
       chip.setAttribute("aria-pressed", String(cat.id === selectedId));
       chip.textContent = cat.name;
       chip.addEventListener("click", () => {
-        if (els.categorySelect.value !== cat.id) {
-          els.categorySelect.value = cat.id;
-          if (state.activeDraft) state.activeDraft.category_id = cat.id;
+        if (state.activeListCategoryId !== cat.id) {
+          state.activeListCategoryId = cat.id;
           renderCategoryList();
           renderArticleList();
-          markDirty();
         }
       });
       els.categoryList.appendChild(chip);
@@ -204,7 +203,12 @@
 
   function renderArticleList() {
     const selectedCategoryId = getSelectedCategoryId();
-    const sorted = [...state.articles].sort((a, b) => (b.updated_date || "").localeCompare(a.updated_date || "") || (a.title || "").localeCompare(b.title || ""));
+    const articleTime = (item) => {
+      const value = item.updated_date || item.published_date || "";
+      const parsed = Date.parse(value);
+      return Number.isNaN(parsed) ? 0 : parsed;
+    };
+    const sorted = [...state.articles].sort((a, b) => articleTime(b) - articleTime(a) || (a.title || "").localeCompare(b.title || ""));
     const groups = new Map();
     state.categories.forEach((cat) => groups.set(cat.id, { category: cat, items: [] }));
     const uncategorized = { category: { id: "", name: "未分类", directory: "" }, items: [] };
@@ -1030,8 +1034,6 @@
     els.metaForm.slug.addEventListener("input", markDirty);
     els.categorySelect.addEventListener("change", () => {
       if (state.activeDraft) state.activeDraft.category_id = els.categorySelect.value;
-      renderCategoryList();
-      renderArticleList();
       markDirty();
     });
     els.themeSelect.addEventListener("change", markDirty);
