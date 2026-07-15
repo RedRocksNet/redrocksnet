@@ -343,17 +343,24 @@
       ["提交", payload.commit || ""],
     ];
     els.publishResult.innerHTML = `
-      <div class="publish-result-head">发布完成</div>
-      <div class="publish-result-note">本地正文已写回，栏目页与文章索引已重建，发布状态已同步。</div>
-      <div class="publish-result-grid">
-        ${rows.map(([label, value]) => `
-          <div class="publish-result-cell">
-            <span class="publish-result-label">${escapeHtml(label)}</span>
-            <span class="publish-result-value">${value ? escapeHtml(value) : "<span class='publish-result-empty'>未提供</span>"}</span>
-          </div>
-        `).join("")}
+      <summary class="publish-result-summary">
+        <span>发布状态</span>
+        <strong>已发布</strong>
+        ${payload.commit ? `<code>${escapeHtml(payload.commit)}</code>` : ""}
+      </summary>
+      <div class="publish-result-body">
+        <div class="publish-result-note">本地正文已写回，栏目页与文章索引已重建，发布状态已同步。</div>
+        <div class="publish-result-grid">
+          ${rows.map(([label, value]) => `
+            <div class="publish-result-cell">
+              <span class="publish-result-label">${escapeHtml(label)}</span>
+              <span class="publish-result-value">${value ? escapeHtml(value) : "<span class='publish-result-empty'>未提供</span>"}</span>
+            </div>
+          `).join("")}
+        </div>
       </div>
     `;
+    els.publishResult.removeAttribute("open");
   }
 
   function buildDeleteConfirmation(article) {
