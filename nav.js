@@ -8,6 +8,7 @@
   // A nav structure (simple)
   const navHTML = `
     <nav class="rr-nav" aria-label="Primary">
+      ${current === "home" ? "" : '<a class="rr-nav-link" data-key="home" href="/">首页</a>'}
       <a class="rr-nav-link" data-key="gallery" href="/gallery.html">摄影</a>
       <a class="rr-nav-link" data-key="sutras" href="/sutras.html">手书</a>
       <a class="rr-nav-link" data-key="articles" href="/articles.html">随笔</a>
