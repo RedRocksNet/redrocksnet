@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="时间箭头，熵，TAP理论与宇宙、哲学、空性的全景对话 · RedRocks" />
+  <link rel="canonical" href="https://www.redrocks.net/articles/TAP/20260715-时间箭头熵TAP.html" />
+  <meta property="og:site_name" content="RedRocks" />
+  <meta property="og:title" content="时间箭头，熵，TAP理论与宇宙、哲学、空性的全景对话 · RedRocks" />
+  <meta property="og:description" content="时间箭头，熵，TAP理论与宇宙、哲学、空性的全景对话 · RedRocks" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.redrocks.net/articles/TAP/20260715-时间箭头熵TAP.html" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="时间箭头，熵，TAP理论与宇宙、哲学、空性的全景对话 · RedRocks" />
+  <meta name="twitter:description" content="时间箭头，熵，TAP理论与宇宙、哲学、空性的全景对话 · RedRocks" />
+  <title>时间箭头，熵，TAP理论与宇宙、哲学、空性的全景对话 · RedRocks</title>
+  <link rel="stylesheet" href="/nav.css">
+  <style>
+:root{
+  --bg:#111412;
+  --fg:#f3eee4;
+  --muted:#b9b1a1;
+  --muted-2:rgba(198,190,176,0.8);
+  --accent:#c7a86b;
+  --card:rgba(255,255,255,0.04);
+  --line:rgba(255,255,255,0.06);
+  --line2:rgba(217,202,162,0.22);
+  --panel:rgba(44,50,46,0.82);
+  --panel-strong:rgba(55,61,56,0.9);
+  --shadow:0 18px 40px rgba(0,0,0,0.28);
+  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua","Noto Serif SC","Songti SC","STSong",serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Roboto,
+    "PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.75;
+}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:none}
+
+main{
+  width:min(1180px, calc(100% - 32px));
+  margin:0 auto;
+  padding:96px 0 64px; /* space for fixed nav */
+}
+
+h1{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(30px, 4.8vw, 50px);
+  line-height:1.04;
+  letter-spacing:-0.03em;
+}
+
+.hero-subtitle{
+  margin:10px 0 0;
+  color:rgba(198,190,176,0.72);
+  font-size:17px;
+  line-height:1.7;
+  font-weight:300;
+  letter-spacing:.01em;
+}
+
+.subtle{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+.hero{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0, 1.22fr) minmax(240px, 0.78fr);
+  gap:18px;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:
+    linear-gradient(135deg, rgba(50,56,51,0.92), rgba(31,35,33,0.88)),
+    var(--panel);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:auto -14% -34% 30%;
+  height:320px;
+  background:radial-gradient(circle, rgba(199,168,107,0.12), transparent 70%);
+  pointer-events:none;
+}
+
+.hero-copy,
+.hero-panel{
+  position:relative;
+  z-index:1;
+}
+
+.hero-panel{
+  display:grid;
+  gap:14px;
+  align-content:start;
+}
+
+.hero-line{
+  margin:0;
+  color:var(--muted);
+  font-family:var(--serif);
+  font-size:22px;
+  line-height:1.42;
+  font-weight:400;
+  letter-spacing:-0.01em;
+}
+
+.panel-card{
+  display:block;
+  padding:14px 16px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+    var(--panel-strong);
+  text-decoration:none;
+  color:inherit;
+}
+
+.panel-label{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.panel-copy{
+  margin:0;
+  color:var(--muted-2);
+  font-size:12px;
+  line-height:1.6;
+}
+
+.panel-link{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:14px 15px 13px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+    rgba(17,20,18,0.32);
+  color:inherit;
+  text-decoration:none;
+  transition:transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.panel-link:hover{
+  transform:translateY(-1px);
+  border-color:var(--line2);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0)),
+    rgba(17,20,18,0.38);
+}
+
+.panel-link-title{
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.35;
+  letter-spacing:-0.02em;
+}
+
+.panel-link-meta{
+  color:var(--muted-2);
+  font-size:12px;
+  letter-spacing:0.08em;
+}
+
+.panel-quote{
+  margin:0;
+  color:rgba(224,214,194,0.76);
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.3;
+}
+
+.intro-line{
+  margin:0;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.85;
+  font-weight:300;
+  letter-spacing:.02em;
+}
+
+.section{
+  margin-top:24px;
+  padding:28px;
+  border-radius:26px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+    rgba(40,45,42,0.76);
+  box-shadow:var(--shadow);
+}
+
+.section-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+
+.section-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.section-title{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(24px, 3.2vw, 38px);
+  line-height:1.08;
+  letter-spacing:-0.025em;
+}
+
+.section-note{
+  margin:10px 0 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:18px;
+}
+
+.shelf-grid{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+  gap:16px;
+}
+
+.spine-card{
+  position:relative;
+  min-height:360px;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)),
+    rgba(47,53,49,0.92);
+  box-shadow:var(--shadow);
+  transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.spine-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--line2);
+  box-shadow:0 22px 42px rgba(0,0,0,0.34);
+}
+
+.spine-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.32)),
+    var(--spine-image, linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)));
+  background-size:cover;
+  background-position:center;
+  opacity:.32;
+}
+
+.spine-card::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:16px;
+  width:1px;
+  background:rgba(217,202,162,0.22);
+}
+
+.spine-inner{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:360px;
+  padding:18px 18px 18px 30px;
+}
+
+.spine-top{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.spine-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.spine-title{
+  margin:0;
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:26px;
+  line-height:1.05;
+  letter-spacing:-0.03em;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  max-height:190px;
+}
+
+.spine-note{
+  color:rgba(198,190,176,0.78);
+  font-size:12px;
+  line-height:1.65;
+}
+
+.spine-meta{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  color:rgba(198,190,176,0.82);
+  font-size:12px;
+}
+
+.spine-badge{
+  display:inline-flex;
+  align-self:flex-start;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.09);
+  background:rgba(17,20,18,0.26);
+}
+
+.card{
+  background:
+    radial-gradient(circle at top right, rgba(199,168,107,0.1), transparent 35%),
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+    rgba(255,255,255,0.04);
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.card:hover{
+  transform: translateY(-3px);
+  border-color: var(--line2);
+  background:
+    radial-gradient(circle at top right, rgba(199,168,107,0.14), transparent 38%),
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+    rgba(255,255,255,0.055);
+}
+
+.cover{
+  width:100%;
+  height:220px;
+  background:#0b0b0b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid var(--line);
+}
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
+.card-body{
+  padding:16px 16px 18px;
+}
+
+.card-title{
+  font-family:var(--serif);
+  font-size:20px;
+  margin:0 0 8px;
+  line-height:1.24;
+  color:#e4dccd;
+}
+
+.card-body .subtle{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:4;
+  overflow:hidden;
+  color:var(--muted);
+}
+
+.card-body .subtle.subtle-empty{
+  -webkit-line-clamp:1;
+  min-height:1.35em;
+  opacity:0.38;
+}
+
+.meta{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.badge{
+  display:inline-block;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--muted-2);
+  font-size:12px;
+}
+
+.footer{
+  margin-top:40px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* Article detail */
+.article{
+  color:rgba(236,229,216,0.9);
+}
+.article h1{margin-top:8px}
+.article .subtle{
+  color:rgba(185,177,161,0.72);
+}
+.article img{
+  display:block;
+  max-width:100%;
+  width:auto;
+  height:auto;
+  margin:18px auto;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.05);
+  box-shadow:0 10px 24px rgba(0,0,0,.18);
+}
+.article pre{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
+  padding:14px;
+  border-radius:12px;
+  overflow:auto;
+  color:rgba(236,229,216,0.88);
+}
+.article code{
+  font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono",
+    "Segoe UI Mono",Consolas,monospace;
+}
+.article blockquote{
+  margin:14px 0;
+  padding:10px 14px;
+  border-left:3px solid rgba(199,168,107,.4);
+  color:rgba(198,190,176,0.86);
+  background:rgba(255,255,255,.02);
+  border-radius:10px;
+}
+
+.backbar{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.backbar a{
+  color:var(--muted);
+}
+.backbar a:hover{
+  color:var(--fg);
+  text-decoration:underline;
+}
+
+.article p a:hover,
+.article li a:hover,
+.article blockquote a:hover{
+  text-decoration:underline;
+}
+
+.read-tools{
+  position:fixed;
+  top:92px;
+  right:24px;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(33,38,35,.78);
+  backdrop-filter:blur(10px);
+  box-shadow:0 10px 24px rgba(0,0,0,.2);
+}
+
+.read-back{
+  color:var(--accent);
+  font-size:12px;
+  line-height:1;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.read-back:hover{
+  color:#d9caa2;
+  text-decoration:none;
+}
+
+.read-mode{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding-left:10px;
+  border-left:1px solid rgba(255,255,255,.08);
+}
+
+.mode-btn{
+  border:0;
+  background:transparent;
+  color:rgba(198,190,176,.72);
+  font-size:11px;
+  line-height:1;
+  padding:4px 6px;
+  border-radius:999px;
+  cursor:pointer;
+}
+
+.mode-btn.active{
+  color:var(--accent);
+  background:rgba(199,168,107,.12);
+}
+
+body.reading-soft .article{
+  color:rgba(224,216,202,0.82);
+}
+
+body.reading-soft .article .subtle{
+  color:rgba(185,177,161,0.64);
+}
+
+body.reading-soft .article pre{
+  background:rgba(255,255,255,.02);
+  border-color:rgba(255,255,255,.04);
+  color:rgba(224,216,202,0.82);
+}
+
+body.reading-soft .article blockquote{
+  color:rgba(191,183,170,0.78);
+  background:rgba(255,255,255,.015);
+}
+
+@media (max-width: 860px){
+  main{
+    width:min(100% - 28px, 760px);
+    padding:90px 0 56px;
+  }
+
+  .hero{
+    grid-template-columns:1fr;
+  }
+
+  .section{
+    padding:22px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .shelf-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:300px;
+  }
+
+  .spine-title{
+    font-size:23px;
+    max-height:160px;
+  }
+
+  .cover{
+    height:200px;
+  }
+
+  .read-tools{
+    top:84px;
+    right:14px;
+    padding:8px 10px;
+  }
+}
+
+@media (max-width: 560px){
+  main{
+    width:min(100% - 18px, 760px);
+    padding:78px 0 18px;
+  }
+
+  .hero{
+    padding:14px;
+    gap:12px;
+    border-radius:22px;
+  }
+
+  .hero-copy{
+    min-width:0;
+  }
+
+  .hero-subtitle{
+    font-size:15px;
+    line-height:1.6;
+    margin-top:8px;
+  }
+
+  .panel-card{
+    padding:14px;
+    border-radius:16px;
+  }
+
+  .panel-copy{
+    font-size:12px;
+  }
+
+  .panel-link{
+    padding:13px 14px 12px;
+  }
+
+  .panel-link-title{
+    font-size:17px;
+  }
+
+  .panel-quote{
+    display:none;
+  }
+
+  .section{
+    margin-top:14px;
+    padding:14px;
+    border-radius:20px;
+  }
+
+  .shelf-grid{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:126px;
+  }
+
+  .spine-card{
+    border-radius:18px;
+  }
+
+  .spine-inner{
+    padding:12px 12px 12px 16px;
+  }
+
+  .spine-top{
+    gap:6px;
+  }
+
+  .spine-title{
+    font-size:17px;
+    line-height:1.08;
+    writing-mode:horizontal-tb;
+    text-orientation:initial;
+    max-height:none;
+  }
+
+  .spine-note{
+    display:none;
+  }
+
+  .spine-meta{
+    gap:6px;
+  }
+
+  .spine-badge{
+    padding:2px 8px;
+    font-size:11px;
+  }
+
+  .read-tools{
+    left:14px;
+    right:auto;
+    max-width:calc(100% - 28px);
+  }
+}
+</style>
+</head>
+<body>
+  <div id="rr-nav-mount" data-current="articles"></div>
+
+  <main>
+    <div class="read-tools" aria-label="阅读工具">
+  <a class="read-back" href="/articles/tap.html">← 返回栏目</a>
+  <div class="read-mode" aria-label="阅读模式">
+    <button class="mode-btn active" data-read-mode="standard" type="button">标准</button>
+    <button class="mode-btn" data-read-mode="soft" type="button">柔和</button>
+  </div>
+</div>
+
+<article class="article">
+  <h1>时间箭头，熵，TAP理论与宇宙、哲学、空性的全景对话</h1>
+  <div class="subtle">2026-07-15</div>
+  <div style="height:14px"></div>
+  <p>在我们所认知的宇宙中，时间如一条单行道，不容倒退；熵总是增加，混乱逐渐占据秩序；星辰燃烧，生命走向终结。这些现象，看似自然，却在物理学的基本方程中并无根本依据。</p>
+<p>经典力学、量子力学、相对论……这些构成现代科学根基的理论，竟无一例外地具有“时间对称性”。这意味着，如果我们将时间倒流，方程依然成立，物理过程在数学上仍然合法。然而现实中，破碎的鸡蛋不会重组，熵不会自行减少，宇宙从一个炽热的奇点膨胀而来，却没有一个反向的收缩过程作为对偶。</p>
+<p>为什么我们所感知的世界与这些“时间对称”的法则不一致？这是现代物理学中最根本的问题之一，也被称为“时间箭头悖论”。</p>
+<p>TAP 理论（Thermodynamic Asymmetry from Projection，源自投影的热力学非对称性）正是针对这个悖论所提出的一种原创性框架。它并不试图在已知的方程中寻找例外，而是从一个更为宏观和本体论的视角出发：我们所体验的三维时空，并不是全息宇宙的全部，而只是某种更高维信息结构的投影结果。</p>
+<p>就像电影银幕上的影像并非实物，而是光线穿过胶片后的投影，TAP 理论认为，我们的宇宙是高维结构映射到有限维度上的“显影界面”。而时间的单向性、不可逆性、熵的增加、甚至引力现象，皆为这种投影过程中的几何限制与信息压缩的自然产物。</p>
+<p>TAP 与现有理论的根本区别，在于它不是通过调整现有法则的边界条件来解释不可逆性（比如低熵初态），而是重新定义了“世界”的本体基础。它并非补丁式修复理论漏洞，而是提供了一个更高维度的几何信息模型，把熵、时间、引力、宇宙结构整合进同一套解释体系。</p>
+<p>在这个框架下：</p>
+<p>- 时间之所以只有一个方向，是因为投影信息在压缩中丢失了可逆路径； - 熵的增加不是概率学的结果，而是投影机制的“代价”； - 黑洞不是“物质终点”，而是高维结构在三维投影中断裂的奇点； - 宇宙微波背景辐射（CMB）中的冷斑和各向异性，可能是高维信息投影不均的印记； - 大爆炸不一定是起点，而是我们可观察投影面首次显现结构的时刻。</p>
+<p>这一套逻辑，提供了统一解释宏观宇宙结构、黑洞信息悖论、热力学不可逆性、以及量子退相干的潜在可能。它甚至预言了某些“终点现象”——比如黑洞熵归零、投影断裂导致的宇宙信息极化——这可能是某种意义上的“宇宙末日”，但却在更高维结构中维持着整体的一致与连续。</p>
+<p>在哲学上，TAP 理论也具有极强的包容性。</p>
+<p>它与佛学中的“空性”观念高度契合。佛教讲“诸法无我”，世界不是由固有实体构成，而是因缘和合、随观而现。TAP 也认为我们看到的现象界（色），并非实体本源，而是信息在投影后所显现的局部秩序。色即是空，空即是色，这一句古老的句子，竟与现代科学中“可观测界面投影于信息本体”的结构异曲同工。</p>
+<p>它也包容神学中的“多重本体”概念。许多宗教信仰中，世界并非唯一维度，存在“天堂”、“灵界”、“隐界”等不可触知之境。TAP 不谈信仰，却提供了一种物理方式来理解“多重界层”的可能：如果我们是投影，那么本体就可能有更多更高的层级，而我们只是其中之一。</p>
+<p>它还容纳了现象学哲学中“感知决定世界”的立场。TAP 认为“可观测性”并非被动接受，而是维度限制下的信息压缩结果。这与海德格尔、梅洛-庞蒂所强调的“世界在显现中存在”恰好共鸣。</p>
+<p>换言之，TAP 理论不只是一种新的物理假说，它更是一座连接科学与哲学、实证与形上、数学与直觉的桥梁。</p>
+<p>它不要求你相信神秘，也不贩卖乌托邦幻想。它只是温和地说：也许我们看到的，只是更高阶秩序在低维中“显影”后的样子。而我们面对的混乱，其实是完整秩序投影后所留下的光斑与阴影。</p>
+<p>当我们接受这一点，也许我们能更谦卑地面对自然，更智慧地面对死亡，也更慈悲地面对彼此。</p>
+<p>--------</p>
+<p><b>关于TAP理论的纯物理理论推理，发表在PREPRINT.ORG的预约本上，有兴趣可以参考</b></p>
+<p><a aria-current="page" href="https://www.preprints.org/manuscript/202508.0342" class="router-link-active router-link-exact-active truncate m-breadcrumb__item truncate text-color-link-bold hover:text-color-link-bolder max-lg:flex" style="border: 0px solid; --tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgba(59,130,246,.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; color: rgb(1, 86, 206); text-decoration: inherit; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; --tw-text-opacity: 1; font-family: &quot;Suisse Int'l&quot;, ui-sans-serif, system-ui, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, &quot;Noto Sans&quot;, sans-serif, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Noto Color Emoji&quot;; font-size: 12px; background-color: rgb(248, 249, 253);"><span class="inline" style="border: 0px solid; --tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgba(59,130,246,.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; display: inline;">DOI:10.20944/preprints202508.0342.v1</span></a></p>
+  <div class="backbar">
+    <a href="/articles/tap.html">← 返回本栏目</a>
+    <a href="/articles.html">← 返回随笔首页</a>
+  </div>
+</article>
+
+<script>
+  (function () {
+    const storageKey = 'rr-reading-mode';
+    const body = document.body;
+    const buttons = document.querySelectorAll('[data-read-mode]');
+
+    function applyMode(mode) {
+      body.classList.toggle('reading-soft', mode === 'soft');
+      buttons.forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.readMode === mode);
+      });
+    }
+
+    const saved = localStorage.getItem(storageKey) || 'standard';
+    applyMode(saved);
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.readMode || 'standard';
+        localStorage.setItem(storageKey, mode);
+        applyMode(mode);
+      });
+    });
+  })();
+</script>
+    <div class="footer">© 2026 RedRocks</div>
+  </main>
+
+  <script src="/nav.js" defer></script>
+</body>
+</html>
