@@ -13,7 +13,7 @@ from functools import partial
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
@@ -253,7 +253,7 @@ class PublisherHandler(SimpleHTTPRequestHandler):
         if parsed.path == "/api/articles":
             return self._json({"articles": scan_articles(ROOT)})
         if parsed.path.startswith("/api/articles/"):
-            article_id = parsed.path.rsplit("/", 1)[-1]
+            article_id = unquote(parsed.path.rsplit("/", 1)[-1])
             article = load_article_detail(ROOT, article_id)
             if not article:
                 return self._json({"error": "not found"}, status=404)
@@ -265,7 +265,7 @@ class PublisherHandler(SimpleHTTPRequestHandler):
                 return self._json({"error": "not found"}, status=404)
             return self._json(draft)
         if parsed.path.startswith("/api/preview/"):
-            article_id = parsed.path.rsplit("/", 1)[-1]
+            article_id = unquote(parsed.path.rsplit("/", 1)[-1])
             draft = load_draft(DRAFTS_DIR / f"{article_id}.json")
             if not draft:
                 return self._json({"error": "not found"}, status=404)
@@ -370,7 +370,7 @@ class PublisherHandler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         try:
             if parsed.path.startswith("/api/articles/"):
-                article_id = parsed.path.rsplit("/", 1)[-1]
+                article_id = unquote(parsed.path.rsplit("/", 1)[-1])
                 detail = load_article_detail(ROOT, article_id)
                 if not detail:
                     return self._json({"error": "not found"}, status=404)

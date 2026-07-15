@@ -304,6 +304,65 @@
     return String(s || "").replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
   }
 
+  function articlePublishUrl(article) {
+    return article?.canonical_url || new URL(`/articles/${encodeURIComponent(article?.category_directory || "")}/${encodeURIComponent(article?.slug || "")}.html`, state.siteBaseUrl).href;
+  }
+
+  function articleLocalMarkdownPath(article) {
+    return article?.path || `articles/${article?.category_directory || ""}/${article?.slug || ""}.md`;
+  }
+
+  function articleLocalHtmlPath(article) {
+    return article?.public_html_exists
+      ? `articles/${article?.category_directory || ""}/${article?.slug || ""}.html`
+      : article?.local_html_url || articlePublishUrl(article);
+  }
+
+  function renderPublishResult(payload, draft) {
+    const articleUrl = payload.article_url || articlePublishUrl({
+      category_directory: draft.category_directory || draft.category_id,
+      slug: payload.slug || draft.slug,
+      canonical_url: null,
+    });
+    const rows = [
+      ["文章", draft.title || payload.title || ""],
+      ["分类", draft.category_name || draft.category_id || ""],
+      ["状态", "已发布"],
+      ["本地正文", articleLocalMarkdownPath(draft)],
+      ["发布页", articleUrl],
+      ["提交", payload.commit || ""],
+    ];
+    els.publishResult.innerHTML = `
+      <div class="publish-result-head">发布完成</div>
+      <div class="publish-result-note">本地正文已写回，栏目页与文章索引已重建，发布状态已同步。</div>
+      <div class="publish-result-grid">
+        ${rows.map(([label, value]) => `
+          <div class="publish-result-cell">
+            <span class="publish-result-label">${escapeHtml(label)}</span>
+            <span class="publish-result-value">${value ? escapeHtml(value) : "<span class='publish-result-empty'>未提供</span>"}</span>
+          </div>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  function buildDeleteConfirmation(article) {
+    const localMd = articleLocalMarkdownPath(article);
+    const localHtml = articleLocalHtmlPath(article);
+    const publicUrl = articlePublishUrl(article);
+    return [
+      `确定永久删除《${article.title}》吗？`,
+      ``,
+      `分类：${article.category_name || article.category_id || ""}`,
+      `本地正文：${localMd}`,
+      `本地页面：${localHtml}`,
+      `发布页：${publicUrl}`,
+      ``,
+      `操作会删除本地文件、重建网站索引并同步 git。`,
+      `此操作无法撤销。`,
+    ].join("\n");
+  }
+
   function normalizeWhitespace(text) {
     return String(text || "").replace(/\s+/g, " ").trim();
   }
@@ -421,12 +480,16 @@
   }
 
   function openPublishedArticle(article) {
-    const url = article.public_html_exists && article.local_html_url
-      ? article.local_html_url
-      : article.canonical_url ||
-        new URL(`/articles/${encodeURIComponent(article.category_directory)}/${encodeURIComponent(article.slug)}.html`, state.siteBaseUrl).href;
-    if (!article.public_html_exists) setStatus(`文章页尚未生成：${article.title}`, "error");
-    else setStatus(`已打开文章：${article.title}`);
+    const networkUrl = articlePublishUrl(article);
+    const localUrl = article.local_html_url || networkUrl;
+    const url = article.public_html_exists ? networkUrl : localUrl;
+    if (article.public_html_exists) {
+      setStatus(`已打开发布页：${article.title}`);
+    } else if (article.local_html_url) {
+      setStatus(`发布页尚未生成，已打开本地副本：${article.title}`, "error");
+    } else {
+      setStatus(`文章页尚未生成：${article.title}`, "error");
+    }
     window.open(url, "_blank", "noopener");
   }
 
@@ -478,18 +541,25 @@
 
   function openArticle(article) {
     fetch(`/api/articles/${encodeURIComponent(article.article_id)}`)
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) {
+          throw new Error(`加载失败：${r.status}`);
+        }
+        return r.json();
+      })
       .then((payload) => {
         const rawHtml = payload.content_html || "<p>请通过右侧草稿重新打开文章进行编辑。</p>";
         const cleaned = cleanImportedHtml(rawHtml);
         const cleanedHtml = cleaned.html || rawHtml;
         const adoptedTitle = shouldAdoptImportedTitle(payload.title, cleaned.title) ? cleaned.title : payload.title;
+        const resolvedArticleId = payload.article_id || article.article_id;
+        const resolvedSummary = payload.summary || article.summary || "";
         state.activeDraft = {
-          article_id: payload.article_id,
+          article_id: resolvedArticleId,
           title: adoptedTitle,
           english_title: payload.english_title || "",
           subtitle: payload.subtitle || "",
-          summary: payload.summary || "",
+          summary: resolvedSummary,
           author: "RedRocks",
           published_date: payload.published_date || new Date().toISOString().slice(0, 10),
           updated_date: payload.updated_date || new Date().toISOString(),
@@ -502,7 +572,7 @@
           source_format: payload.source_format || "markdown",
           html: cleanedHtml,
           plain_text: payload.plain_text || "",
-          metadata: payload.metadata || { article_id: payload.article_id, canonical_url: payload.path },
+          metadata: payload.metadata || { article_id: resolvedArticleId, canonical_url: payload.path },
         };
         els.editor.innerHTML = state.activeDraft.html;
         syncForm();
@@ -514,6 +584,9 @@
           return;
         }
         setStatus(`已打开：${payload.title}`);
+      })
+      .catch((err) => {
+        setStatus(`打开失败：${err.message}`, "error");
       });
   }
 
@@ -733,7 +806,7 @@
     }).then((res) => res.json()).then((payload) => {
       state.activeDraft = draft;
       state.dirty = false;
-      if (showNotice) setStatus("已保存");
+      if (showNotice) setStatus("草稿已保存");
       return payload;
     }).catch((err) => {
       setStatus(`保存失败：${err.message}`, "error");
@@ -778,7 +851,7 @@
       const draft = snapshotDraft();
       if (!draft) return;
       if (state.activeDraft?.status === "published" && !state.dirty) {
-        setStatus("该文章已发布，无需重复发布", "success");
+        setStatus("当前内容已经是最新发布状态", "success");
         return;
       }
       syncSlugFromTitle();
@@ -796,18 +869,12 @@
         setStatus(`发布失败：${payload.message || payload.error || "unknown"}`, "error");
         return;
       }
-      els.publishResult.innerHTML = `
-        <div class="publish-result-head">发布成功</div>
-        <div class="publish-result-row">状态：<code>已发布</code></div>
-        <div class="publish-result-row">文件名：<code>${escapeHtml(payload.slug || draft.slug || "")}</code></div>
-        <div class="publish-result-row">提交：<code>${escapeHtml(payload.commit || "")}</code></div>
-        ${payload.article_url ? `<div class="publish-result-row">文章：<a href="${escapeHtml(payload.article_url)}" target="_blank" rel="noopener">${escapeHtml(payload.article_url)}</a></div>` : ""}
-      `;
+      renderPublishResult(payload, draft);
       els.publishResult.classList.remove("hidden");
       state.activeDraft = { ...draft, status: "published" };
       els.metaForm.status.value = "published";
       state.dirty = false;
-      setStatus(`发布成功 · ${payload.commit || ""}`, "success");
+      setStatus(`发布完成 · ${payload.commit || ""}`, "success");
       await reloadArticles();
     } catch (err) {
       setStatus(`发布失败：${err.message}`, "error");
@@ -816,12 +883,12 @@
   }
 
   async function deleteArticle(article) {
-    const ok = window.confirm(`确定要永久删除《${article.title}》吗？这会移除文章文件并重建索引。`);
+    const ok = window.confirm(buildDeleteConfirmation(article));
     if (!ok) return;
     const previousArticles = [...state.articles];
     state.articles = state.articles.filter((item) => item.article_id !== article.article_id);
     renderArticleList();
-    setStatus(`正在删除：${article.title}...`, "dirty");
+    setStatus(`正在删除并重建索引：${article.title}...`, "dirty");
     const res = await fetch(`/api/articles/${encodeURIComponent(article.article_id)}`, { method: "DELETE" });
     const payload = await res.json();
     if (!res.ok) {
@@ -834,7 +901,7 @@
       newDraft();
     }
     await reloadArticles();
-    setStatus(`已删除：${payload.title || article.title}`, "success");
+    setStatus(`已删除并同步清理：${payload.title || article.title}`, "success");
   }
 
   function bindEvents() {
