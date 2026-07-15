@@ -421,6 +421,52 @@
     });
   }
 
+  function unwrapNode(node) {
+    const parent = node.parentNode;
+    if (!parent) return;
+    while (node.firstChild) {
+      parent.insertBefore(node.firstChild, node);
+    }
+    node.remove();
+  }
+
+  function cleanImportedAttributes(container) {
+    container.querySelectorAll(".wx_search_keyword, .wx_search_keyword_wrap, [class*='wx_search_keyword']").forEach((node) => {
+      if (node.tagName === "I" || !node.textContent.trim()) {
+        node.remove();
+      } else {
+        unwrapNode(node);
+      }
+    });
+
+    container.querySelectorAll("*").forEach((node) => {
+      [...node.attributes].forEach((attr) => {
+        const name = attr.name.toLowerCase();
+        const keepLinkHref = node.tagName === "A" && name === "href";
+        const keepImageSrc = node.tagName === "IMG" && name === "src";
+        const keepImageAlt = node.tagName === "IMG" && name === "alt";
+        const keepImageTitle = node.tagName === "IMG" && name === "title";
+        if (keepLinkHref || keepImageSrc || keepImageAlt || keepImageTitle) return;
+        if (name === "target" && node.tagName === "A") return;
+        node.removeAttribute(attr.name);
+      });
+
+      if (node.tagName === "A") {
+        const href = node.getAttribute("href") || "";
+        if (!href || href.startsWith("javascript:")) {
+          unwrapNode(node);
+        } else if (!node.getAttribute("target")) {
+          node.setAttribute("target", "_blank");
+          node.setAttribute("rel", "noopener");
+        }
+      }
+
+      if (node.tagName === "IMG") {
+        node.setAttribute("class", "article-image");
+      }
+    });
+  }
+
   function cleanImportedHtml(htmlText) {
     const sourceText = String(htmlText || "").trim();
     if (!sourceText) return { html: "", title: "" };
@@ -466,6 +512,8 @@
       });
     }
 
+    trimEmptyBlocks(container);
+    cleanImportedAttributes(container);
     trimEmptyBlocks(container);
 
     return { html: container.innerHTML.trim(), title: detectedTitle };
