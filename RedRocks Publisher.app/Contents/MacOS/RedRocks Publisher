@@ -1,0 +1,62 @@
+#!/bin/bash
+set -euo pipefail
+
+REPO_ROOT="/Users/redrocks/Desktop/RedRocksPublisher/SITE/REDROCKSNET"
+PORT="8765"
+URL="http://127.0.0.1:${PORT}"
+LOG_DIR="$REPO_ROOT/.publisher-data/logs"
+LOG_FILE="$LOG_DIR/redrocks-publisher-app.log"
+
+mkdir -p "$LOG_DIR"
+
+notify() {
+  /usr/bin/osascript -e "display notification \"$1\" with title \"RedRocks Publisher\"" >/dev/null 2>&1 || true
+}
+
+fail() {
+  echo "ERROR: $1" >> "$LOG_FILE"
+  /usr/bin/osascript -e "display alert \"RedRocks Publisher\" message \"$1\"" >/dev/null 2>&1 || true
+  exit 1
+}
+
+{
+  echo
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Launch requested"
+  echo "Repository: $REPO_ROOT"
+} >> "$LOG_FILE"
+
+if [ ! -f "$REPO_ROOT/index.html" ] || [ ! -f "$REPO_ROOT/articles.html" ] || [ ! -f "$REPO_ROOT/generate_article.py" ] || [ ! -f "$REPO_ROOT/PUBLISH.command" ] || [ ! -f "$REPO_ROOT/CNAME" ]; then
+  fail "没有找到 redrocks.net 仓库：$REPO_ROOT"
+fi
+
+if ! command -v python3 >/dev/null 2>&1; then
+  fail "没有找到 python3，无法启动本地发布工作台。"
+fi
+
+if /usr/sbin/lsof -ti "tcp:${PORT}" -sTCP:LISTEN >/dev/null 2>&1; then
+  echo "Publisher already running on ${URL}" >> "$LOG_FILE"
+else
+  echo "Starting publisher server on ${URL}" >> "$LOG_FILE"
+  cd "$REPO_ROOT"
+  nohup python3 "$REPO_ROOT/publisher/app.py" >> "$LOG_FILE" 2>&1 &
+  SERVER_PID=$!
+  echo "Started PID: $SERVER_PID" >> "$LOG_FILE"
+
+  for _ in 1 2 3 4 5 6 7 8 9 10; do
+    if /usr/sbin/lsof -ti "tcp:${PORT}" -sTCP:LISTEN >/dev/null 2>&1; then
+      break
+    fi
+    sleep 0.5
+  done
+
+  if ! /usr/sbin/lsof -ti "tcp:${PORT}" -sTCP:LISTEN >/dev/null 2>&1; then
+    fail "本地发布服务没有成功启动。请查看日志：$LOG_FILE"
+  fi
+fi
+
+if [ "${REDROCKS_PUBLISHER_NO_OPEN:-}" != "1" ]; then
+  /usr/bin/open "$URL"
+  notify "工作台已打开"
+fi
+
+exit 0
