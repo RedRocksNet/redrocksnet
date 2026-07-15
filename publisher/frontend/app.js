@@ -548,55 +548,74 @@
     markDirty();
   }
 
-  function openArticle(article) {
-    fetch(`/api/articles/${encodeURIComponent(article.article_id)}`)
-      .then((r) => {
-        if (!r.ok) {
-          throw new Error(`加载失败：${r.status}`);
-        }
-        return r.json();
-      })
-      .then((payload) => {
-        const rawHtml = payload.content_html || "<p>请通过右侧草稿重新打开文章进行编辑。</p>";
-        const cleaned = cleanImportedHtml(rawHtml);
-        const cleanedHtml = cleaned.html || rawHtml;
-        const adoptedTitle = shouldAdoptImportedTitle(payload.title, cleaned.title) ? cleaned.title : payload.title;
-        const resolvedArticleId = payload.article_id || article.article_id;
-        const resolvedSummary = sanitizeSummary(payload.summary || article.summary || "", adoptedTitle || payload.title || article.title || "");
-        state.activeDraft = {
-          article_id: resolvedArticleId,
-          title: adoptedTitle,
-          english_title: payload.english_title || "",
-          subtitle: payload.subtitle || "",
-          summary: resolvedSummary,
-          author: "RedRocks",
-          published_date: payload.published_date || new Date().toISOString().slice(0, 10),
-          updated_date: payload.updated_date || new Date().toISOString(),
-          status: payload.status || "draft",
-          slug: payload.slug || payload.title,
-          category_id: payload.category_id,
-          themes: payload.metadata?.themes || [],
-          tags: payload.metadata?.tags || [],
-          featured: false,
-          source_format: payload.source_format || "markdown",
-          html: cleanedHtml,
-          plain_text: payload.plain_text || "",
-          metadata: payload.metadata || { article_id: resolvedArticleId, canonical_url: payload.path },
-        };
-        els.editor.innerHTML = state.activeDraft.html;
-        syncForm();
-        syncSlugFromTitle();
-        setMode("edit");
-        if (cleanedHtml !== rawHtml || adoptedTitle !== payload.title) {
-          state.dirty = true;
-          setStatus("已整理微信复制内容，请保存或发布以写回干净版本", "dirty");
-          return;
-        }
-        setStatus(`已打开：${payload.title}`);
-      })
-      .catch((err) => {
-        setStatus(`打开失败：${err.message}`, "error");
-      });
+  async function openArticle(article) {
+    try {
+      const res = await fetch(`/api/articles/${encodeURIComponent(article.article_id)}`);
+      if (!res.ok) {
+        throw new Error(`加载失败：${res.status}`);
+      }
+      const payload = await res.json();
+
+      const draftRes = await fetch(`/api/drafts/${encodeURIComponent(article.article_id)}`);
+      const draftPayload = draftRes.ok ? await draftRes.json() : null;
+
+      const draftHtml = draftPayload?.html || "";
+      const draftTitle = draftPayload?.title || "";
+      const draftSummary = sanitizeSummary(draftPayload?.summary || "", draftTitle || payload.title || article.title || "");
+      const publishedHtml = payload.content_html || "";
+      const rawHtml = draftHtml || publishedHtml || "<p>请通过右侧草稿重新打开文章进行编辑。</p>";
+      const cleaned = cleanImportedHtml(rawHtml);
+      const cleanedHtml = cleaned.html || rawHtml;
+      const sourceTitle = draftTitle || payload.title || article.title || "";
+      const adoptedTitle = shouldAdoptImportedTitle(sourceTitle, cleaned.title)
+        ? cleaned.title
+        : sourceTitle;
+      const resolvedArticleId = payload.article_id || draftPayload?.article_id || article.article_id;
+      const resolvedSummary = draftSummary || sanitizeSummary(payload.summary || article.summary || "", adoptedTitle);
+      const resolvedStatus = draftPayload?.status || payload.status || "draft";
+      const resolvedMetadata = draftPayload?.metadata || payload.metadata || { article_id: resolvedArticleId, canonical_url: payload.path };
+
+      state.activeDraft = {
+        article_id: resolvedArticleId,
+        title: adoptedTitle,
+        english_title: draftPayload?.english_title || payload.english_title || "",
+        subtitle: draftPayload?.subtitle || payload.subtitle || "",
+        summary: resolvedSummary,
+        author: draftPayload?.author || payload.author || "RedRocks",
+        published_date: draftPayload?.published_date || payload.published_date || new Date().toISOString().slice(0, 10),
+        updated_date: draftPayload?.updated_date || payload.updated_date || new Date().toISOString(),
+        status: resolvedStatus,
+        slug: draftPayload?.slug || payload.slug || payload.title,
+        category_id: draftPayload?.category_id || payload.category_id,
+        themes: draftPayload?.themes || payload.metadata?.themes || [],
+        tags: draftPayload?.tags || payload.metadata?.tags || [],
+        featured: !!(draftPayload?.featured ?? payload.featured ?? false),
+        source_format: draftPayload?.source_format || payload.source_format || "markdown",
+        html: cleanedHtml,
+        plain_text: draftPayload?.plain_text || payload.plain_text || "",
+        metadata: resolvedMetadata,
+      };
+      els.editor.innerHTML = state.activeDraft.html;
+      syncForm();
+      syncSlugFromTitle();
+      setMode("edit");
+      if (draftHtml) {
+        setStatus(`已打开草稿：${state.activeDraft.title}`);
+        return;
+      }
+      if (!publishedHtml) {
+        setStatus(`已打开本地草稿：${state.activeDraft.title}`, "warn");
+        return;
+      }
+      if (cleanedHtml !== rawHtml || adoptedTitle !== sourceTitle) {
+        state.dirty = true;
+        setStatus("已整理微信复制内容，请保存或发布以写回干净版本", "dirty");
+        return;
+      }
+      setStatus(`已打开：${state.activeDraft.title}`);
+    } catch (err) {
+      setStatus(`打开失败：${err.message}`, "error");
+    }
   }
 
   function editArticle(article) {

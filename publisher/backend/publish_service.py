@@ -8,9 +8,9 @@ from pathlib import Path
 
 from . import article_service
 from .config_service import load_categories, load_site_config
-from .git_service import commit, detect_unrelated_changes, head_short_sha, push, stage_files
+from .git_service import commit, detect_unrelated_changes, head_short_sha, push, repo_status_porcelain, stage_files
 from .metadata_service import save_metadata
-from .utils import copy_file, title_slug, today_iso, write_text_atomic
+from .utils import copy_file, read_json, title_slug, today_iso, write_text_atomic
 from .validation_service import normalize_tags, validate_category, validate_title
 
 
@@ -99,6 +99,14 @@ def save_article_and_publish(root: Path, payload: dict, git_push: bool = True) -
     plain_text = payload.get("plain_text", "")
     article_id = payload.get("article_id") or payload.get("metadata", {}).get("article_id")
     article_paths = article_service.article_paths(root, category["id"], slug)
+    stale_metadata_paths = []
+    if article_id and article_paths["directory"].exists():
+        for meta_path in article_paths["directory"].glob("*.publisher.json"):
+            if meta_path == article_paths["meta"]:
+                continue
+            meta = read_json(meta_path, {}) or {}
+            if meta.get("article_id") == article_id:
+                stale_metadata_paths.append(meta_path)
 
     related_allowed = [
         str(article_paths["markdown"].relative_to(root)),
@@ -108,6 +116,7 @@ def save_article_and_publish(root: Path, payload: dict, git_push: bool = True) -
         "articles/latest.json",
         f"articles/{category['directory']}.html",
         "articles/",
+        "about.html",
         "generate_article.py",
         "publisher/",
         "REDROCKS_PUBLISHER.command",
@@ -131,6 +140,7 @@ def save_article_and_publish(root: Path, payload: dict, git_push: bool = True) -
         root / "articles.html",
         root / "articles" / "latest.json",
         root / "articles" / f"{category['directory']}.html",
+        *stale_metadata_paths,
     ]
     backup_dir = Path(tempfile.mkdtemp(prefix="publisher-backup-", dir=str(root / ".publisher-data" / "temp")))
     backups: dict[Path, Path] = {}
@@ -191,6 +201,8 @@ def save_article_and_publish(root: Path, payload: dict, git_push: bool = True) -
     try:
         write_text_atomic(article_paths["markdown"], md_text)
         save_metadata(article_paths["markdown"], metadata)
+        for stale_path in stale_metadata_paths:
+            stale_path.unlink(missing_ok=True)
         if payload.get("cover_image_path"):
             source = Path(payload["cover_image_path"])
             target = article_paths["directory"] / source.name
@@ -210,18 +222,19 @@ def save_article_and_publish(root: Path, payload: dict, git_push: bool = True) -
 
     changed = managed_paths
 
-    status = __import__("subprocess").run(["git", "status", "--porcelain"], cwd=str(root), capture_output=True, text=True)
-    if status.returncode != 0:
+    try:
+        status_lines = repo_status_porcelain(root)
+    except Exception:
         cleanup()
         return PublishResult(ok=False, message="git status failed", error_step="git-status")
 
     files = []
-    for rel in status.stdout.splitlines():
+    for rel in status_lines:
         path = rel[3:].strip()
         if any(path == p.relative_to(root).as_posix() for p in changed) or path.startswith(f"articles/{category['directory']}/"):
             files.append(path)
 
-    stage_targets = [root / path for path in files if (root / path).exists()]
+    stage_targets = [root / path for path in files]
     if stage_targets:
         rc, stdout, stderr = stage_files(root, stage_targets)
         if rc != 0:
