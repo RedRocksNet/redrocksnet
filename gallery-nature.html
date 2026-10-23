@@ -341,6 +341,15 @@
       display: block;
     }
 
+    .thumb-caption {
+      padding: 10px 14px 12px;
+      color: #9f998e;
+      font-family: var(--serif);
+      font-size: 13px;
+      line-height: 1.55;
+      letter-spacing: 0.02em;
+    }
+
     .backlink {
       margin-top: 18px;
     }
@@ -378,6 +387,20 @@
       width: auto;
       height: auto;
       object-fit: contain;
+    }
+
+    #lightbox-caption {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 96px));
+      color: rgba(235, 229, 216, 0.72);
+      font-family: var(--serif);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+      letter-spacing: 0.03em;
     }
 
     #lightbox .close {
@@ -465,70 +488,87 @@
   <div class="thumb-frame">
     <img src="images/nature/AKYB_6159.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/BLG_6018 1.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/BLG_6018 1.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/cover copy.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/cover copy.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/DSC_0143.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/DSC_0143.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/DSC_5021.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/DSC_5021.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/DSC_6025.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/DSC_6025.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/DSC_7347.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/DSC_7347.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/DSC_7354.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/DSC_7354.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/DSC_7382.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/DSC_7382.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/DSCF0490.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/DSCF0490.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/DSCF0492.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/DSCF0492.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/DSCF0530.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/DSCF0530.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/DSCF0592.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/DSCF0592.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/DSCF5128.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/DSCF5128.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/DSCF5570.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/DSCF5570.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/NewBrunswick_1253.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/NewBrunswick_1253.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/nature/YST_2264.jpg')">
   <div class="thumb-frame">
     <img src="images/nature/YST_2264.jpg" alt="">
   </div>
+  
 </div>
   </div>
 </section>
@@ -537,17 +577,25 @@
   <span class="close" onclick="closeLightbox()">&times;</span>
   <span class="nav-btn prev" onclick="changeImage(-1)">&#10094;</span>
   <img id="lightbox-img" src="">
+  <div id="lightbox-caption"></div>
   <span class="nav-btn next" onclick="changeImage(1)">&#10095;</span>
 </div>
 
 <script>
   let images = ["images/nature/AKYB_6159.jpg", "images/nature/BLG_6018 1.jpg", "images/nature/cover copy.jpg", "images/nature/DSC_0143.jpg", "images/nature/DSC_5021.jpg", "images/nature/DSC_6025.jpg", "images/nature/DSC_7347.jpg", "images/nature/DSC_7354.jpg", "images/nature/DSC_7382.jpg", "images/nature/DSCF0490.jpg", "images/nature/DSCF0492.jpg", "images/nature/DSCF0530.jpg", "images/nature/DSCF0592.jpg", "images/nature/DSCF5128.jpg", "images/nature/DSCF5570.jpg", "images/nature/NewBrunswick_1253.jpg", "images/nature/YST_2264.jpg"];
+  let captions = {"images/stillness/IMG_0145.jpg": "红外Chief Hosa"};
   let currentIndex = 0;
+
+  function showCurrentImage() {
+    const src = images[currentIndex];
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = captions[src] || '';
+  }
 
   function openLightbox(src) {
     currentIndex = images.indexOf(src);
     document.getElementById('lightbox').style.display = "block";
-    document.getElementById('lightbox-img').src = src;
+    showCurrentImage();
     const el = document.documentElement;
     if (el.requestFullscreen) {
       el.requestFullscreen().catch(() => {});
@@ -564,7 +612,7 @@
   function changeImage(direction) {
     if (!images.length) return;
     currentIndex = (currentIndex + direction + images.length) % images.length;
-    document.getElementById('lightbox-img').src = images[currentIndex];
+    showCurrentImage();
   }
 
   document.addEventListener('keydown', function(e) {

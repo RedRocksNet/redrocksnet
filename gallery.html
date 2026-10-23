@@ -341,6 +341,15 @@
       display: block;
     }
 
+    .thumb-caption {
+      padding: 10px 14px 12px;
+      color: #9f998e;
+      font-family: var(--serif);
+      font-size: 13px;
+      line-height: 1.55;
+      letter-spacing: 0.02em;
+    }
+
     .backlink {
       margin-top: 18px;
     }
@@ -378,6 +387,20 @@
       width: auto;
       height: auto;
       object-fit: contain;
+    }
+
+    #lightbox-caption {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 96px));
+      color: rgba(235, 229, 216, 0.72);
+      font-family: var(--serif);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+      letter-spacing: 0.03em;
     }
 
     #lightbox .close {

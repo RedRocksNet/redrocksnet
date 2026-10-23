@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 IMAGES_ROOT = ROOT / "images"
 OUTPUT_INDEX = ROOT / "gallery.html"
+CAPTIONS_FILE = ROOT / "gallery_captions.json"
 
 SITE_TITLE = "RedRocks"
 
@@ -23,6 +24,16 @@ SERIES = [
 
 IMG_EXTS = (".jpg", ".jpeg", ".png", ".gif", ".webp")
 COVER_CANDIDATES = ("cover.jpg", "cover.jpeg", "cover.png", "cover.webp", "cover.gif")
+
+
+def load_captions():
+    if not CAPTIONS_FILE.exists():
+        return {}
+    try:
+        data = json.loads(CAPTIONS_FILE.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return data if isinstance(data, dict) else {}
 
 
 def list_images(folder: Path):
@@ -403,6 +414,15 @@ def base_head(title: str) -> str:
       display: block;
     }
 
+    .thumb-caption {
+      padding: 10px 14px 12px;
+      color: #9f998e;
+      font-family: var(--serif);
+      font-size: 13px;
+      line-height: 1.55;
+      letter-spacing: 0.02em;
+    }
+
     .backlink {
       margin-top: 18px;
     }
@@ -440,6 +460,20 @@ def base_head(title: str) -> str:
       width: auto;
       height: auto;
       object-fit: contain;
+    }
+
+    #lightbox-caption {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 96px));
+      color: rgba(235, 229, 216, 0.72);
+      font-family: var(--serif);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+      letter-spacing: 0.03em;
     }
 
     #lightbox .close {
@@ -574,20 +608,25 @@ def build_index() -> str:
 
 def build_series_page(folder: str, name: str, motto: str) -> str:
     imgs = collect_root_images() if folder == "inbox" else list_images(IMAGES_ROOT / folder)
+    captions = load_captions()
 
     thumbs = []
     for p in imgs:
         src = f"images/{p.name}" if folder == "inbox" else f"images/{folder}/{p.name}"
+        caption = str(captions.get(src, "")).strip()
+        caption_html = f'<div class="thumb-caption">{html.escape(caption)}</div>' if caption else ""
         thumbs.append(f"""
 <div class="thumb" onclick="openLightbox('{html.escape(src)}')">
   <div class="thumb-frame">
-    <img src="{html.escape(src)}" alt="">
+    <img src="{html.escape(src)}" alt="{html.escape(caption)}">
   </div>
+  {caption_html}
 </div>
 """.strip())
 
     image_paths = [f"images/{p.name}" if folder == "inbox" else f"images/{folder}/{p.name}" for p in imgs]
     js_array = json.dumps(image_paths, ensure_ascii=False)
+    js_captions = json.dumps(captions, ensure_ascii=False)
 
     body = f"""
 <section class="hero">
@@ -613,17 +652,25 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
   <span class="close" onclick="closeLightbox()">&times;</span>
   <span class="nav-btn prev" onclick="changeImage(-1)">&#10094;</span>
   <img id="lightbox-img" src="">
+  <div id="lightbox-caption"></div>
   <span class="nav-btn next" onclick="changeImage(1)">&#10095;</span>
 </div>
 
 <script>
   let images = {js_array};
+  let captions = {js_captions};
   let currentIndex = 0;
+
+  function showCurrentImage() {{
+    const src = images[currentIndex];
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = captions[src] || '';
+  }}
 
   function openLightbox(src) {{
     currentIndex = images.indexOf(src);
     document.getElementById('lightbox').style.display = "block";
-    document.getElementById('lightbox-img').src = src;
+    showCurrentImage();
     const el = document.documentElement;
     if (el.requestFullscreen) {{
       el.requestFullscreen().catch(() => {{}});
@@ -640,7 +687,7 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
   function changeImage(direction) {{
     if (!images.length) return;
     currentIndex = (currentIndex + direction + images.length) % images.length;
-    document.getElementById('lightbox-img').src = images[currentIndex];
+    showCurrentImage();
   }}
 
   document.addEventListener('keydown', function(e) {{

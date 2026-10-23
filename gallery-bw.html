@@ -341,6 +341,15 @@
       display: block;
     }
 
+    .thumb-caption {
+      padding: 10px 14px 12px;
+      color: #9f998e;
+      font-family: var(--serif);
+      font-size: 13px;
+      line-height: 1.55;
+      letter-spacing: 0.02em;
+    }
+
     .backlink {
       margin-top: 18px;
     }
@@ -378,6 +387,20 @@
       width: auto;
       height: auto;
       object-fit: contain;
+    }
+
+    #lightbox-caption {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 96px));
+      color: rgba(235, 229, 216, 0.72);
+      font-family: var(--serif);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+      letter-spacing: 0.03em;
     }
 
     #lightbox .close {
@@ -465,62 +488,77 @@
   <div class="thumb-frame">
     <img src="images/bw/AnkorwatAA0140.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/B52B.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/B52B.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/Bhutan072.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/Bhutan072.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/Bhutan2012_030.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/Bhutan2012_030.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/BIRDMAN_053.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/BIRDMAN_053.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/BIRDMAN_054.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/BIRDMAN_054.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/BW200412_RDBARSUNSET.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/BW200412_RDBARSUNSET.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/BW200412_TOYSOLDIER2.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/BW200412_TOYSOLDIER2.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/BW2008020002.JPG')">
   <div class="thumb-frame">
     <img src="images/bw/BW2008020002.JPG" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/BW2008020005.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/BW2008020005.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/BW_LAOS_WATPHU_GRANDSTAIR02.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/BW_LAOS_WATPHU_GRANDSTAIR02.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/Cambodia_slippers035.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/Cambodia_slippers035.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/Cambodia_slippers037.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/Cambodia_slippers037.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/cover2.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/cover2.jpg" alt="">
   </div>
+  
 </div><div class="thumb" onclick="openLightbox('images/bw/rest.jpg')">
   <div class="thumb-frame">
     <img src="images/bw/rest.jpg" alt="">
   </div>
+  
 </div>
   </div>
 </section>
@@ -529,17 +567,25 @@
   <span class="close" onclick="closeLightbox()">&times;</span>
   <span class="nav-btn prev" onclick="changeImage(-1)">&#10094;</span>
   <img id="lightbox-img" src="">
+  <div id="lightbox-caption"></div>
   <span class="nav-btn next" onclick="changeImage(1)">&#10095;</span>
 </div>
 
 <script>
   let images = ["images/bw/AnkorwatAA0140.jpg", "images/bw/B52B.jpg", "images/bw/Bhutan072.jpg", "images/bw/Bhutan2012_030.jpg", "images/bw/BIRDMAN_053.jpg", "images/bw/BIRDMAN_054.jpg", "images/bw/BW200412_RDBARSUNSET.jpg", "images/bw/BW200412_TOYSOLDIER2.jpg", "images/bw/BW2008020002.JPG", "images/bw/BW2008020005.jpg", "images/bw/BW_LAOS_WATPHU_GRANDSTAIR02.jpg", "images/bw/Cambodia_slippers035.jpg", "images/bw/Cambodia_slippers037.jpg", "images/bw/cover2.jpg", "images/bw/rest.jpg"];
+  let captions = {"images/stillness/IMG_0145.jpg": "红外Chief Hosa"};
   let currentIndex = 0;
+
+  function showCurrentImage() {
+    const src = images[currentIndex];
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = captions[src] || '';
+  }
 
   function openLightbox(src) {
     currentIndex = images.indexOf(src);
     document.getElementById('lightbox').style.display = "block";
-    document.getElementById('lightbox-img').src = src;
+    showCurrentImage();
     const el = document.documentElement;
     if (el.requestFullscreen) {
       el.requestFullscreen().catch(() => {});
@@ -556,7 +602,7 @@
   function changeImage(direction) {
     if (!images.length) return;
     currentIndex = (currentIndex + direction + images.length) % images.length;
-    document.getElementById('lightbox-img').src = images[currentIndex];
+    showCurrentImage();
   }
 
   document.addEventListener('keydown', function(e) {
