@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="苏东坡，司马子微，和坐忘论 · RedRocks" />
+  <link rel="canonical" href="https://www.redrocks.net/articles/misc/20261023-苏东坡司马子微和坐忘论.html" />
+  <meta property="og:site_name" content="RedRocks" />
+  <meta property="og:title" content="苏东坡，司马子微，和坐忘论 · RedRocks" />
+  <meta property="og:description" content="苏东坡，司马子微，和坐忘论 · RedRocks" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.redrocks.net/articles/misc/20261023-苏东坡司马子微和坐忘论.html" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="苏东坡，司马子微，和坐忘论 · RedRocks" />
+  <meta name="twitter:description" content="苏东坡，司马子微，和坐忘论 · RedRocks" />
+  <title>苏东坡，司马子微，和坐忘论 · RedRocks</title>
+  <link rel="stylesheet" href="/nav.css">
+  <style>
+:root{
+  --bg:#111412;
+  --fg:#f3eee4;
+  --muted:#b9b1a1;
+  --muted-2:rgba(198,190,176,0.8);
+  --accent:#c7a86b;
+  --card:rgba(255,255,255,0.04);
+  --line:rgba(255,255,255,0.06);
+  --line2:rgba(217,202,162,0.22);
+  --panel:rgba(44,50,46,0.82);
+  --panel-strong:rgba(55,61,56,0.9);
+  --shadow:0 18px 40px rgba(0,0,0,0.28);
+  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua","Noto Serif SC","Songti SC","STSong",serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Roboto,
+    "PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.75;
+}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:none}
+
+main{
+  width:min(1180px, calc(100% - 32px));
+  margin:0 auto;
+  padding:96px 0 64px; /* space for fixed nav */
+}
+
+h1{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(30px, 4.8vw, 50px);
+  line-height:1.04;
+  letter-spacing:-0.03em;
+}
+
+.hero-subtitle{
+  margin:10px 0 0;
+  color:rgba(198,190,176,0.72);
+  font-size:17px;
+  line-height:1.7;
+  font-weight:300;
+  letter-spacing:.01em;
+}
+
+.subtle{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+.hero{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0, 1.22fr) minmax(240px, 0.78fr);
+  gap:18px;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:
+    linear-gradient(135deg, rgba(50,56,51,0.92), rgba(31,35,33,0.88)),
+    var(--panel);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:auto -14% -34% 30%;
+  height:320px;
+  background:radial-gradient(circle, rgba(199,168,107,0.12), transparent 70%);
+  pointer-events:none;
+}
+
+.hero-copy,
+.hero-panel{
+  position:relative;
+  z-index:1;
+}
+
+.hero-panel{
+  display:grid;
+  gap:14px;
+  align-content:start;
+}
+
+.hero-line{
+  margin:0;
+  color:var(--muted);
+  font-family:var(--serif);
+  font-size:22px;
+  line-height:1.42;
+  font-weight:400;
+  letter-spacing:-0.01em;
+}
+
+.panel-card{
+  display:block;
+  padding:14px 16px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+    var(--panel-strong);
+  text-decoration:none;
+  color:inherit;
+}
+
+.panel-label{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.panel-copy{
+  margin:0;
+  color:var(--muted-2);
+  font-size:12px;
+  line-height:1.6;
+}
+
+.panel-link{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:14px 15px 13px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+    rgba(17,20,18,0.32);
+  color:inherit;
+  text-decoration:none;
+  transition:transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.panel-link:hover{
+  transform:translateY(-1px);
+  border-color:var(--line2);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0)),
+    rgba(17,20,18,0.38);
+}
+
+.panel-link-title{
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.35;
+  letter-spacing:-0.02em;
+}
+
+.panel-link-meta{
+  color:var(--muted-2);
+  font-size:12px;
+  letter-spacing:0.08em;
+}
+
+.panel-quote{
+  margin:0;
+  color:rgba(224,214,194,0.76);
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.3;
+}
+
+.intro-line{
+  margin:0;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.85;
+  font-weight:300;
+  letter-spacing:.02em;
+}
+
+.section{
+  margin-top:24px;
+  padding:28px;
+  border-radius:26px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+    rgba(40,45,42,0.76);
+  box-shadow:var(--shadow);
+}
+
+.section-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+
+.section-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.section-title{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(24px, 3.2vw, 38px);
+  line-height:1.08;
+  letter-spacing:-0.025em;
+}
+
+.section-note{
+  margin:10px 0 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:18px;
+}
+
+.shelf-grid{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+  gap:16px;
+}
+
+.spine-card{
+  position:relative;
+  min-height:360px;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)),
+    rgba(47,53,49,0.92);
+  box-shadow:var(--shadow);
+  transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.spine-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--line2);
+  box-shadow:0 22px 42px rgba(0,0,0,0.34);
+}
+
+.spine-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.32)),
+    var(--spine-image, linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)));
+  background-size:cover;
+  background-position:center;
+  opacity:.32;
+}
+
+.spine-card::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:16px;
+  width:1px;
+  background:rgba(217,202,162,0.22);
+}
+
+.spine-inner{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:360px;
+  padding:18px 18px 18px 30px;
+}
+
+.spine-top{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.spine-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.spine-title{
+  margin:0;
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:26px;
+  line-height:1.05;
+  letter-spacing:-0.03em;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  max-height:190px;
+}
+
+.spine-note{
+  color:rgba(198,190,176,0.78);
+  font-size:12px;
+  line-height:1.65;
+}
+
+.spine-meta{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  color:rgba(198,190,176,0.82);
+  font-size:12px;
+}
+
+.spine-badge{
+  display:inline-flex;
+  align-self:flex-start;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.09);
+  background:rgba(17,20,18,0.26);
+}
+
+.card{
+  background:
+    radial-gradient(circle at top right, rgba(199,168,107,0.1), transparent 35%),
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+    rgba(255,255,255,0.04);
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.card:hover{
+  transform: translateY(-3px);
+  border-color: var(--line2);
+  background:
+    radial-gradient(circle at top right, rgba(199,168,107,0.14), transparent 38%),
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+    rgba(255,255,255,0.055);
+}
+
+.cover{
+  width:100%;
+  height:220px;
+  background:#0b0b0b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid var(--line);
+}
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
+.card-body{
+  padding:16px 16px 18px;
+}
+
+.card-title{
+  font-family:var(--serif);
+  font-size:20px;
+  margin:0 0 8px;
+  line-height:1.24;
+  color:#e4dccd;
+}
+
+.card-body .subtle{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:4;
+  overflow:hidden;
+  color:var(--muted);
+}
+
+.card-body .subtle.subtle-empty{
+  -webkit-line-clamp:1;
+  min-height:1.35em;
+  opacity:0.38;
+}
+
+.meta{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.badge{
+  display:inline-block;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--muted-2);
+  font-size:12px;
+}
+
+.footer{
+  margin-top:40px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* Article detail */
+.article{
+  color:rgba(236,229,216,0.9);
+}
+.article h1{margin-top:8px}
+.article .subtle{
+  color:rgba(185,177,161,0.72);
+}
+.article img{
+  display:block;
+  max-width:100%;
+  width:auto;
+  height:auto;
+  margin:18px auto;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.05);
+  box-shadow:0 10px 24px rgba(0,0,0,.18);
+}
+.article pre{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
+  padding:14px;
+  border-radius:12px;
+  overflow:auto;
+  color:rgba(236,229,216,0.88);
+}
+.article code{
+  font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono",
+    "Segoe UI Mono",Consolas,monospace;
+}
+.article blockquote{
+  margin:14px 0;
+  padding:10px 14px;
+  border-left:3px solid rgba(199,168,107,.4);
+  color:rgba(198,190,176,0.86);
+  background:rgba(255,255,255,.02);
+  border-radius:10px;
+}
+
+.backbar{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.backbar a{
+  color:var(--muted);
+}
+.backbar a:hover{
+  color:var(--fg);
+  text-decoration:underline;
+}
+
+.article p a:hover,
+.article li a:hover,
+.article blockquote a:hover{
+  text-decoration:underline;
+}
+
+.read-tools{
+  position:fixed;
+  top:92px;
+  right:24px;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(33,38,35,.78);
+  backdrop-filter:blur(10px);
+  box-shadow:0 10px 24px rgba(0,0,0,.2);
+}
+
+.read-back{
+  color:var(--accent);
+  font-size:12px;
+  line-height:1;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.read-back:hover{
+  color:#d9caa2;
+  text-decoration:none;
+}
+
+.read-mode{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding-left:10px;
+  border-left:1px solid rgba(255,255,255,.08);
+}
+
+.mode-btn{
+  border:0;
+  background:transparent;
+  color:rgba(198,190,176,.72);
+  font-size:11px;
+  line-height:1;
+  padding:4px 6px;
+  border-radius:999px;
+  cursor:pointer;
+}
+
+.mode-btn.active{
+  color:var(--accent);
+  background:rgba(199,168,107,.12);
+}
+
+body.reading-soft .article{
+  color:rgba(224,216,202,0.82);
+}
+
+body.reading-soft .article .subtle{
+  color:rgba(185,177,161,0.64);
+}
+
+body.reading-soft .article pre{
+  background:rgba(255,255,255,.02);
+  border-color:rgba(255,255,255,.04);
+  color:rgba(224,216,202,0.82);
+}
+
+body.reading-soft .article blockquote{
+  color:rgba(191,183,170,0.78);
+  background:rgba(255,255,255,.015);
+}
+
+@media (max-width: 860px){
+  main{
+    width:min(100% - 28px, 760px);
+    padding:90px 0 56px;
+  }
+
+  .hero{
+    grid-template-columns:1fr;
+  }
+
+  .section{
+    padding:22px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .shelf-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:300px;
+  }
+
+  .spine-title{
+    font-size:23px;
+    max-height:160px;
+  }
+
+  .cover{
+    height:200px;
+  }
+
+  .read-tools{
+    top:84px;
+    right:14px;
+    padding:8px 10px;
+  }
+}
+
+@media (max-width: 560px){
+  main{
+    width:min(100% - 18px, 760px);
+    padding:78px 0 18px;
+  }
+
+  .hero{
+    padding:14px;
+    gap:12px;
+    border-radius:22px;
+  }
+
+  .hero-copy{
+    min-width:0;
+  }
+
+  .hero-subtitle{
+    font-size:15px;
+    line-height:1.6;
+    margin-top:8px;
+  }
+
+  .panel-card{
+    padding:14px;
+    border-radius:16px;
+  }
+
+  .panel-copy{
+    font-size:12px;
+  }
+
+  .panel-link{
+    padding:13px 14px 12px;
+  }
+
+  .panel-link-title{
+    font-size:17px;
+  }
+
+  .panel-quote{
+    display:none;
+  }
+
+  .section{
+    margin-top:14px;
+    padding:14px;
+    border-radius:20px;
+  }
+
+  .shelf-grid{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:126px;
+  }
+
+  .spine-card{
+    border-radius:18px;
+  }
+
+  .spine-inner{
+    padding:12px 12px 12px 16px;
+  }
+
+  .spine-top{
+    gap:6px;
+  }
+
+  .spine-title{
+    font-size:17px;
+    line-height:1.08;
+    writing-mode:horizontal-tb;
+    text-orientation:initial;
+    max-height:none;
+  }
+
+  .spine-note{
+    display:none;
+  }
+
+  .spine-meta{
+    gap:6px;
+  }
+
+  .spine-badge{
+    padding:2px 8px;
+    font-size:11px;
+  }
+
+  .read-tools{
+    left:14px;
+    right:auto;
+    max-width:calc(100% - 28px);
+  }
+}
+</style>
+</head>
+<body>
+  <div id="rr-nav-mount" data-current="articles"></div>
+
+  <main>
+    <div class="read-tools" aria-label="阅读工具">
+  <a class="read-back" href="/articles/misc.html">← 返回栏目</a>
+  <div class="read-mode" aria-label="阅读模式">
+    <button class="mode-btn active" data-read-mode="standard" type="button">标准</button>
+    <button class="mode-btn" data-read-mode="soft" type="button">柔和</button>
+  </div>
+</div>
+
+<article class="article">
+  <h1>苏东坡，司马子微，和坐忘论</h1>
+  <div class="subtle">2026-10-23</div>
+  <div style="height:14px"></div>
+  <p><img alt="苏东坡《水龙吟》手抄片段" src="苏东坡水龙吟手稿.jpg"></p>
+<p>最近的一个小毛病，每天抄完经，还会再写一段苏东坡，算是自己日课后的消遣。</p>
+<p>读多了东坡的文字，心里多少有点数：他老人家一辈子写得最多的，是儒家的坦荡、佛家的旷达。乌台诗案后的文字里道家的哲思渐浓，但直书道家的义理，在他所有作品里特别少见、算是非常冷门的题材。</p>
+<p>前两天写到他的《水龙吟·古来云海茫茫》，写的是道家修行和仙者风骨，这已是难得。更有意思的是百字的水龙吟，竟有两百多字的长序，是他一生所有词作里序作最长的一篇，远超《水调歌头》《洞仙歌》这些名作，活脱脱是一篇完整、独立的小品散文。</p>
+<p>一般东坡的词序，只是交代当下场景：宴饮、夜游、怀人、记事。唯独这一篇，大半篇幅都在梳理千年典故：谢自然求师、司马承祯著《坐忘论》、江陵遇李白、仙风道骨相惜的旧事。</p>
+<p>能让东坡不惜笔墨，写下自己毕生最长的词序，专门为司马承祯、为“坐忘”二字落笔，足以见得这套道家心法，在他心里有点分量。</p>
+<p>AI时代，查资料不要太简单，懒的理由都复存在，顺着这份文字因缘，把《坐忘论》重新翻出来，认认真真通读了一遍。</p>
+<p>以下是不加打磨的读后感，加上自己的胡乱联想，时事八卦，信口开河甩在键盘上，算是一段记录。</p>
+<p>简单粗暴：两千多年，老庄释迦牟尼以降，所有修心做人的道理，似乎没啥新鲜东西。</p>
+<p>人世间所有的纠结、执念、内耗、得失、怕死怕苦、人情世故，古人早就看得明明白白、说得干干净净。后来历朝历代，不管是哲学家、高僧高道，还是现在满天飞的心灵鸡汤鸭汤，说穿了，统统都是在“炒冷饭”。</p>
+<p>时代一直在变，生活方式一直在变，但人性一点没变。人永远会贪、会纠结、会比较、会放不下、会害怕失去、会被琐事累得心烦。</p>
+<p>阳光之下没新鲜事，人心的病根万变不离其宗，从来都是这么几个，那对应的解药，自然也不会变。</p>
+<p>只是老庄的道理，太高级、太超脱了。站在山顶看世界，格局极大、境界甚纯，几句话就把天地人生讲透了。看着超级通透、特别潇洒，让人顿悟完拍拍脑袋，但有个问题：咋才能落地？</p>
+<p>普通人要过日子，要应付人情往来、琐碎杂事、衣食生计，躲不开烟火气。只看老庄，看得懂意境，学不到实处，道理再高明，也落不进自己的生活里。</p>
+<p>而司马承祯的《坐忘论》，除了文采飞扬，最可贵的地方就在这儿：他没有发明任何新道理。断缘、简事、收心、真观，所有核心内容，溯源全是老庄本来就讲透的东西。但他把老庄云端上的大道，拉回人间，掰碎了、讲白了，捏成普通人日常能用、听得懂、做得到的修心方法。</p>
+<p>老庄讲无为、寡欲、逍遥齐物，是大境界；司马承祯直接告诉你生活里怎么用：</p>
+<ul>
+<li>不用刻意避世，该过日子就过日子，衣食生计是渡世的船，没必要刻意舍弃；</li>
+<li>不用强行断绝人情，别人热闹攀缘，我不主动凑、不跟着附和，旧缘慢慢淡、新缘不瞎结，就是断缘；</li>
+<li>分得清什么是活命必需、什么是多余贪欲，敢删琐事、敢减欲望，就是简事；</li>
+<li>遇到穷、病、得失、爱恨、生死恐惧，懂得回头观照自己的心，不被外境牵着走，就是真观、就是安心。</li>
+</ul>
+<p>全篇都是大白话、实在话，没有玄乎的说教，句句对应普通人的烦恼。</p>
+<p>千古以来，大道的根从来没变过。变的，只是每个时代的外壳和说法。古人烦恼功名乱世，今人焦虑职场内耗、攀比浮躁。烦恼的样子换了，但人心的贪执、不安、放不下，一模一样。</p>
+<p>老庄定的是“道的根本”，万古不变；后世所有大德、高道、智者，做的是“道的活用”，对症时代的各种各种人心。</p>
+<p>儒教教人立身做事，佛教教人放下释怀，而《坐忘论》这套心法，是贴上普通人烟火日子、让凡人们日常安心的路数。</p>
+<p>忽然就想起最近网上炒的沸沸扬扬的各种大师的崛起和破灭，开悟解脱发财和智商税上当受骗的各说其词。</p>
+<p>说白了，就是认知境界和信息差。</p>
+<p>绝大多数普通人，不会花时间啃古文原典，不会逐字读老庄、读经论，更没精力梳理几千年的义理精髓，再去结合自己的生活和社会环境去演绎出破解烦恼的办法。</p>
+<p>心里烦、心里乱，想要一个简单直接的答案，那种最好能一夜勘破凡尘苦，睁眼家财已万贯的捷径。</p>
+<p>于是历代的智者、包括现在的心灵导师，太多的太多，做着大家都乐见喜闻的事：</p>
+<p>把古人早已讲完的真理，从浩瀚典籍里挑出来、揉碎了，结合时代语境，重新打包成当下人能消化的“新感悟”“新智慧”。</p>
+<p>这本身没问题，智慧本来就需要有人转述、有人普及，普通人也需要心灵出口。无对无错，一切都是因需求而生的产物。好玩的是，境界和认知的提升过程从来不是掏钱充值那么简单。</p>
+<p>能借着这层信息差，把所有人共有的古老智慧，包装成自己的独门心得，然后顺势得名获利，真的是需要智商和能力的。而能否能从这些心得中发现自我和提升精神乃至物质境界，不仅仅是各自的造化，其实更需要智商和能力。</p>
+<p>世人代代有烦恼，就需要代代重新听一遍、学一遍、悟一遍，活一遍。仅此而已。</p>
+<p>——</p>
+<p>顺着东坡、司马承祯与李白这段千古交集，也顺带读懂了我自己长久以来的一点私心偏好。</p>
+<p>坦白说，我从来没有特别爱李白的诗。水平和认知有限是主要原因。虽然听说从文人才情、文学造诣来讲，李白是千古独一档的顶级人物，可若是抛开文人滤镜，单纯我满满的俗人心态去读他、感受他，始终会觉得隔着一层，完全够不着。</p>
+<p>这哥们太仙了，仙得不接地气。他的世界永远是长风万里、明月九天、寻仙访道、恣意狂放，全程云里雾里、凌空蹈虚，几乎脱离了人间烟火的所有琐碎与困顿。他没有世俗的烦恼，没有生活的内耗，不被人情牵绊，不为生计忧心，永远游离在现实世界之外。</p>
+<p>正因如此，他的浪漫虽极致绝美，却很难让俗不可耐的我共情。混迹红尘，一日三餐，世间百态、琐碎俗事、得失悲欢。凌空高悬的仙境诗意虽好，但不由自主的更被能落地、可安放、贴人心、渡日常的处世心法吸引。</p>
+<p>这也是我偏爱东坡、会认真读《坐忘论》的原因。</p>
+<p>废话一堆，有的没的，自己拎清自己是啥想干啥能干啥，再引一段司马子微的话：</p>
+<blockquote>
+<p>若不簡擇，觸事皆為，則身勞智昏，修道事闕。若處事安閒，在物無累者，自屬證成之人。若實未成，而言無累者，誠自誑耳。</p>
+</blockquote>
+<p>原文来源：<a href="https://mp.weixin.qq.com/s/CFINKnjqbJB4rsc5iJDMdg">https://mp.weixin.qq.com/s/CFINKnjqbJB4rsc5iJDMdg</a></p>
+  <div class="backbar">
+    <a href="/articles/misc.html">← 返回本栏目</a>
+    <a href="/articles.html">← 返回随笔首页</a>
+  </div>
+</article>
+
+<script>
+  (function () {
+    const storageKey = 'rr-reading-mode';
+    const body = document.body;
+    const buttons = document.querySelectorAll('[data-read-mode]');
+
+    function applyMode(mode) {
+      body.classList.toggle('reading-soft', mode === 'soft');
+      buttons.forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.readMode === mode);
+      });
+    }
+
+    const saved = localStorage.getItem(storageKey) || 'standard';
+    applyMode(saved);
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.readMode || 'standard';
+        localStorage.setItem(storageKey, mode);
+        applyMode(mode);
+      });
+    });
+  })();
+</script>
+    <div class="footer">© 2026 RedRocks</div>
+  </main>
+
+  <script src="/nav.js" defer></script>
+</body>
+</html>
