@@ -1,6 +1,18 @@
 .DS_Store
 *.on1
 *.onphoto
+*.orig
+*.NEF
+*.nef
+*.RAW
+*.raw
+*.CR2
+*.CR3
+*.ARW
+*.DNG
+*.RAF
+*.ORF
+*.RW2
 INBOX_ARTICLES/
 INBOX_IMAGES/
 # gitignore active
