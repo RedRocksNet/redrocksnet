@@ -573,7 +573,16 @@ def build_index() -> str:
     for folder, name, motto in SERIES:
         if folder == "inbox":
             continue
-        imgs = collect_root_images() if folder == "inbox" else list_images(IMAGES_ROOT / folder)
+        if folder == "inbox":
+            imgs = collect_root_images()
+        elif folder == "walking":
+            imgs = [
+                p
+                for slug, _ in TRAVEL_SUBSERIES
+                for p in list_images(IMAGES_ROOT / "walking" / slug)
+            ]
+        else:
+            imgs = list_images(IMAGES_ROOT / folder)
         href = f"gallery-{folder}.html"
 
         cover_src = pick_cover(folder)
