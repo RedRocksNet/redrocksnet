@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="半个世纪的午餐肉 · RedRocks" />
+  <link rel="canonical" href="https://www.redrocks.net/articles/misc/20261112-半个世纪的午餐肉.html" />
+  <meta property="og:site_name" content="RedRocks" />
+  <meta property="og:title" content="半个世纪的午餐肉 · RedRocks" />
+  <meta property="og:description" content="半个世纪的午餐肉 · RedRocks" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.redrocks.net/articles/misc/20261112-半个世纪的午餐肉.html" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="半个世纪的午餐肉 · RedRocks" />
+  <meta name="twitter:description" content="半个世纪的午餐肉 · RedRocks" />
+  <title>半个世纪的午餐肉 · RedRocks</title>
+  <link rel="stylesheet" href="/nav.css">
+  <style>
+:root{
+  --bg:#111412;
+  --fg:#f3eee4;
+  --muted:#b9b1a1;
+  --muted-2:rgba(198,190,176,0.8);
+  --accent:#c7a86b;
+  --card:rgba(255,255,255,0.04);
+  --line:rgba(255,255,255,0.06);
+  --line2:rgba(217,202,162,0.22);
+  --panel:rgba(44,50,46,0.82);
+  --panel-strong:rgba(55,61,56,0.9);
+  --shadow:0 18px 40px rgba(0,0,0,0.28);
+  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua","Noto Serif SC","Songti SC","STSong",serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Roboto,
+    "PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.75;
+}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:none}
+
+main{
+  width:min(1180px, calc(100% - 32px));
+  margin:0 auto;
+  padding:96px 0 64px; /* space for fixed nav */
+}
+
+h1{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(30px, 4.8vw, 50px);
+  line-height:1.04;
+  letter-spacing:-0.03em;
+}
+
+.hero-subtitle{
+  margin:10px 0 0;
+  color:rgba(198,190,176,0.72);
+  font-size:17px;
+  line-height:1.7;
+  font-weight:300;
+  letter-spacing:.01em;
+}
+
+.subtle{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+.hero{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0, 1.22fr) minmax(240px, 0.78fr);
+  gap:18px;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:
+    linear-gradient(135deg, rgba(50,56,51,0.92), rgba(31,35,33,0.88)),
+    var(--panel);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:auto -14% -34% 30%;
+  height:320px;
+  background:radial-gradient(circle, rgba(199,168,107,0.12), transparent 70%);
+  pointer-events:none;
+}
+
+.hero-copy,
+.hero-panel{
+  position:relative;
+  z-index:1;
+}
+
+.hero-panel{
+  display:grid;
+  gap:14px;
+  align-content:start;
+}
+
+.hero-line{
+  margin:0;
+  color:var(--muted);
+  font-family:var(--serif);
+  font-size:22px;
+  line-height:1.42;
+  font-weight:400;
+  letter-spacing:-0.01em;
+}
+
+.panel-card{
+  display:block;
+  padding:14px 16px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+    var(--panel-strong);
+  text-decoration:none;
+  color:inherit;
+}
+
+.panel-label{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.panel-copy{
+  margin:0;
+  color:var(--muted-2);
+  font-size:12px;
+  line-height:1.6;
+}
+
+.panel-link{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:14px 15px 13px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+    rgba(17,20,18,0.32);
+  color:inherit;
+  text-decoration:none;
+  transition:transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.panel-link:hover{
+  transform:translateY(-1px);
+  border-color:var(--line2);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0)),
+    rgba(17,20,18,0.38);
+}
+
+.panel-link-title{
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.35;
+  letter-spacing:-0.02em;
+}
+
+.panel-link-meta{
+  color:var(--muted-2);
+  font-size:12px;
+  letter-spacing:0.08em;
+}
+
+.panel-quote{
+  margin:0;
+  color:rgba(224,214,194,0.76);
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.3;
+}
+
+.intro-line{
+  margin:0;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.85;
+  font-weight:300;
+  letter-spacing:.02em;
+}
+
+.section{
+  margin-top:24px;
+  padding:28px;
+  border-radius:26px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+    rgba(40,45,42,0.76);
+  box-shadow:var(--shadow);
+}
+
+.section-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+
+.section-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.section-title{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(24px, 3.2vw, 38px);
+  line-height:1.08;
+  letter-spacing:-0.025em;
+}
+
+.section-note{
+  margin:10px 0 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:18px;
+}
+
+.shelf-grid{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+  gap:16px;
+}
+
+.spine-card{
+  position:relative;
+  min-height:360px;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)),
+    rgba(47,53,49,0.92);
+  box-shadow:var(--shadow);
+  transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.spine-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--line2);
+  box-shadow:0 22px 42px rgba(0,0,0,0.34);
+}
+
+.spine-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.32)),
+    var(--spine-image, linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)));
+  background-size:cover;
+  background-position:center;
+  opacity:.32;
+}
+
+.spine-card::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:16px;
+  width:1px;
+  background:rgba(217,202,162,0.22);
+}
+
+.spine-inner{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:360px;
+  padding:18px 18px 18px 30px;
+}
+
+.spine-top{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.spine-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.spine-title{
+  margin:0;
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:26px;
+  line-height:1.05;
+  letter-spacing:-0.03em;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  max-height:190px;
+}
+
+.spine-note{
+  color:rgba(198,190,176,0.78);
+  font-size:12px;
+  line-height:1.65;
+}
+
+.spine-meta{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  color:rgba(198,190,176,0.82);
+  font-size:12px;
+}
+
+.spine-badge{
+  display:inline-flex;
+  align-self:flex-start;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.09);
+  background:rgba(17,20,18,0.26);
+}
+
+.card{
+  background:
+    radial-gradient(circle at top right, rgba(199,168,107,0.1), transparent 35%),
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+    rgba(255,255,255,0.04);
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.card:hover{
+  transform: translateY(-3px);
+  border-color: var(--line2);
+  background:
+    radial-gradient(circle at top right, rgba(199,168,107,0.14), transparent 38%),
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+    rgba(255,255,255,0.055);
+}
+
+.cover{
+  width:100%;
+  height:220px;
+  background:#0b0b0b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid var(--line);
+}
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
+.card-body{
+  padding:16px 16px 18px;
+}
+
+.card-title{
+  font-family:var(--serif);
+  font-size:20px;
+  margin:0 0 8px;
+  line-height:1.24;
+  color:#e4dccd;
+}
+
+.card-body .subtle{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:4;
+  overflow:hidden;
+  color:var(--muted);
+}
+
+.card-body .subtle.subtle-empty{
+  -webkit-line-clamp:1;
+  min-height:1.35em;
+  opacity:0.38;
+}
+
+.meta{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.badge{
+  display:inline-block;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--muted-2);
+  font-size:12px;
+}
+
+.footer{
+  margin-top:40px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* Article detail */
+.article{
+  color:rgba(236,229,216,0.9);
+}
+.article h1{margin-top:8px}
+.article .subtle{
+  color:rgba(185,177,161,0.72);
+}
+.article img{
+  display:block;
+  max-width:100%;
+  width:auto;
+  height:auto;
+  margin:18px auto;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.05);
+  box-shadow:0 10px 24px rgba(0,0,0,.18);
+}
+.article pre{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
+  padding:14px;
+  border-radius:12px;
+  overflow:auto;
+  color:rgba(236,229,216,0.88);
+}
+.article code{
+  font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono",
+    "Segoe UI Mono",Consolas,monospace;
+}
+.article blockquote{
+  margin:14px 0;
+  padding:10px 14px;
+  border-left:3px solid rgba(199,168,107,.4);
+  color:rgba(198,190,176,0.86);
+  background:rgba(255,255,255,.02);
+  border-radius:10px;
+}
+
+.backbar{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.backbar a{
+  color:var(--muted);
+}
+.backbar a:hover{
+  color:var(--fg);
+  text-decoration:underline;
+}
+
+.article p a:hover,
+.article li a:hover,
+.article blockquote a:hover{
+  text-decoration:underline;
+}
+
+.read-tools{
+  position:fixed;
+  top:92px;
+  right:24px;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(33,38,35,.78);
+  backdrop-filter:blur(10px);
+  box-shadow:0 10px 24px rgba(0,0,0,.2);
+}
+
+.read-back{
+  color:var(--accent);
+  font-size:12px;
+  line-height:1;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.read-back:hover{
+  color:#d9caa2;
+  text-decoration:none;
+}
+
+.read-mode{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding-left:10px;
+  border-left:1px solid rgba(255,255,255,.08);
+}
+
+.mode-btn{
+  border:0;
+  background:transparent;
+  color:rgba(198,190,176,.72);
+  font-size:11px;
+  line-height:1;
+  padding:4px 6px;
+  border-radius:999px;
+  cursor:pointer;
+}
+
+.mode-btn.active{
+  color:var(--accent);
+  background:rgba(199,168,107,.12);
+}
+
+body.reading-soft .article{
+  color:rgba(224,216,202,0.82);
+}
+
+body.reading-soft .article .subtle{
+  color:rgba(185,177,161,0.64);
+}
+
+body.reading-soft .article pre{
+  background:rgba(255,255,255,.02);
+  border-color:rgba(255,255,255,.04);
+  color:rgba(224,216,202,0.82);
+}
+
+body.reading-soft .article blockquote{
+  color:rgba(191,183,170,0.78);
+  background:rgba(255,255,255,.015);
+}
+
+@media (max-width: 860px){
+  main{
+    width:min(100% - 28px, 760px);
+    padding:90px 0 56px;
+  }
+
+  .hero{
+    grid-template-columns:1fr;
+  }
+
+  .section{
+    padding:22px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .shelf-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:300px;
+  }
+
+  .spine-title{
+    font-size:23px;
+    max-height:160px;
+  }
+
+  .cover{
+    height:200px;
+  }
+
+  .read-tools{
+    top:84px;
+    right:14px;
+    padding:8px 10px;
+  }
+}
+
+@media (max-width: 560px){
+  main{
+    width:min(100% - 18px, 760px);
+    padding:78px 0 18px;
+  }
+
+  .hero{
+    padding:14px;
+    gap:12px;
+    border-radius:22px;
+  }
+
+  .hero-copy{
+    min-width:0;
+  }
+
+  .hero-subtitle{
+    font-size:15px;
+    line-height:1.6;
+    margin-top:8px;
+  }
+
+  .panel-card{
+    padding:14px;
+    border-radius:16px;
+  }
+
+  .panel-copy{
+    font-size:12px;
+  }
+
+  .panel-link{
+    padding:13px 14px 12px;
+  }
+
+  .panel-link-title{
+    font-size:17px;
+  }
+
+  .panel-quote{
+    display:none;
+  }
+
+  .section{
+    margin-top:14px;
+    padding:14px;
+    border-radius:20px;
+  }
+
+  .shelf-grid{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:126px;
+  }
+
+  .spine-card{
+    border-radius:18px;
+  }
+
+  .spine-inner{
+    padding:12px 12px 12px 16px;
+  }
+
+  .spine-top{
+    gap:6px;
+  }
+
+  .spine-title{
+    font-size:17px;
+    line-height:1.08;
+    writing-mode:horizontal-tb;
+    text-orientation:initial;
+    max-height:none;
+  }
+
+  .spine-note{
+    display:none;
+  }
+
+  .spine-meta{
+    gap:6px;
+  }
+
+  .spine-badge{
+    padding:2px 8px;
+    font-size:11px;
+  }
+
+  .read-tools{
+    left:14px;
+    right:auto;
+    max-width:calc(100% - 28px);
+  }
+}
+</style>
+</head>
+<body>
+  <div id="rr-nav-mount" data-current="articles"></div>
+
+  <main>
+    <div class="read-tools" aria-label="阅读工具">
+  <a class="read-back" href="/articles/misc.html">← 返回栏目</a>
+  <div class="read-mode" aria-label="阅读模式">
+    <button class="mode-btn active" data-read-mode="standard" type="button">标准</button>
+    <button class="mode-btn" data-read-mode="soft" type="button">柔和</button>
+  </div>
+</div>
+
+<article class="article">
+  <h1>半个世纪的午餐肉</h1>
+  <div class="subtle">2026-11-12</div>
+  <div style="height:14px"></div>
+  <p><img alt="梅林午餐肉" src="/articles/misc/20261112-午餐肉-1.jpg"></p>
+<p>偶然被友人问起：是否爱吃午餐肉。简简单单一句闲话变成一只无形的手，一把扯开了尘封数十年的时光帷幕。种种旧事琐事纷纷涌上心头。</p>
+<p>顺手检索早年微博，零零散散，竟有 N 多条字句为这罐头所写。不知不觉间，一罐午餐肉，似乎封藏了半生的记忆。</p>
+<p>六七十年代的上海，那是个物资匮乏、万事凭票的年代。衣食住行，柴米油盐，没有一样是可以随心所欲的。那时上海居民的肉供应，每人每月有半斤生肉指标。区区半斤肉，便是一整月所有的油水盼头。</p>
+<p>凭票供应并不意味着那个时代标榜的公平，有票便有肉。经历的人懂，纸面上的规则从来抵不过人间的人情与权衡。</p>
+<p>权与阶级不论，只说实打实的生活。肉票只限定数量，并不规定肥瘦、部位、新鲜。当年案板操刀卖肉的，拥有的是最底层、最接地气也最最实在的权力。同样半斤定额，会来事、有人脉、懂人情世故的市井人家，就能切到肥瘦相间的好肉、新鲜的腿肉；而那些拘谨木讷的知识分子、旧时小户人家、带着海外关系，或是身份敏感的普通百姓，纵然攥着珍贵的肉票，也往往只能分到满是肥膘、带骨杂碎的次货。</p>
+<p>那是很无奈的时代写照。后者这群夹着尾巴做人的人多少略有积蓄、甚至可能有比小市民尚可的一点收入，甚至手头有旁人没有的现金，却不懂市井的圆滑，也许可能有点点不屑，也不会经营柜台的人情往来。守着有限的肉票，拿到最差的肉，每月微薄的油水，还要被质量折损大半。日常饮食清苦寡淡，想要给生活添一点荤腥滋味，几乎别无选择。</p>
+<p>于是，不占肉票、价格昂贵、无人可以拿捏的罐头熟食，就成了这一群人的补偿。</p>
+<p>梅林午餐肉、红肠、方腿，这类熟食，脱离了计划供应的体系，不用排长队看人脸色，不用托人求关系，只要有钱就能买到。午餐肉罐头的肥瘦配比固定，口感稳定，开罐即食，不必面对切肉师傅随意的裁量。在那个处处受限的年代，这一罐小小的午餐肉，就从油水补充的吃食，升华成一份体面、一份从容，是普通人用钱换来的、不用看人脸色的温饱与欢喜。</p>
+<p>也正因如此，在六十、七十年代，能常吃梅林午餐肉的家庭，大致家境宽裕。它不是平民日常的粗茶淡饭，是物资紧张年代难得的“奢侈品”，是属于那个特定时代、特定人群的温柔念想。</p>
+<p><img alt="午餐肉面" src="/articles/misc/20261112-午餐肉-2.jpg"></p>
+<p>时隔数十年，想起当年采买的画面，依旧历历在目。</p>
+<p>那时候的上海市第一食品商店在南京路，如今最黄金的地段，紧挨着市百一店。店堂开阔，人声滚滚，和街头小副食店的气象全然不同。要找熟食和罐头，不能在门口柜台逗留，得往深处走，有两级台阶往下，熟食柜台就设在台阶那里，阴凉干爽，玻璃柜里整齐摆着红肠、方腿与各式卤味，是童年里最勾人的香气。我们总是先下台阶挑选熟食，再转到罐头柜台去买梅林午餐肉。</p>
+<p>父亲有一只黄绿色帆布军挎包，就是专门为这趟采购准备的。包的厚薄深浅，仿佛是为午餐肉量身做的，几罐整齐排开，稳稳当当，不会磕碰晃动。每周背着它去市百一店，装回来的不只是罐头，是一家人一整周珍贵的油水。这只挎包如今还留在上海老家，布面磨得发软，边角泛旧，装着一整段柔软的童年。还有一只全新未启用的，五十年后，安安静静在老去的箱子里，主人已然远去。</p>
+<p>光阴倏忽，半世岁月转瞬即逝。辗转旅居异国，早年的华人超市，还能见到熟悉的上海梅林罐头，一口下去，就能唤起儿时上海的旧味。可世事变迁，不知不觉，疫情前后，正规进口的国产梅林慢慢从美国货架上消失了。种种检疫和贸易规则的限制，让这陪伴一代人的老味道，远隔重洋，无处寻觅。</p>
+<p>找不到旧味，便只能在本地吃食里慢慢试错，慢慢寻找替代。</p>
+<p>说来颇有一番世事反差的趣味。美国的 SPAM 午餐肉，原本是二战时期的军供物资，战后流入民间，向来是当地普通百姓的平价吃食，绝对和精致美味毛线关系。试了好几个版本之后，屈尊 SPAM Lite，算是最合口味。少油少盐，褪去原版厚重的油脂，正好契合了年岁渐长之后的饮食习惯。</p>
+<p>它终究不是记忆里的梅林，没有老上海罐头独有的时代风味，却风云际会地接住了半世纪的情怀。</p>
+<p><img alt="SPAM Lite" src="/articles/misc/20261112-午餐肉-3.jpg"></p>
+<p>年少的时候，我们贪恋一罐午餐肉的油水香甜，用它填补物资匮乏的缺憾；年纪大了，执着于相近的口感，怀念的从来不是食物本身，而是那个艰难岁月里，难得的温暖与期盼。</p>
+<p>一饭一食，藏着岁月浮沉。一罐寻常午餐肉，穿过第一食品商店的老台阶，装过父亲的军用挎包，跨过半世时光，越过万里重洋。从年少稀缺的珍味，到暮年随手可得的吃食，味道在变，时代在变，唯独藏在味蕾深处的旧记忆，从未褪色。</p>
+<p>原来世间所有的执念，终究不是恋物，是怀旧，怀念那个简单的年代，和那个为一口荤腥满心欢喜的自己。</p>
+<hr>
+<p>原文发表于公众号「鸟人笔记」。</p>
+  <div class="backbar">
+    <a href="/articles/misc.html">← 返回本栏目</a>
+    <a href="/articles.html">← 返回随笔首页</a>
+  </div>
+</article>
+
+<script>
+  (function () {
+    const storageKey = 'rr-reading-mode';
+    const body = document.body;
+    const buttons = document.querySelectorAll('[data-read-mode]');
+
+    function applyMode(mode) {
+      body.classList.toggle('reading-soft', mode === 'soft');
+      buttons.forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.readMode === mode);
+      });
+    }
+
+    const saved = localStorage.getItem(storageKey) || 'standard';
+    applyMode(saved);
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.readMode || 'standard';
+        localStorage.setItem(storageKey, mode);
+        applyMode(mode);
+      });
+    });
+  })();
+</script>
+    <div class="footer">© 2026 RedRocks</div>
+  </main>
+
+  <script src="/nav.js" defer></script>
+</body>
+</html>
