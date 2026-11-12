@@ -31,7 +31,7 @@ CATEGORY_ZH_EN = {
     "photography": "摄影（Photography）",
     "buddhism": "佛法（Buddhism）",
     "misc": "杂文（Misc）",
-    "travel": "旅行（Travel）",
+    "travel": "旅行与回忆（Travel & Memories）",
     "tap": "TAP宇宙观（TAP）",
 }
 
@@ -39,7 +39,7 @@ CATEGORY_NOTES = {
     "photography": "以影像与器材、观察与心境，进入摄影这一侧的书写。",
     "buddhism": "从经文、修行与日常体会，进入佛法这一侧的书写。",
     "misc": "那些不容易归类，却始终在心里盘旋的问题与文字。",
-    "travel": "行走、所见与途中思绪，留给旅行这一册。",
+    "travel": "行走、所见与途中思绪，也保存旅途留下的回忆。",
     "tap": "关于时间、投影、结构与世界模型的长期思考。",
 }
 
@@ -1401,7 +1401,7 @@ def generate_main_index(categories: list[str], category_articles: dict[str, list
 </script>
 """.strip()
 
-    desc = f"RedRocks 随笔首页，以书脊式入口浏览摄影、杂文、佛法、旅行与 TAP，共 {total} 篇。"
+    desc = f"RedRocks 随笔首页，以书脊式入口浏览摄影、杂文、佛法、旅行与回忆、TAP，共 {total} 篇。"
     write_text(
         INDEX_OUT,
         wrap_page(
