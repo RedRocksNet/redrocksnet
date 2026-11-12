@@ -36,6 +36,9 @@ TRAVEL_CITIES = {
     "usa": [
         ("new-orleans", "新奥尔良", "密西西比河入海口的音乐、人物与城市记忆。"),
     ],
+    "americas": [
+        ("costa-rica", "哥斯达黎加", "热带雨林、鸟类与雨林深处的生命。"),
+    ],
 }
 
 IMG_EXTS = (".jpg", ".jpeg", ".png", ".gif", ".webp")
