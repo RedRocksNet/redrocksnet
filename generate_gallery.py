@@ -22,6 +22,17 @@ SERIES = [
     ("bw",        "黑白", "从三维世界到二维画面，从色彩缤纷到黑白灰，观察即抽象。"),
 ]
 
+TRAVEL_SUBSERIES = [
+    ("china",       "中国"),
+    ("usa",         "美国"),
+    ("europe",      "欧洲"),
+    ("asia",        "亚洲"),
+    ("africa",      "非洲"),
+    ("americas",    "南北美洲"),
+    ("oceania",     "大洋洲"),
+    ("antarctica",  "南极"),
+]
+
 IMG_EXTS = (".jpg", ".jpeg", ".png", ".gif", ".webp")
 COVER_CANDIDATES = ("cover.jpg", "cover.jpeg", "cover.png", "cover.webp", "cover.gif")
 
@@ -701,7 +712,51 @@ def build_archive_page() -> str:
     return page_wrap("图库 · 摄影作品", "gallery", body)
 
 
-def build_series_page(folder: str, name: str, motto: str) -> str:
+def build_travel_index_page() -> str:
+    cards = []
+    for slug, name in TRAVEL_SUBSERIES:
+        folder = f"walking/{slug}"
+        cover_src = pick_cover(folder)
+        if cover_src:
+            cover_html = f'<div class="series-cover"><img src="{html.escape(cover_src)}" alt="cover"></div>'
+        else:
+            cover_html = '<div class="series-cover"></div>'
+        count = len(list_images(IMAGES_ROOT / folder))
+        cards.append(f"""
+<a class="series-card" href="gallery-walking-{slug}.html">
+  {cover_html}
+  <div class="series-meta">
+    <div class="series-title">{html.escape(name)}</div>
+    <div class="subtle">目的地记录，等待逐步建立。</div>
+    <div class="subtle" style="margin-top:8px;">{count} 张</div>
+  </div>
+</a>
+""".strip())
+
+    body = f"""
+<section class="hero">
+  <div class="hero-copy">
+    <h1 class="hero-title">旅行记录<span>按大板块与目的地慢慢建立</span></h1>
+  </div>
+
+  <div class="hero-panel">
+    <a class="panel-card" href="gallery.html">
+      <div class="panel-label">Back</div>
+      <p class="panel-copy">← 返回摄影系列</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="series-grid">
+    {''.join(cards)}
+  </div>
+</section>
+""".strip()
+    return page_wrap("旅行记录 · 摄影作品", "gallery", body)
+
+
+def build_series_page(folder: str, name: str, motto: str, back_href: str = "gallery.html") -> str:
     imgs = collect_root_images() if folder == "inbox" else list_images(IMAGES_ROOT / folder)
     captions = load_captions()
 
@@ -723,6 +778,8 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
     js_array = json.dumps(image_paths, ensure_ascii=False)
     js_captions = json.dumps(captions, ensure_ascii=False)
 
+    image_content = ''.join(thumbs) if thumbs else '<p class="subtle">栏目图片暂空，待后续添加。</p>'
+
     body = f"""
 <section class="hero">
   <div class="hero-copy">
@@ -730,7 +787,7 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
   </div>
 
   <div class="hero-panel">
-    <a class="panel-card" href="gallery.html">
+    <a class="panel-card" href="{html.escape(back_href)}">
       <div class="panel-label">Back</div>
       <p class="panel-copy">← 返回系列目录</p>
     </a>
@@ -739,7 +796,7 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
 
 <section class="section">
   <div class="thumb-grid">
-    {''.join(thumbs)}
+    {image_content}
   </div>
 </section>
 
@@ -808,12 +865,29 @@ def main():
 
     for folder, name, motto in SERIES:
         out = ROOT / f"gallery-{folder}.html"
-        out.write_text(build_series_page(folder, name, motto), encoding="utf-8")
+        if folder == "walking":
+            out.write_text(build_travel_index_page(), encoding="utf-8")
+        else:
+            out.write_text(build_series_page(folder, name, motto), encoding="utf-8")
+
+    for slug, name in TRAVEL_SUBSERIES:
+        out = ROOT / f"gallery-walking-{slug}.html"
+        out.write_text(
+            build_series_page(
+                f"walking/{slug}",
+                name,
+                "栏目图片暂空，之后可继续按国家或城市添加。",
+                "gallery-walking.html",
+            ),
+            encoding="utf-8",
+        )
 
     print("✅ Gallery series pages generated:")
     print(" - gallery.html")
     for folder, _, _ in SERIES:
         print(f" - gallery-{folder}.html")
+    for slug, _ in TRAVEL_SUBSERIES:
+        print(f" - gallery-walking-{slug}.html")
 
 
 if __name__ == "__main__":

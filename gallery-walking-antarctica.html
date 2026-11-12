@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>南极 · 摄影作品</title>
+  <link rel="stylesheet" href="/nav.css">
+  <style>
+    :root {
+      --bg: #171a19;
+      --panel: rgba(43, 48, 44, 0.8);
+      --panel-strong: rgba(49, 55, 50, 0.9);
+      --line: rgba(215, 201, 165, 0.12);
+      --line-strong: rgba(215, 201, 165, 0.22);
+      --text: #ebe5d8;
+      --muted: #b9b1a1;
+      --accent: #c7a86b;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.18);
+      --serif: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", "Book Antiqua", "Songti SC", "STSong", serif;
+      --sans: "Avenir Next", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+    }
+
+    body {
+      color: var(--text);
+      font-family: var(--sans);
+      background:
+        linear-gradient(180deg, rgba(23, 26, 25, 0.72), rgba(23, 26, 25, 0.92)),
+        radial-gradient(circle at top, rgba(111, 138, 114, 0.12), transparent 28%),
+        linear-gradient(180deg, #191d1b 0%, #1c211f 32%, #232826 100%);
+      letter-spacing: 0.01em;
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.014) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+      background-size: 100% 34px, 34px 100%;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.34), transparent 78%);
+      opacity: 0.18;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 96px 0 64px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-family: var(--serif);
+      font-size: clamp(28px, 4.8vw, 48px);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+
+    .subtle {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.24fr) minmax(240px, 0.76fr);
+      gap: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(50, 56, 51, 0.92), rgba(31, 35, 33, 0.88)),
+        var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-minimal {
+      display: block;
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+        rgba(40, 45, 42, 0.76);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-minimal::after {
+      display: none;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -14% -34% 30%;
+      height: 320px;
+      background: radial-gradient(circle, rgba(199, 168, 107, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-copy,
+    .hero-panel {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background: rgba(199, 168, 107, 0.5);
+    }
+
+    .hero-title span {
+      display: inline;
+      color: rgba(185, 177, 161, 0.62);
+      font-size: 0.5em;
+      font-weight: 400;
+      margin-left: 10px;
+      letter-spacing: 0;
+    }
+
+    .hero-panel {
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .panel-card {
+      display: block;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+        var(--panel-strong);
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+    .panel-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(217, 202, 162, 0.24);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+        rgba(55, 61, 56, 0.92);
+    }
+
+    .panel-label {
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .panel-copy {
+      margin: 0;
+      color: rgba(198, 190, 176, 0.8);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .panel-quote {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.28;
+      color: rgba(224, 214, 194, 0.76);
+    }
+
+    .hero-line {
+      margin: 0;
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 20px;
+      line-height: 1.35;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding: 28px;
+      border-radius: 26px;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+        rgba(40, 45, 42, 0.76);
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      margin-bottom: 22px;
+    }
+
+    .section-kicker {
+      color: var(--accent);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.4vw, 42px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      text-wrap: balance;
+    }
+
+    /* ===== Series grid (index) ===== */
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .series-card {
+      background:
+        radial-gradient(circle at top right, rgba(199, 168, 107, 0.1), transparent 35%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+        rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 22px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease;
+    }
+
+    .series-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(217, 202, 162, 0.28);
+      background:
+        radial-gradient(circle at top right, rgba(199, 168, 107, 0.14), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+        rgba(255,255,255,0.055);
+    }
+
+    /* cover frame keeps consistent grid height,
+       but image keeps original aspect ratio (no crop) */
+    .series-cover {
+      width: 100%;
+      height: 260px;
+      background: #0b0b0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .series-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .series-meta {
+      padding: 18px 18px 20px;
+    }
+
+    .series-title {
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.12;
+      margin: 0 0 6px;
+      color: #d8d0c1;
+    }
+
+    .series-meta .subtle {
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    /* ===== Thumbnails (series page) ===== */
+    .thumb-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .thumb {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 18px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .thumb:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .thumb-frame {
+      width: 100%;
+      height: 260px;
+      background: #0b0b0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .thumb-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* keep aspect ratio */
+      display: block;
+    }
+
+    .thumb-caption {
+      padding: 10px 14px 12px;
+      color: #9f998e;
+      font-family: var(--serif);
+      font-size: 13px;
+      line-height: 1.55;
+      letter-spacing: 0.02em;
+    }
+
+    .backlink {
+      margin-top: 18px;
+    }
+
+    .backlink a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .backlink a:hover {
+      color: var(--text);
+      text-decoration: underline;
+    }
+
+    /* ===== Lightbox ===== */
+    #lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      padding-top: 60px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.92);
+      box-sizing: border-box;
+    }
+
+    #lightbox #lightbox-img {
+      display: block;
+      margin: 0 auto;
+      max-width: 92vw;
+      max-height: 88vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    #lightbox-caption {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 96px));
+      color: rgba(235, 229, 216, 0.72);
+      font-family: var(--serif);
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: center;
+      letter-spacing: 0.03em;
+    }
+
+    #lightbox .close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #lightbox .nav-btn {
+      position: absolute;
+      top: 50%;
+      font-size: 60px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      padding: 10px;
+      transform: translateY(-50%);
+    }
+
+    #lightbox .prev { left: 20px; }
+    #lightbox .next { right: 20px; }
+
+    .footer {
+      margin-top: 40px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .series-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      main {
+        width: min(100% - 20px, 1180px);
+        padding-top: 82px;
+        padding-bottom: 42px;
+      }
+
+      .hero,
+      .section {
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      .hero-title {
+        font-size: clamp(34px, 11vw, 54px);
+      }
+
+      .series-cover,
+      .thumb-frame {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="rr-nav-mount" data-current="gallery"></div>
+  <main>
+    <section class="hero">
+  <div class="hero-copy">
+    <h1 class="hero-title">南极<span>栏目图片暂空，之后可继续按国家或城市添加。</span></h1>
+  </div>
+
+  <div class="hero-panel">
+    <a class="panel-card" href="gallery-walking.html">
+      <div class="panel-label">Back</div>
+      <p class="panel-copy">← 返回系列目录</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="thumb-grid">
+    <p class="subtle">栏目图片暂空，待后续添加。</p>
+  </div>
+</section>
+
+<div id="lightbox">
+  <span class="close" onclick="closeLightbox()">&times;</span>
+  <span class="nav-btn prev" onclick="changeImage(-1)">&#10094;</span>
+  <img id="lightbox-img" src="">
+  <div id="lightbox-caption"></div>
+  <span class="nav-btn next" onclick="changeImage(1)">&#10095;</span>
+</div>
+
+<script>
+  let images = [];
+  let captions = {};
+  let currentIndex = 0;
+
+  function showCurrentImage() {
+    const src = images[currentIndex];
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = captions[src] || '';
+  }
+
+  function openLightbox(src) {
+    currentIndex = images.indexOf(src);
+    document.getElementById('lightbox').style.display = "block";
+    showCurrentImage();
+    const el = document.documentElement;
+    if (el.requestFullscreen) {
+      el.requestFullscreen().catch(() => {});
+    }
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = "none";
+    if (document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+
+  function changeImage(direction) {
+    if (!images.length) return;
+    currentIndex = (currentIndex + direction + images.length) % images.length;
+    showCurrentImage();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    const lb = document.getElementById('lightbox');
+    if (lb.style.display !== 'block') return;
+
+    if (e.key === 'ArrowRight') {
+      changeImage(1);
+    } else if (e.key === 'ArrowLeft') {
+      changeImage(-1);
+    } else if (e.key === ' ' || e.key === 'Escape') {
+      closeLightbox();
+    }
+  });
+</script>
+    <div class="footer">© RedRocks</div>
+  </main>
+  <script src="/nav.js" defer></script>
+</body>
+</html>
