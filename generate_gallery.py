@@ -880,11 +880,16 @@ def main():
 
     for slug, name in TRAVEL_SUBSERIES:
         out = ROOT / f"gallery-walking-{slug}.html"
+        motto = (
+            "在风与冰之间，世界退回最原初的尺度。"
+            if slug == "polar"
+            else "栏目图片暂空，之后可继续按国家或城市添加。"
+        )
         out.write_text(
             build_series_page(
                 f"walking/{slug}",
                 name,
-                "栏目图片暂空，之后可继续按国家或城市添加。",
+                motto,
                 "gallery-walking.html",
             ),
             encoding="utf-8",
