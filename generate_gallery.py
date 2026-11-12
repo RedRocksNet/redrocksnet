@@ -18,7 +18,6 @@ SERIES = [
     ("walking",   "旅行记录", "按目的地整理行走与记忆。"),
     ("human",     "人间", "世界不是风景，是众生。"),
     ("nature",    "自然", "山水不只是风景，万物各有其意。"),
-    ("polar",     "极地", "在风与冰之间，世界退回最原初的尺度。"),
     ("bw",        "黑白", "从三维世界到二维画面，从色彩缤纷到黑白灰，观察即抽象。"),
 ]
 
@@ -30,7 +29,7 @@ TRAVEL_SUBSERIES = [
     ("africa",      "非洲"),
     ("americas",    "南北美洲"),
     ("oceania",     "大洋洲"),
-    ("antarctica",  "南极"),
+    ("polar",      "极地"),
 ]
 
 IMG_EXTS = (".jpg", ".jpeg", ".png", ".gif", ".webp")
@@ -610,7 +609,7 @@ def build_index() -> str:
 
   <div class="hero-panel">
     <div class="panel-card">
-      <p class="panel-copy">静观、旅行记录、人间、自然、极地与黑白，不是分类，而是几种不同的目光。</p>
+      <p class="panel-copy">静观、旅行记录、人间、自然与黑白，不是分类，而是几种不同的目光。</p>
       <p class="panel-quote" style="margin-top: 10px;">让图像先说话。</p>
     </div>
   </div>
