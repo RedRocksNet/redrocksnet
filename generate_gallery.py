@@ -559,32 +559,6 @@ def page_wrap(title: str, current: str, body_html: str) -> str:
 
 def build_index() -> str:
     cards = []
-    archive_images = []
-    for folder, _, _ in SERIES:
-        if folder == "inbox":
-            continue
-        archive_images.extend(list_images(IMAGES_ROOT / folder))
-
-    archive_cover = ""
-    if archive_images:
-        first = archive_images[0]
-        archive_cover = f"images/{first.parent.name}/{first.name}"
-    archive_cover_html = (
-        f'<div class="series-cover"><img src="{html.escape(archive_cover)}" alt="cover"></div>'
-        if archive_cover
-        else '<div class="series-cover"></div>'
-    )
-    cards.append(f"""
-<a class="series-card" href="gallery-archive.html">
-  {archive_cover_html}
-  <div class="series-meta">
-    <div class="series-title">图库</div>
-    <div class="subtle">全部摄影作品，按图像集中浏览。</div>
-    <div class="subtle" style="margin-top:8px;">{len(archive_images)} 张</div>
-  </div>
-</a>
-""".strip())
-
     for folder, name, motto in SERIES:
         if folder == "inbox":
             continue
@@ -831,7 +805,6 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
 
 def main():
     OUTPUT_INDEX.write_text(build_index(), encoding="utf-8")
-    (ROOT / "gallery-archive.html").write_text(build_archive_page(), encoding="utf-8")
 
     for folder, name, motto in SERIES:
         out = ROOT / f"gallery-{folder}.html"
@@ -839,7 +812,6 @@ def main():
 
     print("✅ Gallery series pages generated:")
     print(" - gallery.html")
-    print(" - gallery-archive.html")
     for folder, _, _ in SERIES:
         print(f" - gallery-{folder}.html")
 
