@@ -15,7 +15,7 @@ SITE_TITLE = "RedRocks"
 SERIES = [
     ("inbox",     "新图暂存", "尚未正式归类的新图，先发布，后整理。"),
     ("stillness", "静观", "世界不要求回应"),
-    ("walking",   "行走", "身体在路上，心在当下。"),
+    ("walking",   "旅行记录", "按目的地整理行走与记忆。"),
     ("human",     "人间", "世界不是风景，是众生。"),
     ("nature",    "自然", "山水不只是风景，万物各有其意。"),
     ("polar",     "极地", "在风与冰之间，世界退回最原初的尺度。"),
@@ -590,7 +590,7 @@ def build_index() -> str:
 
   <div class="hero-panel">
     <div class="panel-card">
-      <p class="panel-copy">静观、行走、人间、自然、极地与黑白，不是分类，而是几种不同的目光。</p>
+      <p class="panel-copy">静观、旅行记录、人间、自然、极地与黑白，不是分类，而是几种不同的目光。</p>
       <p class="panel-quote" style="margin-top: 10px;">让图像先说话。</p>
     </div>
   </div>
