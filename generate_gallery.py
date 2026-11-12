@@ -559,6 +559,32 @@ def page_wrap(title: str, current: str, body_html: str) -> str:
 
 def build_index() -> str:
     cards = []
+    archive_images = []
+    for folder, _, _ in SERIES:
+        if folder == "inbox":
+            continue
+        archive_images.extend(list_images(IMAGES_ROOT / folder))
+
+    archive_cover = ""
+    if archive_images:
+        first = archive_images[0]
+        archive_cover = f"images/{first.parent.name}/{first.name}"
+    archive_cover_html = (
+        f'<div class="series-cover"><img src="{html.escape(archive_cover)}" alt="cover"></div>'
+        if archive_cover
+        else '<div class="series-cover"></div>'
+    )
+    cards.append(f"""
+<a class="series-card" href="gallery-archive.html">
+  {archive_cover_html}
+  <div class="series-meta">
+    <div class="series-title">图库</div>
+    <div class="subtle">全部摄影作品，按图像集中浏览。</div>
+    <div class="subtle" style="margin-top:8px;">{len(archive_images)} 张</div>
+  </div>
+</a>
+""".strip())
+
     for folder, name, motto in SERIES:
         if folder == "inbox":
             continue
@@ -604,6 +630,101 @@ def build_index() -> str:
 """.strip()
 
     return page_wrap("摄影作品", "gallery", body)
+
+
+def build_archive_page() -> str:
+    captions = load_captions()
+    image_paths = []
+    thumbs = []
+
+    for folder, _, _ in SERIES:
+        if folder == "inbox":
+            continue
+        for p in list_images(IMAGES_ROOT / folder):
+            src = f"images/{folder}/{p.name}"
+            image_paths.append(src)
+            caption = str(captions.get(src, "")).strip()
+            caption_html = f'<div class="thumb-caption">{html.escape(caption)}</div>' if caption else ""
+            thumbs.append(f"""
+<div class="thumb" onclick="openLightbox('{html.escape(src)}')">
+  <div class="thumb-frame">
+    <img src="{html.escape(src)}" alt="{html.escape(caption)}">
+  </div>
+  {caption_html}
+</div>
+""".strip())
+
+    js_array = json.dumps(image_paths, ensure_ascii=False)
+    js_captions = json.dumps(captions, ensure_ascii=False)
+    body = f"""
+<section class="hero">
+  <div class="hero-copy">
+    <h1 class="hero-title">图库<span>全部摄影作品的集中观看</span></h1>
+  </div>
+
+  <div class="hero-panel">
+    <a class="panel-card" href="gallery.html">
+      <div class="panel-label">Back</div>
+      <p class="panel-copy">← 返回摄影系列</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="thumb-grid">
+    {''.join(thumbs)}
+  </div>
+</section>
+
+<div id="lightbox">
+  <span class="close" onclick="closeLightbox()">&times;</span>
+  <span class="nav-btn prev" onclick="changeImage(-1)">&#10094;</span>
+  <img id="lightbox-img" src="">
+  <div id="lightbox-caption"></div>
+  <span class="nav-btn next" onclick="changeImage(1)">&#10095;</span>
+</div>
+
+<script>
+  let images = {js_array};
+  let captions = {js_captions};
+  let currentIndex = 0;
+
+  function showCurrentImage() {{
+    const src = images[currentIndex];
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = captions[src] || '';
+  }}
+
+  function openLightbox(src) {{
+    currentIndex = images.indexOf(src);
+    document.getElementById('lightbox').style.display = "block";
+    showCurrentImage();
+    const el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen().catch(() => {{}});
+  }}
+
+  function closeLightbox() {{
+    document.getElementById('lightbox').style.display = "none";
+    if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {{}});
+  }}
+
+  function changeImage(direction) {{
+    if (!images.length) return;
+    currentIndex = (currentIndex + direction + images.length) % images.length;
+    showCurrentImage();
+  }}
+
+  document.addEventListener('keydown', function(e) {{
+    const lb = document.getElementById('lightbox');
+    if (lb.style.display !== 'block') return;
+    if (e.key === 'ArrowRight') changeImage(1);
+    else if (e.key === 'ArrowLeft') changeImage(-1);
+    else if (e.key === ' ' || e.key === 'Escape') closeLightbox();
+  }});
+</script>
+""".strip()
+
+    return page_wrap("图库 · 摄影作品", "gallery", body)
 
 
 def build_series_page(folder: str, name: str, motto: str) -> str:
@@ -710,6 +831,7 @@ def build_series_page(folder: str, name: str, motto: str) -> str:
 
 def main():
     OUTPUT_INDEX.write_text(build_index(), encoding="utf-8")
+    (ROOT / "gallery-archive.html").write_text(build_archive_page(), encoding="utf-8")
 
     for folder, name, motto in SERIES:
         out = ROOT / f"gallery-{folder}.html"
@@ -717,6 +839,7 @@ def main():
 
     print("✅ Gallery series pages generated:")
     print(" - gallery.html")
+    print(" - gallery-archive.html")
     for folder, _, _ in SERIES:
         print(f" - gallery-{folder}.html")
 
