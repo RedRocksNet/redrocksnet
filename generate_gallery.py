@@ -32,6 +32,12 @@ TRAVEL_SUBSERIES = [
     ("polar",      "极地"),
 ]
 
+TRAVEL_CITIES = {
+    "usa": [
+        ("new-orleans", "新奥尔良", "密西西比河入海口的音乐、人物与城市记忆。"),
+    ],
+}
+
 IMG_EXTS = (".jpg", ".jpeg", ".png", ".gif", ".webp")
 COVER_CANDIDATES = ("cover.jpg", "cover.jpeg", "cover.png", "cover.webp", "cover.gif")
 
@@ -51,6 +57,14 @@ def list_images(folder: Path):
         return []
     imgs = [p for p in folder.iterdir() if p.is_file() and p.suffix.lower() in IMG_EXTS]
     imgs.sort(key=lambda p: p.name.lower())
+    return imgs
+
+
+def list_images_recursive(folder: Path):
+    if not folder.exists() or not folder.is_dir():
+        return []
+    imgs = [p for p in folder.rglob("*") if p.is_file() and p.suffix.lower() in IMG_EXTS]
+    imgs.sort(key=lambda p: p.as_posix().lower())
     return imgs
 
 
@@ -78,6 +92,9 @@ def pick_cover(folder: str):
     imgs = list_images(series_dir)
     if imgs:
         return f"images/{folder}/{imgs[0].name}"
+    nested = list_images_recursive(series_dir)
+    if nested:
+        return f"images/{nested[0].relative_to(IMAGES_ROOT).as_posix()}"
     return ""
 
 
@@ -578,7 +595,7 @@ def build_index() -> str:
             imgs = [
                 p
                 for slug, _ in TRAVEL_SUBSERIES
-                for p in list_images(IMAGES_ROOT / "walking" / slug)
+                for p in list_images_recursive(IMAGES_ROOT / "walking" / slug)
             ]
         else:
             imgs = list_images(IMAGES_ROOT / folder)
@@ -633,8 +650,8 @@ def build_archive_page() -> str:
     for folder, _, _ in SERIES:
         if folder == "inbox":
             continue
-        for p in list_images(IMAGES_ROOT / folder):
-            src = f"images/{folder}/{p.name}"
+        for p in list_images_recursive(IMAGES_ROOT / folder):
+            src = f"images/{p.relative_to(IMAGES_ROOT).as_posix()}"
             image_paths.append(src)
             caption = str(captions.get(src, "")).strip()
             caption_html = f'<div class="thumb-caption">{html.escape(caption)}</div>' if caption else ""
@@ -729,7 +746,7 @@ def build_travel_index_page() -> str:
             cover_html = f'<div class="series-cover"><img src="{html.escape(cover_src)}" alt="cover"></div>'
         else:
             cover_html = '<div class="series-cover"></div>'
-        count = len(list_images(IMAGES_ROOT / folder))
+        count = len(list_images_recursive(IMAGES_ROOT / folder))
         cards.append(f"""
 <a class="series-card" href="gallery-walking-{slug}.html">
   {cover_html}
@@ -762,6 +779,51 @@ def build_travel_index_page() -> str:
 </section>
 """.strip()
     return page_wrap("旅行记录 · 摄影作品", "gallery", body)
+
+
+def build_travel_country_page(slug: str, name: str) -> str:
+    cities = TRAVEL_CITIES.get(slug, [])
+    cards = []
+    for city_slug, city_name, motto in cities:
+        folder = f"walking/{slug}/{city_slug}"
+        cover_src = pick_cover(folder)
+        cover_html = (
+            f'<div class="series-cover"><img src="{html.escape(cover_src)}" alt="{html.escape(city_name)}"></div>'
+            if cover_src else '<div class="series-cover"></div>'
+        )
+        count = len(list_images_recursive(IMAGES_ROOT / folder))
+        cards.append(f"""
+<a class="series-card" href="gallery-walking-{slug}-{city_slug}.html">
+  {cover_html}
+  <div class="series-meta">
+    <div class="series-title">{html.escape(city_name)}</div>
+    <div class="subtle">{html.escape(motto)}</div>
+    <div class="subtle" style="margin-top:8px;">{count} 张</div>
+  </div>
+</a>
+""".strip())
+
+    body = f"""
+<section class="hero">
+  <div class="hero-copy">
+    <h1 class="hero-title">{html.escape(name)}<span>按城市逐步整理</span></h1>
+  </div>
+
+  <div class="hero-panel">
+    <a class="panel-card" href="gallery-walking.html">
+      <div class="panel-label">Back</div>
+      <p class="panel-copy">← 返回旅行记录</p>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="series-grid">
+    {''.join(cards) or '<p class="subtle">城市栏目暂空，待后续添加。</p>'}
+  </div>
+</section>
+""".strip()
+    return page_wrap(f"{name} · 旅行记录", "gallery", body)
 
 
 def build_series_page(folder: str, name: str, motto: str, back_href: str = "gallery.html") -> str:
@@ -885,15 +947,31 @@ def main():
             if slug == "polar"
             else "栏目图片暂空，之后可继续按国家或城市添加。"
         )
-        out.write_text(
-            build_series_page(
-                f"walking/{slug}",
-                name,
-                motto,
-                "gallery-walking.html",
-            ),
-            encoding="utf-8",
-        )
+        if slug in TRAVEL_CITIES:
+            out.write_text(build_travel_country_page(slug, name), encoding="utf-8")
+        else:
+            out.write_text(
+                build_series_page(
+                    f"walking/{slug}",
+                    name,
+                    motto,
+                    "gallery-walking.html",
+                ),
+                encoding="utf-8",
+            )
+
+    for country_slug, cities in TRAVEL_CITIES.items():
+        for city_slug, city_name, motto in cities:
+            out = ROOT / f"gallery-walking-{country_slug}-{city_slug}.html"
+            out.write_text(
+                build_series_page(
+                    f"walking/{country_slug}/{city_slug}",
+                    city_name,
+                    motto,
+                    f"gallery-walking-{country_slug}.html",
+                ),
+                encoding="utf-8",
+            )
 
     print("✅ Gallery series pages generated:")
     print(" - gallery.html")
@@ -901,6 +979,9 @@ def main():
         print(f" - gallery-{folder}.html")
     for slug, _ in TRAVEL_SUBSERIES:
         print(f" - gallery-walking-{slug}.html")
+    for country_slug, cities in TRAVEL_CITIES.items():
+        for city_slug, _, _ in cities:
+            print(f" - gallery-walking-{country_slug}-{city_slug}.html")
 
 
 if __name__ == "__main__":
