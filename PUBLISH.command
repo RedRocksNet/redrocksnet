@@ -9,11 +9,10 @@ echo "Working folder: $WORKDIR"
 echo
 
 # =========================
-# Stage 0: Preflight resize (JPG only, in-place, long edge <= 2000)
+# Stage 0: Preflight resize (site images, in-place, long edge <= 2000)
 # =========================
 MAX_SIZE=2000
 JPEG_QUALITY=90
-MAKE_BACKUP=1   # 1 = keep a .orig backup beside the file the first time we resize it; 0 = no backup
 
 # If this folder is a git repo, use repo root; otherwise just use WORKDIR
 if git_root="$(git rev-parse --show-toplevel 2>/dev/null)"; then
@@ -23,64 +22,48 @@ else
 fi
 
 IMAGES_DIR="$ROOT/images"
+ARTICLES_DIR="$ROOT/articles"
 
-if [ ! -d "$IMAGES_DIR" ]; then
-  echo "⚠️  Preflight: images folder not found at: $IMAGES_DIR"
-  echo "    Skipping resize stage."
-  echo
-else
-  echo "🔎 Preflight: scanning JPG/JPEG under:"
-  echo "    $IMAGES_DIR"
+if ! command -v sips >/dev/null 2>&1; then
+  echo "❌ 'sips' not found (unexpected on macOS). Cannot resize."
+  exit 1
+fi
+
+resized_count=0
+scanned_count=0
+
+resize_tree() {
+  local scan_dir="$1"
+  local label="$2"
+  [ -d "$scan_dir" ] || return 0
+
+  echo "🔎 Preflight: scanning ${label}:"
+  echo "    $scan_dir"
   echo "    Rule: long edge <= ${MAX_SIZE}px (resize down if larger)"
-  echo
 
-  if ! command -v sips >/dev/null 2>&1; then
-    echo "❌ 'sips' not found (unexpected on macOS). Cannot resize."
-    exit 1
-  fi
-
-  resized_count=0
-  scanned_count=0
-
-  # Recursively find JPG/JPEG, safe with spaces (null-delimited)
   while IFS= read -r -d '' f; do
     scanned_count=$((scanned_count+1))
-
-    # Read dimensions
     w="$(sips -g pixelWidth  "$f" 2>/dev/null | awk '/pixelWidth/  {print $2}')"
     h="$(sips -g pixelHeight "$f" 2>/dev/null | awk '/pixelHeight/ {print $2}')"
 
-    # If we couldn't read dimensions, skip
     if [[ -z "$w" || -z "$h" ]]; then
       echo "⚠️  Skip (cannot read size): ${f#$ROOT/}"
       continue
     fi
 
-    # Determine long edge
-    if (( w >= h )); then
-      long="$w"
-    else
-      long="$h"
-    fi
+    if (( w >= h )); then long="$w"; else long="$h"; fi
 
     if (( long > MAX_SIZE )); then
       echo "↘️  Resize: ${f#$ROOT/}  (${w}x${h} -> long=${MAX_SIZE})"
-
-      # optional one-time backup
-      if (( MAKE_BACKUP == 1 )) && [ ! -f "${f}.orig" ]; then
-        cp -p "$f" "${f}.orig"
-      fi
-
-      # Write to temp then atomic replace
-      tmp="${f}.tmp_resize.jpg"
+      ext="${f##*.}"
+      tmp="${f}.tmp_resize.${ext}"
       rm -f "$tmp"
-
-      # -Z sets max dimension; --out writes new file
       sips -Z "$MAX_SIZE" "$f" --out "$tmp" >/dev/null
 
-      # Optional: enforce JPEG quality using ImageMagick if available
-      if command -v magick >/dev/null 2>&1; then
-        tmp2="${f}.tmp_resize_q.jpg"
+      # Recompress JPEGs when ImageMagick is available; keep PNG format unchanged.
+      ext_lower="$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
+      if command -v magick >/dev/null 2>&1 && [[ "$ext_lower" == "jpg" || "$ext_lower" == "jpeg" ]]; then
+        tmp2="${f}.tmp_resize_q.${ext}"
         rm -f "$tmp2"
         magick "$tmp" -quality "$JPEG_QUALITY" "$tmp2"
         mv -f "$tmp2" "$tmp"
@@ -89,12 +72,15 @@ else
       mv -f "$tmp" "$f"
       resized_count=$((resized_count+1))
     fi
-  done < <(find "$IMAGES_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" \) -print0)
+  done < <(find "$scan_dir" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -print0)
+}
 
-  echo
-  echo "✅ Preflight done: scanned ${scanned_count}, resized ${resized_count}."
-  echo
-fi
+resize_tree "$IMAGES_DIR" "JPG/JPEG/PNG under images"
+resize_tree "$ARTICLES_DIR" "JPG/JPEG/PNG under articles"
+
+echo
+echo "✅ Preflight done: scanned ${scanned_count}, resized ${resized_count}."
+echo
 # =========================
 # End Stage 0
 # =========================
