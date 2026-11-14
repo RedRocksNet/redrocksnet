@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="她的孩子们 · RedRocks" />
+  <link rel="canonical" href="https://www.redrocks.net/articles/travel/20261114-她的孩子们.html" />
+  <meta property="og:site_name" content="RedRocks" />
+  <meta property="og:title" content="她的孩子们 · RedRocks" />
+  <meta property="og:description" content="她的孩子们 · RedRocks" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.redrocks.net/articles/travel/20261114-她的孩子们.html" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="她的孩子们 · RedRocks" />
+  <meta name="twitter:description" content="她的孩子们 · RedRocks" />
+  <title>她的孩子们 · RedRocks</title>
+  <link rel="stylesheet" href="/nav.css">
+  <style>
+:root{
+  --bg:#111412;
+  --fg:#f3eee4;
+  --muted:#b9b1a1;
+  --muted-2:rgba(198,190,176,0.8);
+  --accent:#c7a86b;
+  --card:rgba(255,255,255,0.04);
+  --line:rgba(255,255,255,0.06);
+  --line2:rgba(217,202,162,0.22);
+  --panel:rgba(44,50,46,0.82);
+  --panel-strong:rgba(55,61,56,0.9);
+  --shadow:0 18px 40px rgba(0,0,0,0.28);
+  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua","Noto Serif SC","Songti SC","STSong",serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Roboto,
+    "PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--fg);
+  line-height:1.75;
+}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:none}
+
+main{
+  width:min(1180px, calc(100% - 32px));
+  margin:0 auto;
+  padding:96px 0 64px; /* space for fixed nav */
+}
+
+h1{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(30px, 4.8vw, 50px);
+  line-height:1.04;
+  letter-spacing:-0.03em;
+}
+
+.hero-subtitle{
+  margin:10px 0 0;
+  color:rgba(198,190,176,0.72);
+  font-size:17px;
+  line-height:1.7;
+  font-weight:300;
+  letter-spacing:.01em;
+}
+
+.subtle{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.65;
+}
+
+.hero{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0, 1.22fr) minmax(240px, 0.78fr);
+  gap:18px;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:
+    linear-gradient(135deg, rgba(50,56,51,0.92), rgba(31,35,33,0.88)),
+    var(--panel);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:auto -14% -34% 30%;
+  height:320px;
+  background:radial-gradient(circle, rgba(199,168,107,0.12), transparent 70%);
+  pointer-events:none;
+}
+
+.hero-copy,
+.hero-panel{
+  position:relative;
+  z-index:1;
+}
+
+.hero-panel{
+  display:grid;
+  gap:14px;
+  align-content:start;
+}
+
+.hero-line{
+  margin:0;
+  color:var(--muted);
+  font-family:var(--serif);
+  font-size:22px;
+  line-height:1.42;
+  font-weight:400;
+  letter-spacing:-0.01em;
+}
+
+.panel-card{
+  display:block;
+  padding:14px 16px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+    var(--panel-strong);
+  text-decoration:none;
+  color:inherit;
+}
+
+.panel-label{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.panel-copy{
+  margin:0;
+  color:var(--muted-2);
+  font-size:12px;
+  line-height:1.6;
+}
+
+.panel-link{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:14px 15px 13px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+    rgba(17,20,18,0.32);
+  color:inherit;
+  text-decoration:none;
+  transition:transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.panel-link:hover{
+  transform:translateY(-1px);
+  border-color:var(--line2);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0)),
+    rgba(17,20,18,0.38);
+}
+
+.panel-link-title{
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.35;
+  letter-spacing:-0.02em;
+}
+
+.panel-link-meta{
+  color:var(--muted-2);
+  font-size:12px;
+  letter-spacing:0.08em;
+}
+
+.panel-quote{
+  margin:0;
+  color:rgba(224,214,194,0.76);
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.3;
+}
+
+.intro-line{
+  margin:0;
+  color:var(--muted);
+  font-size:18px;
+  line-height:1.85;
+  font-weight:300;
+  letter-spacing:.02em;
+}
+
+.section{
+  margin-top:24px;
+  padding:28px;
+  border-radius:26px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+    rgba(40,45,42,0.76);
+  box-shadow:var(--shadow);
+}
+
+.section-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+
+.section-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.section-title{
+  margin:0;
+  font-family:var(--serif);
+  font-size:clamp(24px, 3.2vw, 38px);
+  line-height:1.08;
+  letter-spacing:-0.025em;
+}
+
+.section-note{
+  margin:10px 0 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:18px;
+}
+
+.shelf-grid{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+  gap:16px;
+}
+
+.spine-card{
+  position:relative;
+  min-height:360px;
+  border-radius:22px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)),
+    rgba(47,53,49,0.92);
+  box-shadow:var(--shadow);
+  transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.spine-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--line2);
+  box-shadow:0 22px 42px rgba(0,0,0,0.34);
+}
+
+.spine-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.32)),
+    var(--spine-image, linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)));
+  background-size:cover;
+  background-position:center;
+  opacity:.32;
+}
+
+.spine-card::after{
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:16px;
+  width:1px;
+  background:rgba(217,202,162,0.22);
+}
+
+.spine-inner{
+  position:relative;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height:360px;
+  padding:18px 18px 18px 30px;
+}
+
+.spine-top{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.spine-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.spine-title{
+  margin:0;
+  color:#efe6d7;
+  font-family:var(--serif);
+  font-size:26px;
+  line-height:1.05;
+  letter-spacing:-0.03em;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  max-height:190px;
+}
+
+.spine-note{
+  color:rgba(198,190,176,0.78);
+  font-size:12px;
+  line-height:1.65;
+}
+
+.spine-meta{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  color:rgba(198,190,176,0.82);
+  font-size:12px;
+}
+
+.spine-badge{
+  display:inline-flex;
+  align-self:flex-start;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.09);
+  background:rgba(17,20,18,0.26);
+}
+
+.card{
+  background:
+    radial-gradient(circle at top right, rgba(199,168,107,0.1), transparent 35%),
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+    rgba(255,255,255,0.04);
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.card:hover{
+  transform: translateY(-3px);
+  border-color: var(--line2);
+  background:
+    radial-gradient(circle at top right, rgba(199,168,107,0.14), transparent 38%),
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0)),
+    rgba(255,255,255,0.055);
+}
+
+.cover{
+  width:100%;
+  height:220px;
+  background:#0b0b0b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid var(--line);
+}
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
+.card-body{
+  padding:16px 16px 18px;
+}
+
+.card-title{
+  font-family:var(--serif);
+  font-size:20px;
+  margin:0 0 8px;
+  line-height:1.24;
+  color:#e4dccd;
+}
+
+.card-body .subtle{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:4;
+  overflow:hidden;
+  color:var(--muted);
+}
+
+.card-body .subtle.subtle-empty{
+  -webkit-line-clamp:1;
+  min-height:1.35em;
+  opacity:0.38;
+}
+
+.meta{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:8px;
+}
+
+.badge{
+  display:inline-block;
+  padding:3px 9px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  color:var(--muted-2);
+  font-size:12px;
+}
+
+.footer{
+  margin-top:40px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* Article detail */
+.article{
+  color:rgba(236,229,216,0.9);
+}
+.article h1{margin-top:8px}
+.article .subtle{
+  color:rgba(185,177,161,0.72);
+}
+.article img{
+  display:block;
+  max-width:100%;
+  width:auto;
+  height:auto;
+  margin:18px auto;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.05);
+  box-shadow:0 10px 24px rgba(0,0,0,.18);
+}
+.article pre{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
+  padding:14px;
+  border-radius:12px;
+  overflow:auto;
+  color:rgba(236,229,216,0.88);
+}
+.article code{
+  font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,"Cascadia Mono",
+    "Segoe UI Mono",Consolas,monospace;
+}
+.article blockquote{
+  margin:14px 0;
+  padding:10px 14px;
+  border-left:3px solid rgba(199,168,107,.4);
+  color:rgba(198,190,176,0.86);
+  background:rgba(255,255,255,.02);
+  border-radius:10px;
+}
+
+.backbar{
+  margin-top:22px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.backbar a{
+  color:var(--muted);
+}
+.backbar a:hover{
+  color:var(--fg);
+  text-decoration:underline;
+}
+
+.article p a:hover,
+.article li a:hover,
+.article blockquote a:hover{
+  text-decoration:underline;
+}
+
+.read-tools{
+  position:fixed;
+  top:92px;
+  right:24px;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(33,38,35,.78);
+  backdrop-filter:blur(10px);
+  box-shadow:0 10px 24px rgba(0,0,0,.2);
+}
+
+.read-back{
+  color:var(--accent);
+  font-size:12px;
+  line-height:1;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.read-back:hover{
+  color:#d9caa2;
+  text-decoration:none;
+}
+
+.read-mode{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding-left:10px;
+  border-left:1px solid rgba(255,255,255,.08);
+}
+
+.mode-btn{
+  border:0;
+  background:transparent;
+  color:rgba(198,190,176,.72);
+  font-size:11px;
+  line-height:1;
+  padding:4px 6px;
+  border-radius:999px;
+  cursor:pointer;
+}
+
+.mode-btn.active{
+  color:var(--accent);
+  background:rgba(199,168,107,.12);
+}
+
+body.reading-soft .article{
+  color:rgba(224,216,202,0.82);
+}
+
+body.reading-soft .article .subtle{
+  color:rgba(185,177,161,0.64);
+}
+
+body.reading-soft .article pre{
+  background:rgba(255,255,255,.02);
+  border-color:rgba(255,255,255,.04);
+  color:rgba(224,216,202,0.82);
+}
+
+body.reading-soft .article blockquote{
+  color:rgba(191,183,170,0.78);
+  background:rgba(255,255,255,.015);
+}
+
+@media (max-width: 860px){
+  main{
+    width:min(100% - 28px, 760px);
+    padding:90px 0 56px;
+  }
+
+  .hero{
+    grid-template-columns:1fr;
+  }
+
+  .section{
+    padding:22px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .shelf-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:300px;
+  }
+
+  .spine-title{
+    font-size:23px;
+    max-height:160px;
+  }
+
+  .cover{
+    height:200px;
+  }
+
+  .read-tools{
+    top:84px;
+    right:14px;
+    padding:8px 10px;
+  }
+}
+
+@media (max-width: 560px){
+  main{
+    width:min(100% - 18px, 760px);
+    padding:78px 0 18px;
+  }
+
+  .hero{
+    padding:14px;
+    gap:12px;
+    border-radius:22px;
+  }
+
+  .hero-copy{
+    min-width:0;
+  }
+
+  .hero-subtitle{
+    font-size:15px;
+    line-height:1.6;
+    margin-top:8px;
+  }
+
+  .panel-card{
+    padding:14px;
+    border-radius:16px;
+  }
+
+  .panel-copy{
+    font-size:12px;
+  }
+
+  .panel-link{
+    padding:13px 14px 12px;
+  }
+
+  .panel-link-title{
+    font-size:17px;
+  }
+
+  .panel-quote{
+    display:none;
+  }
+
+  .section{
+    margin-top:14px;
+    padding:14px;
+    border-radius:20px;
+  }
+
+  .shelf-grid{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+
+  .spine-card,
+  .spine-inner{
+    min-height:126px;
+  }
+
+  .spine-card{
+    border-radius:18px;
+  }
+
+  .spine-inner{
+    padding:12px 12px 12px 16px;
+  }
+
+  .spine-top{
+    gap:6px;
+  }
+
+  .spine-title{
+    font-size:17px;
+    line-height:1.08;
+    writing-mode:horizontal-tb;
+    text-orientation:initial;
+    max-height:none;
+  }
+
+  .spine-note{
+    display:none;
+  }
+
+  .spine-meta{
+    gap:6px;
+  }
+
+  .spine-badge{
+    padding:2px 8px;
+    font-size:11px;
+  }
+
+  .read-tools{
+    left:14px;
+    right:auto;
+    max-width:calc(100% - 28px);
+  }
+}
+</style>
+</head>
+<body>
+  <div id="rr-nav-mount" data-current="articles"></div>
+
+  <main>
+    <div class="read-tools" aria-label="阅读工具">
+  <a class="read-back" href="/articles/travel.html">← 返回栏目</a>
+  <div class="read-mode" aria-label="阅读模式">
+    <button class="mode-btn active" data-read-mode="standard" type="button">标准</button>
+    <button class="mode-btn" data-read-mode="soft" type="button">柔和</button>
+  </div>
+</div>
+
+<article class="article">
+  <h1>她的孩子们</h1>
+  <div class="subtle">2026-11-14</div>
+  <div style="height:14px"></div>
+  <p><em>——迟到了二十二年的问候</em></p>
+<p>2004年，我和搭档H来到奥地利萨尔茨堡。我们带着《时尚旅游—National Geographic Traveler》的采访任务，这次的采访地点，是当地一家有着近百年历史的木偶剧院。</p>
+<p>那次采访的主人公，是一位名叫 Gretl Aicher 的老太太。</p>
+<p>她出生于1928年，祖父 Anton Aicher 于1913年创办了萨尔茨堡木偶剧院，父亲接过祖父的事业，后来又传到了她的手中。三代人，几乎一整个世纪，与那些悬挂在细线上的木偶相伴。</p>
+<p>采访是在剧院的道具间里进行的。</p>
+<p>那是一间满满当当的屋子。四周挂满了木偶，国王、贵族、少女、士兵，还有各种说不上名字的人物，穿着不同时代的服装，密密麻麻地挤在一起。无数细线从头顶垂下来，牵引着那些木头做成的胳膊、腿脚和脑袋。</p>
+<p>她就坐在这些木偶中间，和我聊天。</p>
+<p>她一辈子都在这家剧院里工作，终身没有结婚，也没有自己的孩子。说起那些木偶，她的神情温柔得像一位母亲。</p>
+<p>很感人。但不知道为什么，我心里又有那么一点点伤感。</p>
+<p>我当然没有理由替她的人生感到遗憾。她有自己热爱的事业，有一个庞大的木偶家族，也许比许多拥有真实家庭的人活得更加充实。然而，看着眼前这位白发苍苍的老太太，温柔地抱着一个永远不会长大的木偶，心里还是隐约泛起了一丝说不清的滋味。</p>
+<p>听完她的故事，我觉得应该给她和她的孩子们拍一张照片。</p>
+<p>屋子里恰好有一架梯子。征得允许后，我把梯子搬过来，爬了上去。</p>
+<p>我没有移动她，也没有调整任何一个木偶。采访时，她坐在道具室地上的一堆木箱上，怀里抱着她的孩子。不需要任何摆拍和调整，我只是想找到一个角度，让她成为画面的中心，让那些陪伴了她一辈子的孩子们环绕在四周，不要有任何多余的视觉干扰。</p>
+<p>她坐在那里，用手托着木偶的头，让他舒舒服服地坐在自己的怀抱里：</p>
+<p><strong>“你看，这就是我的孩子，他们都是我的孩子。”</strong></p>
+<p>我按下了快门，至今仍记得她说出这句话时的神情。</p>
+<p><img alt="她和她的孩子们" src="20261114-她的孩子们.jpg"></p>
+<p>拍摄的时候，我们一直在聊天。她抬起头看着高处的我，也就自然地望向了镜头。</p>
+<p>我按下了快门。</p>
+<p>那一瞬间，她坐在自己的世界中央，怀抱着一个孩子，周围是几十个大大小小的木偶，一个热闹的大家庭。</p>
+<p>我拍下的不是一位木偶剧院的负责人，一位著名的艺术家，而是一位母亲，和她的孩子们。</p>
+<p>那次采访结束后，我继续往前出发。</p>
+<p>作为旅行摄影记者，那些年几乎一直在路上。一个地方接着一个地方，一次采访接着一次采访。认识新的人，听新的故事，拍新的照片。那些刚刚发生过的事情，很快又被下一段旅程覆盖。</p>
+<p>一次又一次地翻页。</p>
+<p>萨尔茨堡的那间道具室，和那位抱着木偶的老太太，也就这样渐渐沉入记忆深处。</p>
+<p>偶尔还会想起她。</p>
+<p>特别是她说出“他们都是我的孩子”时，我按下快门的那个瞬间。</p>
+<p>但也仅此而已。</p>
+<p>后来我再也没有回去看过她，也没有打听她的消息。生活就是这样，曾经短暂交会的人，告别之后，各自沿着自己的路继续往前走。谁也不知道还有没有重逢的机会。</p>
+<p>转眼二十二年过去了。</p>
+<p>2026年，我也已经退休。几十年的摄影生涯，走过无数地方，采访过无数的人。那些曾经在镜头前与我交谈、欢笑、沉默的人，如今都怎么样了？有些人也许依然生活在原来的地方，有些早已远走他乡，也许还有很多，已经不在人世。</p>
+<p>最近重新翻看当年的老照片，又看到了她。</p>
+<p>她仍然坐在那里。</p>
+<p>白发，眼镜，怀里抱着那个木偶。周围那些花花绿绿的孩子们，仍然挤满了整个画面。她抬起头，望着二十二年前站在梯子上的我。</p>
+<p>照片里的她，还是2004年的模样。</p>
+<p>我忽然很想知道，她后来怎么样了。</p>
+<p>于是对着照片，问了AI一句：</p>
+<p><strong>“她还好吗？”</strong></p>
+<p>没想到，这个迟到了二十二年的问候，带回来的是她已经离去的消息。</p>
+<p>Gretl Aicher 于2012年3月14日去世，享年83岁。</p>
+<p>那已经是十四年前的事情了。</p>
+<p>更让我感慨的是她生命最后的故事。</p>
+<p>据当年的报道，去世前一天，她仍然在剧院参加排练。第二天身体不适，被送往医院的时候，还惦记着剧院的工作，想回去继续排练。</p>
+<p>直到生命的最后，她依然和她的孩子们在一起。</p>
+<p>我又去查了那家木偶剧院的消息。</p>
+<p>剧院还在。</p>
+<p>1913年由她祖父创办的萨尔茨堡木偶剧院，经历过三代人的经营，也经历过她去世后的财政困境，最终还是保存了下来。她没有留下自己的子女，但那些木偶和木偶背后的艺术，有了新的继承者。</p>
+<p>2016年，萨尔茨堡木偶剧院的传统提线操纵技艺，被列入奥地利国家非物质文化遗产名录。直到今天，剧院依然在演出，依然有人制作木偶、操纵木偶，带着它们走上舞台，甚至远渡重洋巡回表演。</p>
+<p>她的孩子们还在。</p>
+<p>知道这个消息，心里有些欣慰，也有些说不清的感慨。</p>
+<p>回头看看这几十年的摄影生涯，突然觉得，那些老照片所留下的，远不只是山河风景、历史建筑，或者某个地方的风土人情。</p>
+<p>更多的是人。</p>
+<p>一个个曾经鲜活的人，生命中普通的一个瞬间。</p>
+<p>对于他们而言，那也许只是平常的一天。一个下午，一次闲聊，一次偶然的相遇。他们不知道自己会在某个人的底片上留下一个影像，更不知道几十年后，还有人会从旧照片里认出他们，想知道他们后来的人生。</p>
+<p>而我，当年只是一个匆匆路过的摄影记者。</p>
+<p>我曾经走进他们的生活，短暂地听过他们的故事，然后告别，继续上路。他们则留在原来的地方，继续各自的人生。</p>
+<p>我们之间的交集，也许只有那么一两个小时。</p>
+<p>照片却把这个瞬间留了下来。</p>
+<p>二十二年前，我爬上一架梯子，拍下了一位老太太和她的孩子们。</p>
+<p>二十二年后，我终于知道，她已经走完了自己的一生，而那些孩子们还在继续她的故事。</p>
+<p>我不知道当年那间道具室如今是什么模样，也不知道照片里究竟有多少木偶还留在那里。也许有一天，我会再去一趟萨尔茨堡，看看那座剧院，看看她留下的孩子们。</p>
+<p>至于她，我已经不可能再见到了。</p>
+<p>但在我的照片里，她仍然坐在那里，温柔地抱着怀里的木偶，抬头望着我。</p>
+<p>仿佛我们之间的那场聊天，从来没有结束。</p>
+<p><em>2026年11月，重看2004年摄于萨尔茨堡的旧照。</em></p>
+  <div class="backbar">
+    <a href="/articles/travel.html">← 返回本栏目</a>
+    <a href="/articles.html">← 返回随笔首页</a>
+  </div>
+</article>
+
+<script>
+  (function () {
+    const storageKey = 'rr-reading-mode';
+    const body = document.body;
+    const buttons = document.querySelectorAll('[data-read-mode]');
+
+    function applyMode(mode) {
+      body.classList.toggle('reading-soft', mode === 'soft');
+      buttons.forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.readMode === mode);
+      });
+    }
+
+    const saved = localStorage.getItem(storageKey) || 'standard';
+    applyMode(saved);
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.readMode || 'standard';
+        localStorage.setItem(storageKey, mode);
+        applyMode(mode);
+      });
+    });
+  })();
+</script>
+    <div class="footer">© 2026 RedRocks</div>
+  </main>
+
+  <script src="/nav.js" defer></script>
+</body>
+</html>
